@@ -1,9 +1,8 @@
 module.exports = {
-  extends: ['@commitlint/config-conventional'],
   parserPreset: {
     parserOpts: {
-      headerPattern: /^(?<emoji>.*?)\s*(?<type>\w+):\s*(?<subject>.+)$/,
-      headerCorrespondence: ['emoji', 'type', 'subject'],
+      headerPattern: '^(?<type>.+):\\s(?<subject>.+)$',
+      headerCorrespondence: ['type', 'subject'],
     },
   },
   rules: {
@@ -15,11 +14,11 @@ module.exports = {
       2,
       'always',
       [
-        "🎉 Init", // 프로젝트 생성 (최초 1회)
-        "✨ Feat", // 새로운 기능/페이지 추가
-        "🐛 Fix", // 버그 수정
-        "♻️ Refactor", // 코드 리팩토링
-        "⚙️ Chore", // 설정, 빌드, 패키지 설치, 아이콘, 이미지 파일 추가
+        '🎉 Init', // 프로젝트 생성 (최초 1회)
+        '✨ Feat', // 새로운 기능/페이지 추가
+        '🐛 Fix', // 버그 수정
+        '♻️ Refactor', // 코드 리팩토링
+        '⚙️ Chore', // 설정, 빌드, 패키지 설치, 아이콘, 이미지 파일 추가
       ],
     ],
   },
