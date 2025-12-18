@@ -15,11 +15,11 @@ module.exports = {
       2,
       'always',
       [
-        'Init',
-        'Feat',
-        'Fix',
-        'Refactor',
-        'Chore'
+        "🎉 Init", // 프로젝트 생성 (최초 1회)
+        "✨ Feat", // 새로운 기능/페이지 추가
+        "🐛 Fix", // 버그 수정
+        "♻️ Refactor", // 코드 리팩토링
+        "⚙️ Chore", // 설정, 빌드, 패키지 설치, 아이콘, 이미지 파일 추가
       ],
     ],
   },
