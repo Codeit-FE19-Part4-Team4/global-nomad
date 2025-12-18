@@ -23,8 +23,10 @@ export default function Text({
   children,
   ...props
 }: TextProps) {
+  // undefined가 포함되지 않도록, 유효한 클래스만 모아서 className으로 사용
+  const mergedClassName = [size, variant, className].filter(Boolean).join(' ');
   return (
-    <Component className={`${size} ${variant} ${className}`} {...props}>
+    <Component className={mergedClassName} {...props}>
       {children}
     </Component>
   );
