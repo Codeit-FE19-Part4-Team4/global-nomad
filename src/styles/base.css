@@ -1,0 +1,68 @@
+@layer base {
+  /* 모든 요소에 박스 모델 통일 + 기본 여백 제거 */
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* 텍스트 렌더링 품질 개선 (OS/브라우저 기본 보정) */
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* 문서 전체 기본 스타일 */
+  body {
+    font-family: var(--font-sans);
+    color: var(--foreground);
+    background-color: var(--background);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* 태그 기반 최소 제목 스타일 (프리셋 미사용 시 기본값) */
+  h1 {
+    font-size: var(--text-title-xl);
+    font-weight: var(--weight-title-xl);
+    letter-spacing: var(--tracking-title-xl);
+    line-height: var(--leading-title-tight);
+  }
+
+  h2 {
+    font-size: var(--text-title-lg);
+    font-weight: var(--weight-title-lg);
+    letter-spacing: var(--tracking-title-lg);
+    line-height: var(--leading-title-tight);
+  }
+
+  h3 {
+    font-size: var(--text-title-md);
+    font-weight: var(--weight-title-md);
+    letter-spacing: var(--tracking-title-md);
+    line-height: var(--leading-title-normal);
+  }
+
+  h4 {
+    font-size: var(--text-title-sm);
+    font-weight: var(--weight-title-sm);
+    letter-spacing: var(--tracking-title-sm);
+    line-height: var(--leading-title-normal);
+  }
+
+  p {
+    font-size: var(--text-body-lg);
+    font-weight: var(--weight-body-lg);
+    letter-spacing: var(--tracking-body-lg);
+    line-height: var(--leading-body);
+  }
+
+  span {
+    font-size: var(--text-caption);
+    font-weight: var(--weight-caption);
+    letter-spacing: var(--tracking-caption);
+    line-height: var(--leading-caption);
+  }
+}

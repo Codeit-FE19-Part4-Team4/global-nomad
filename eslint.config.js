@@ -28,6 +28,7 @@ export default [
         ...globals.browser,
         ...globals.node, // ✅ 추가: Next.js는 Node.js 환경도 필요
         ...globals.es2021,
+        React: 'readonly', // ✅ 추가: React 타입 네임스페이스 허용
       },
     },
     plugins: {

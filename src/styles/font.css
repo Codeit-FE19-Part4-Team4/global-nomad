@@ -1,0 +1,16 @@
+/*
+ * 폰트 설정
+ * Pretendard와 Montserrat 폰트를 불러옵니다.
+ */
+
+/* pretendard Variable */
+@font-face {
+  font-family: 'Pretendard Variable';
+  font-weight: 45 920;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/PretendardVariable.woff2') format('woff2-variations');
+}
+
+/* montserrat: 구글폰트 공식 서체 적용 */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
