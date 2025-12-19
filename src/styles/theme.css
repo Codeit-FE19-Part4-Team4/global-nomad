@@ -1,0 +1,186 @@
+/*
+ * 디자인 토큰 
+ * 색상, 타이포그래피, 간격 등 디자인의 기본 값을 정의합니다.
+ */
+
+:root {
+  /* ==================== 간격 ==================== */
+  --space-mobile: 20px;
+  --space-tablet: 32px;
+  --space-desktop: 40px;
+  
+  /* ==================== 색상 ==================== */
+  /* 배경 & 글자 */
+  --background: #ffffff;
+  --foreground: #1F1F22;
+
+  /* 메인 컬러 */
+  --primary-500: #3D9EF2; 
+  --primary-100: #E5F3FF; 
+
+  /* 상태 표시 */
+  --red-500: #FF2727; 
+  --red-100: #FCECEA; 
+  --green-500: #2BA90D;
+  --green-100: #E9FBE4; 
+  --mint-500: #1790A0;
+  --mint-100: #DDF9F9;
+
+  /* 회색 */
+  --black: #000000; 
+  --gray-950: #1F1F22;
+  --gray-900: #323236;
+  --gray-800: #49494C;
+  --gray-700: #5D5D61;
+  --gray-600: #707177;
+  --gray-500: #84858C; 
+  --gray-400: #9FA0A7; 
+  --gray-300: #B3B4BC; 
+  --gray-200: #C6C8CF; 
+  --gray-100: #E0E0E5; 
+  --gray-50: #EDEEF2; 
+  --gray-25: #F8F8F8; 
+  --white: #ffffff; 
+
+  /* 타이틀 글자 색상 지정 (기본: gray-950)  */
+  --text-secondary: var(--gray-500);
+  --text-tertiary: var(--gray-400);
+
+  /* ==================== 타이포그래피 ==================== */
+  /* 폰트 종류 */
+  --font-sans: "Pretendard Variable", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-title: "Montserrat", sans-serif;
+
+  /* 제목 크기 */
+  --text-title-xl: 32px;
+  --text-title-lg: 24px;
+  --text-title-md: 20px;
+  --text-title-sm: 18px;
+
+  /* 본문 크기 */
+  --text-body-lg: 16px;
+  --text-body-sm: 14px;
+  
+  /* 작은글씨 크기 */
+  --text-caption: 12px;
+
+  /* 제목 자간 */
+  --tracking-title-xl: -0.5px;
+  --tracking-title-lg: -0.3px;
+  --tracking-title-md: -0.2px;
+  --tracking-title-sm: -0.1px;
+
+  /* 본문 자간 */
+  --tracking-body-lg: 0px;
+  --tracking-body-sm: 0px;
+
+  /* 작은글씨 자간 */
+  --tracking-caption: 0px;
+
+  /* 제목 굵기 */
+  --weight-title-xl: 700;
+  --weight-title-lg: 600;
+  --weight-title-md: 600;
+  --weight-title-sm: 500;
+
+  /* 본문 굵기 */
+  --weight-body-lg: 400;
+  --weight-body-sm: 400;
+
+  /* 작은글씨 굵기 */
+  --weight-caption: 400;
+
+  /* 줄 간격 */
+  --leading-title-tight: 1.2;
+  --leading-title-normal: 1.3;
+  --leading-body: 1.6;
+  --leading-caption: 1.4;
+
+  /* ==================== 모서리 둥글기 ==================== */
+  --radius-sm: 4px; 
+  --radius-md: 6px; 
+  --radius-lg: 8px; 
+}
+
+/* ==================== Tailwind 테마 매핑 ==================== */
+@theme inline {
+  /* 색상 */
+  --color-primary-500: var(--primary-500);
+  --color-primary-100: var(--primary-100);
+  
+  --color-red-500: var(--red-500);
+  --color-red-100: var(--red-100);
+  --color-green-500: var(--green-500);
+  --color-green-100: var(--green-100);
+  --color-mint-500: var(--mint-500);
+  --color-mint-100: var(--mint-100);
+
+  --color-black: var(--black);
+  --color-gray-950: var(--gray-950);
+  --color-gray-900: var(--gray-900);
+  --color-gray-800: var(--gray-800);
+  --color-gray-700: var(--gray-700);
+  --color-gray-600: var(--gray-600);
+  --color-gray-500: var(--gray-500);
+  --color-gray-400: var(--gray-400);
+  --color-gray-300: var(--gray-300);
+  --color-gray-200: var(--gray-200);
+  --color-gray-100: var(--gray-100);
+  --color-gray-50: var(--gray-50);
+  --color-gray-25: var(--gray-25);
+  --color-white: var(--white);
+
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  /* 글자 크기 */
+  --text-title-xl: var(--text-title-xl);
+  --text-title-lg: var(--text-title-lg);
+  --text-title-md: var(--text-title-md);
+  --text-title-sm: var(--text-title-sm);
+  --text-body-lg: var(--text-body-lg);
+  --text-body-md: var(--text-body-md);
+  --text-caption: var(--text-caption);
+
+  /* 자간 */
+  --tracking-title-xl: var(--tracking-title-xl);
+  --tracking-title-lg: var(--tracking-title-lg);
+  --tracking-title-md: var(--tracking-title-md);
+  --tracking-title-sm: var(--tracking-title-sm);
+  --tracking-body-lg: var(--tracking-body-lg);
+  --tracking-body-sm: var(--tracking-body-sm);
+  --tracking-caption: var(--tracking-caption);
+
+  /* 글자 굵기 */
+  --weight-title-xl: var(--weight-title-xl);
+  --weight-title-lg: var(--weight-title-lg);
+  --weight-title-md: var(--weight-title-md);
+  --weight-title-sm: var(--weight-title-sm);
+  --weight-body-lg: var(--weight-body-lg);
+  --weight-body-sm: var(--weight-body-sm);
+  --weight-caption: var(--weight-caption);
+
+
+  /* 줄 간격 */
+  --leading-title-tight: var(--leading-title-tight);
+  --leading-title-normal: var(--leading-title-normal);
+  --leading-body: var(--leading-body);
+  --leading-caption: var(--leading-caption);
+
+  /* 폰트 */
+  --font-sans: var(--font-sans);
+  --font-title: var(--font-title);
+
+  /* 라운딩 */
+  --radius-sm: var(--radius-sm); 
+  --radius-md: var(--radius-md); 
+  --radius-lg: var(--radius-lg); 
+
+  /* 간격 */
+  --space-mobile: var(--space-mobile);
+  --space-tablet: var(--space-tablet);
+  --space-desktop: var(--space-desktop);
+}

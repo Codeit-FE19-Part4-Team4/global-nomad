@@ -1,0 +1,90 @@
+/*
+ * 타이포그래피 유틸리티
+ * theme.css에 정의된 디자인 토큰(폰트 크기, 굵기, 자간, 행간, 컬러)을
+ * 조합하여 재사용 가능한 텍스트 스타일 프리셋을 정의합니다.
+ */
+
+@layer utilities {
+  /* ================== title ================== */
+  /* 32px */
+  .title-xl {
+    font-size: var(--text-title-xl);
+    font-weight: var(--weight-title-xl);
+    letter-spacing: var(--tracking-title-xl);
+    line-height: var(--leading-title-tight);
+  }
+
+  /* 24px */
+  .title-lg {
+    font-size: var(--text-title-lg);
+    font-weight: var(--weight-title-lg);
+    letter-spacing: var(--tracking-title-lg);
+    line-height: var(--leading-title-tight);
+  }
+
+  /* 20px */
+  .title-md {
+    font-size: var(--text-title-md);
+    font-weight: var(--weight-title-md);
+    letter-spacing: var(--tracking-title-md);
+    line-height: var(--leading-title-normal);
+  }
+
+  /* 18px */
+  .title-sm {
+    font-size: var(--text-title-sm);
+    font-weight: var(--weight-title-sm);
+    letter-spacing: var(--tracking-title-sm);
+    line-height: var(--leading-title-normal);
+  }
+
+  /* ================== body ================== */
+  /* 16px */
+  .body-lg {
+    font-size: var(--text-body-lg);
+    font-weight: var(--weight-body-lg);
+    letter-spacing: var(--tracking-body-lg);
+    line-height: var(--leading-body);
+  }
+
+  /* 14px */
+  .body-sm {
+    font-size: var(--text-body-sm);
+    font-weight: var(--weight-body-sm);
+    letter-spacing: var(--tracking-body-sm);
+    line-height: var(--leading-body);
+  }
+
+  /* ================== caption ================== */
+  /* 12px */
+  .caption {
+    font-size: var(--text-caption);
+    font-weight: var(--weight-caption);
+    letter-spacing: var(--tracking-caption);
+    line-height: var(--leading-caption);
+  }
+
+  /* ================== text color ================== */
+  /* 기본 컬러(gray-950)를 기준으로 강/중/약 컬러 변형 */
+  .secondary {
+    color: var(--text-secondary);
+  }
+
+  .muted {
+    color: var(--text-tertiary);
+  }
+
+  /* ================== text emphasis ================== */
+  /* 프리셋 위에서 굵기만 보정할 때 사용 */
+  .bold {
+    font-weight: 700;
+  }
+
+  .regular {
+    font-weight: 500;
+  }
+
+  .light {
+    font-weight: 400;
+  }
+}
