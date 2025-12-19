@@ -1,8 +1,32 @@
-'use client'; // App Router에서 이벤트(onClick 등)를 사용하기 위한 Client Component 선언
+'use client';
 
 import Link from 'next/link';
 import React, { ComponentPropsWithoutRef, ElementType } from 'react';
 import { cn } from '@/util/cn';
+
+/**
+ * 이 컴포넌트는 버튼 컴포넌트입니다.
+ *
+ * @example
+ * prefix 아이콘과 함께 사용:
+ * ```tsx
+ * <Button
+ *   variant="secondary"
+ *   size="xl"
+ *   onClick={handleClick}
+ *   prefix={<Image src={IcoKakao} alt="" />}>
+ *   카카오 로그인
+ * </Button>
+ * ```
+ *
+ * @example
+ * Link 컴포넌트로 사용:
+ * ```tsx
+ * <Button as={Link} href="/list" variant="primary" size="md">
+ *   목록으로 이동
+ * </Button>
+ * ```
+ */
 
 // 버튼 색상/역할 구분
 export type ButtonVariant = 'primary' | 'secondary' | 'tertiary';
