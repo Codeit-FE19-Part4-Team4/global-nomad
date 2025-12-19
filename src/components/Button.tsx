@@ -31,7 +31,7 @@ const defaultClasses: string =
 // 색상/역할별 스타일
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    'bg-primary-500 hover:bg-[#2A86D9] disabled:bg-blue-300 disabled:bg-gray-200 disabled:text-white',
+    'bg-primary-500 text-white hover:bg-[#2A86D9] disabled:bg-blue-300 disabled:bg-gray-200',
   secondary: 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-25',
   tertiary: 'bg-gray-50 text-gray-600 hover:bg-gray-100',
 };
@@ -57,8 +57,8 @@ export default function Button<T extends ElementType = 'button'>({
   const Component = as || 'button';
   const buttonClass = cn(
     defaultClasses,
-    variantClasses[variant],
     sizeClasses[size],
+    variantClasses[variant],
     className
   );
   return (
