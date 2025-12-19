@@ -52,14 +52,7 @@ import {
   IcX,
   IcYoutube,
 } from '@/assets/icons';
-import {
-  ImgEmpty,
-  ImgLogo,
-  ImgMainBg,
-  ImgMainVisual,
-  ImgProfile,
-  ImgWarning,
-} from '@/assets/images';
+import { ImgEmpty, ImgLogo, ImgProfile, ImgWarning } from '@/assets/images';
 
 export default function assets() {
   const boxStyle: CSSProperties = {
@@ -135,8 +128,6 @@ export default function assets() {
         <ImgEmpty className="h-[122px] w-[122px]" />
         <ImgWarning className="h-[88px] w-[88px]" />
         <ImgProfile className="h-[120px] w-[120px]" />
-        <ImgMainVisual className="h-[500px] w-[1120px]" />
-        <ImgMainBg className="h-[2827px] w-[1920px]" />
       </div>
     </div>
   );
