@@ -1,78 +1,43 @@
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
-import { FlatCompat } from '@eslint/eslintrc';
+import next from '@next/eslint-plugin-next';
+import tseslint from 'typescript-eslint';
+import prettier from 'eslint-config-prettier';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
-
-const eslintConfig = [
-  ...compat.config({
-    extends: [
-      'next/core-web-vitals',
-      'prettier',
-      'plugin:import/recommended',
-      'plugin:import/typescript',
-    ],
-  }),
+export default [
+  next.configs['core-web-vitals'],
+  ...tseslint.configs.recommended,
+  importPlugin.flatConfigs.recommended,
+  importPlugin.flatConfigs.typescript,
+  prettier,
   {
-    files: ['**/*.{ts,tsx,js,jsx}'],
-    settings: {
-      'import/resolver': {
-        typescript: {
-          alwaysTryTypes: true,
-          project: './tsconfig.json',
-        },
-      },
-    },
     rules: {
-      'no-unused-vars': ['error', { varsIgnorePattern: '^_' }],
-      'react/jsx-uses-react': 'off',
-      'react/jsx-uses-vars': 'error',
-      'react/jsx-key': 'error',
-      'react/self-closing-comp': 'warn',
-      'react/jsx-pascal-case': 'error',
-      'import/no-anonymous-default-export': [2, { allowObject: true }],
+      // TypeScript
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        { argsIgnorePattern: '^_' },
+      ],
+      '@typescript-eslint/no-explicit-any': 'warn', // any 타입 사용 경고
+      // 일반
+      'no-console': ['warn', { allow: ['warn', 'error'] }],
+      // import
       'import/order': [
-        'error',
+        'warn',
         {
           groups: [
-            'builtin',
-            'external',
-            'internal',
-            'parent',
-            'sibling',
-            'index',
+            'builtin', // Node.js 내장 모듈
+            'external', // npm 패키지
+            'internal', // 프로젝트 내부 절대경로
+            'parent', // ../
+            'sibling', // ./
+            'index', // ./index
           ],
-          pathGroups: [
-            {
-              pattern: '@/**',
-              group: 'internal',
-            },
-          ],
-          'newlines-between': 'never',
-          alphabetize: { order: 'asc', caseInsensitive: true },
+          'newlines-between': 'always', // 그룹 사이 빈 줄
+          alphabetize: {
+            order: 'asc',
+            caseInsensitive: true,
+          },
         },
       ],
       'import/no-unresolved': 'off',
-      curly: ['error'],
-      'no-var': 'error',
-      'no-console': 'warn',
-      'no-debugger': 'warn',
     },
   },
-  {
-    ignores: [
-      'node_modules/**',
-      '.next/**',
-      'out/**',
-      'build/**',
-      'next-env.d.ts',
-    ],
-  },
 ];
-
-export default eslintConfig;
