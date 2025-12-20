@@ -1,4 +1,3 @@
-'use client';
 import { cva } from 'class-variance-authority';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -6,15 +5,16 @@ import textLogo from '@/assets/images/common/img-logo-text.svg';
 import logo from '@/assets/images/common/img-logo.svg';
 import { cn } from '@/util/cn';
 
-export default function Logo({ size }: { size: 'lg' | 'sm' }) {
-  const LogoStyle = cva('flex w-fit items-center', {
-    variants: {
-      size: {
-        lg: 'flex-col gap-6',
-        sm: 'gap-3 ',
-      },
+const LogoStyle = cva('flex w-fit items-center', {
+  variants: {
+    size: {
+      lg: 'flex-col gap-6',
+      sm: 'gap-3 ',
     },
-  });
+  },
+});
+
+export default function Logo({ size }: { size: 'lg' | 'sm' }) {
   return (
     <h1>
       <Link
