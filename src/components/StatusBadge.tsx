@@ -1,5 +1,5 @@
 /**
- * 예약 상태를 표시하는 StatusBadge 컴포넌트
+ * 예약 상태를 표시하는 단일 StatusBadge 컴포넌트
  *
  * @example
  * <StatusBadge status="pending" /> 👉🏻 기본 상태
