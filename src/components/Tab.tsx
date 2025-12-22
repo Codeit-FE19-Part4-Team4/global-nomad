@@ -1,18 +1,24 @@
 'use client';
 import { useState } from 'react';
 
+import {
+  RESERVATION_STATUS,
+  type ReservationStatus,
+} from '@/constants/reservation-status';
 import { type ReservedSchedule } from '@/types/reserved-schedule';
 import { cn } from '@/util/cn';
 
 interface TabPropsType {
   data: ReservedSchedule;
-  onClick?: (status: '신청' | '승인' | '거절') => void;
+  onClick?: (status: ReservationStatus) => void;
 }
 interface TabDataType {
   id: number;
-  status: '신청' | '승인' | '거절';
+  status: ReservationStatus;
   count: number;
 }
+
+const { pending, confirmed, declined } = RESERVATION_STATUS;
 /**
  * props의 data는
  * GET /my-activities/{activityId}/reserved-schedule
@@ -20,9 +26,9 @@ interface TabDataType {
  */
 export default function Tab({ data, onClick }: TabPropsType) {
   const tabData: TabDataType[] = [
-    { id: 1, status: '신청', count: data.count.pending },
-    { id: 2, status: '승인', count: data.count.confirmed },
-    { id: 3, status: '거절', count: data.count.declined },
+    { id: 1, status: pending, count: data.count.pending },
+    { id: 2, status: confirmed, count: data.count.confirmed },
+    { id: 3, status: declined, count: data.count.declined },
   ];
   const [activeTab, setActiveTab] = useState(tabData[0].id);
 
