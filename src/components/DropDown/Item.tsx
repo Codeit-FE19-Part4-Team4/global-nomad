@@ -34,7 +34,7 @@ export default function Item({ children, onSelect }: ItemProps) {
   const handleClickItem = () => {
     toggle(!open);
     setItem(value);
-    onSelect?.(value);
+    onSelect?.(value); //params 조작 or 데이터 페칭에 필요한 함수
   };
 
   return (
