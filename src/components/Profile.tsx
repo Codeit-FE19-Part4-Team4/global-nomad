@@ -3,7 +3,7 @@
 import { cva } from 'class-variance-authority';
 import Image from 'next/image';
 
-import defaultProfile from '@/assets/images/common/img-default-profile.svg';
+import defaultProfile from '@/assets/images/common/img-profile.svg';
 import { cn } from '@/util/cn';
 
 const profileVariants = cva('rounded-full object-cover', {
