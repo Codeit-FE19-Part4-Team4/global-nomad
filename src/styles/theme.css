@@ -8,42 +8,42 @@
   --space-mobile: 20px;
   --space-tablet: 32px;
   --space-desktop: 40px;
-  
+
   /* ==================== 색상 ==================== */
   /* 배경 & 글자 */
   --background: #ffffff;
-  --foreground: #1F1F22;
+  --foreground: #1f1f22;
 
   /* 메인 컬러 */
-  --primary-500: #3D9EF2; 
-  --primary-100: #E5F3FF; 
+  --primary-500: #3d9ef2;
+  --primary-100: #e5f3ff;
 
   /* 상태 표시 */
-  --red-500: #FF2727; 
-  --red-100: #FCECEA; 
-  --green-500: #2BA90D;
-  --green-100: #E9FBE4; 
-  --mint-500: #1790A0;
-  --mint-100: #DDF9F9;
-  --orange-500: #FFB051;
-  --orange-400: #FFCB02;
-  --orange-100: #FFF8DD;
+  --red-500: #ff2727;
+  --red-100: #fcecea;
+  --green-500: #2ba90d;
+  --green-100: #e9fbe4;
+  --mint-500: #1790a0;
+  --mint-100: #ddf9f9;
+  --orange-500: #ffb051;
+  --orange-400: #ffcb02;
+  --orange-100: #fff8dd;
 
   /* 회색 */
-  --black: #000000; 
-  --gray-950: #1F1F22;
+  --black: #000000;
+  --gray-950: #1f1f22;
   --gray-900: #323236;
-  --gray-800: #49494C;
-  --gray-700: #5D5D61;
+  --gray-800: #49494c;
+  --gray-700: #5d5d61;
   --gray-600: #707177;
-  --gray-500: #84858C; 
-  --gray-400: #9FA0A7; 
-  --gray-300: #B3B4BC; 
-  --gray-200: #C6C8CF; 
-  --gray-100: #E0E0E5; 
-  --gray-50: #EDEEF2; 
-  --gray-25: #F8F8F8; 
-  --white: #ffffff; 
+  --gray-500: #84858c;
+  --gray-400: #9fa0a7;
+  --gray-300: #b3b4bc;
+  --gray-200: #c6c8cf;
+  --gray-100: #e0e0e5;
+  --gray-50: #edeef2;
+  --gray-25: #f8f8f8;
+  --white: #ffffff;
 
   /* 타이틀 글자 색상 지정 (기본: gray-950)  */
   --text-secondary: var(--gray-500);
@@ -51,8 +51,10 @@
 
   /* ==================== 타이포그래피 ==================== */
   /* 폰트 종류 */
-  --font-sans: "Pretendard Variable", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  --font-title: "Montserrat", sans-serif;
+  --font-sans:
+    'Pretendard Variable', -apple-system, BlinkMacSystemFont, system-ui,
+    sans-serif;
+  --font-title: 'Montserrat', sans-serif;
 
   /* 제목 크기 */
   --text-title-xl: 32px;
@@ -63,7 +65,7 @@
   /* 본문 크기 */
   --text-body-lg: 16px;
   --text-body-sm: 14px;
-  
+
   /* 작은글씨 크기 */
   --text-caption: 12px;
 
@@ -100,9 +102,9 @@
   --leading-caption: 1.4;
 
   /* ==================== 모서리 둥글기 ==================== */
-  --radius-sm: 4px; 
-  --radius-md: 6px; 
-  --radius-lg: 8px; 
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
 }
 
 /* ==================== Tailwind 테마 매핑 ==================== */
@@ -110,7 +112,7 @@
   /* 색상 */
   --color-primary-500: var(--primary-500);
   --color-primary-100: var(--primary-100);
-  
+
   --color-red-500: var(--red-500);
   --color-red-100: var(--red-100);
   --color-green-500: var(--green-500);
@@ -169,7 +171,6 @@
   --weight-body-sm: var(--weight-body-sm);
   --weight-caption: var(--weight-caption);
 
-
   /* 줄 간격 */
   --leading-title-tight: var(--leading-title-tight);
   --leading-title-normal: var(--leading-title-normal);
@@ -181,12 +182,16 @@
   --font-title: var(--font-title);
 
   /* 라운딩 */
-  --radius-sm: var(--radius-sm); 
-  --radius-md: var(--radius-md); 
-  --radius-lg: var(--radius-lg); 
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
 
   /* 간격 */
   --space-mobile: var(--space-mobile);
   --space-tablet: var(--space-tablet);
   --space-desktop: var(--space-desktop);
+}
+
+@theme {
+  --shadow-search: 0 6px 10px 0 rgba(13, 153, 255, 0.05);
 }
