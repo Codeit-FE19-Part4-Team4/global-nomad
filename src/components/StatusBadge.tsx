@@ -1,5 +1,5 @@
 /**
- * 예약 상태를 표시하는 StatusBadge 컴포넌트
+ * 예약 상태를 표시하는 단일 StatusBadge 컴포넌트
  *
  * @example
  * <StatusBadge status="pending" /> 👉🏻 기본 상태
@@ -10,7 +10,7 @@ import {
   STATUS_BADGE_LABEL,
   StatusBadgeStatus,
 } from '@/constants/status-badge';
-import { statusBadgeStyle } from '@/constants/status-badge.cva';
+import { statusBadgeStyle } from '@/styles/cva/status-badge.cva';
 
 interface StatusBadgeProps {
   status: StatusBadgeStatus;

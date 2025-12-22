@@ -25,6 +25,9 @@
   --green-100: #e9fbe4;
   --mint-500: #1790a0;
   --mint-100: #ddf9f9;
+  --orange-500: #ffb051;
+  --orange-400: #ffcb02;
+  --orange-100: #fff8dd;
 
   /* 회색 */
   --black: #000000;
@@ -116,6 +119,9 @@
   --color-green-100: var(--green-100);
   --color-mint-500: var(--mint-500);
   --color-mint-100: var(--mint-100);
+  --color-orange-500: var(--orange-500);
+  --color-orange-400: var(--orange-400);
+  --color-orange-100: var(--orange-100);
 
   --color-black: var(--black);
   --color-gray-950: var(--gray-950);
@@ -144,7 +150,7 @@
   --text-title-md: var(--text-title-md);
   --text-title-sm: var(--text-title-sm);
   --text-body-lg: var(--text-body-lg);
-  --text-body-md: var(--text-body-md);
+  --text-body-sm: var(--text-body-sm);
   --text-caption: var(--text-caption);
 
   /* 자간 */
