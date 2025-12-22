@@ -3,6 +3,7 @@
 import { cva, type VariantProps } from 'class-variance-authority';
 import Link from 'next/link';
 import React, { ComponentPropsWithoutRef, ElementType } from 'react';
+
 import { cn } from '@/util/cn';
 
 /**
@@ -49,7 +50,7 @@ const ButtonVariants = cva(
       },
       variant: {
         primary:
-          'bg-primary-500 text-white hover:bg-[#2A86D9] disabled:bg-gray-200',
+          'bg-primary-500 text-white hover:bg-[var(--primary-600)] disabled:bg-gray-200',
         secondary:
           'bg-white text-gray-600 border border-gray-200 hover:bg-gray-25',
         tertiary: 'bg-gray-50 text-gray-600 hover:bg-gray-100',
