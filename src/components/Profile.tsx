@@ -1,9 +1,9 @@
 'use client';
-/* eslint-disable @next/next/no-img-element */
 
 import { cva } from 'class-variance-authority';
-import { useState } from 'react';
+import Image from 'next/image';
 
+import defaultProfile from '@/assets/images/common/img-default-profile.svg';
 import { cn } from '@/util/cn';
 
 const profileVariants = cva('rounded-full object-cover', {
@@ -24,7 +24,6 @@ interface ProfileProps {
   alt?: string;
   size?: 'lg' | 'md' | 'sm';
   className?: string;
-  fallbackSrc?: string;
 }
 
 export default function Profile({
@@ -32,16 +31,15 @@ export default function Profile({
   alt = 'profile',
   size,
   className,
-  fallbackSrc = '/icons/default-profile.svg',
 }: ProfileProps) {
-  const [imgSrc, setImgSrc] = useState(src || fallbackSrc);
-
   return (
-    <img
-      src={imgSrc}
-      alt={alt}
-      onError={() => setImgSrc(fallbackSrc)}
-      className={cn(profileVariants({ size }), className)}
-    />
+    <div className={cn(profileVariants({ size }), className, 'relative')}>
+      <Image
+        src={src || defaultProfile}
+        alt={alt}
+        fill
+        className="rounded-full object-cover"
+      />
+    </div>
   );
 }
