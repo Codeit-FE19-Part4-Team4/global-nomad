@@ -47,7 +47,7 @@ const DropDownContext = createContext<DropDownContextValue | null>(null);
  *
  * 기본 select 타입
  * ```tsx
- * <DropDown type>
+ * <DropDown>
  *   <DropDown.Trigger placeholder="선택하세요">옵션 1</DropDown.Trigger>
  *   <DropDown.List>
  *     <DropDown.Item>옵션 1</DropDown.Item>
@@ -56,7 +56,7 @@ const DropDownContext = createContext<DropDownContextValue | null>(null);
  * </DropDown>
  * ```
  *
- * //DropDown 컴포넌트에서 사용할 수 있는 타입
+ * DropDown 컴포넌트에서 사용할 수 있는 타입
  * - 'select' : 기본 선택형 드롭다운 (기본값)
  * - 'filter' : 정렬/필터용 드롭다운
  * - 'menu'   : 액션 메뉴 (수정, 삭제 등)
