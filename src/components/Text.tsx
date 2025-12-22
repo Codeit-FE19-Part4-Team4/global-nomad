@@ -1,19 +1,40 @@
-/* 어떤 HTML 태그로 렌더링할지 선택 (h1, h2, p, span) */
-export type TextAs = 'h1' | 'h2' | 'h3' | 'h4' | 'p' | 'span';
+/**
+ * 타이틀/본문 텍스트 스타일을 적용하는 Text 컴포넌트
+ * className은 size/variant보다 우선 적용되고, 버튼 내부 사용은 지양합니다.
+ *
+ * @example
+ * <Text size="title-xl">큰 제목</Text> 👈 32px 타이틀
+ * <Text as="h2" size="title-lg">중간 제목</Text> 👈 h2 태그로 렌더링
+ * <Text size="body-sm" variant="secondary">보조 텍스트</Text> 👈 14px 회색
+ * <Text className="body-sm md:body-lg">반응형 텍스트</Text> 👈 반응형 적용
+ *
+ * Text 컴포넌트 사용 여부는 상황에 따라 선택할 수 있으며,
+ * 텍스트 유틸리티를 className으로 직접 사용하는 것도 가능합니다.
+ */
 
-/* 텍스트 크기 (현재는 body-sm(14px)만 옵션 사용) */
-export type TextSize = 'body-sm';
+/* 어떤 HTML 태그로 렌더링할지 선택 */
+export type TextAs = 'h2' | 'h3' | 'h4' | 'p' | 'span';
 
-/* 텍스트 색상 스타일 (grayscale 한정 흐리게, 보조 색상 등) */
+/* 텍스트 크기 */
+export type TextSize =
+  | 'title-xl'
+  | 'title-lg'
+  | 'title-md'
+  | 'title-sm'
+  | 'body-lg'
+  | 'body-sm'
+  | 'caption';
+
+/* 텍스트 색상 스타일 */
 export type TextVariant = 'secondary' | 'muted';
 
 export type TextProps = {
-  as?: TextAs; // 기본값: span
-  size?: TextSize; // 텍스트 크기 (body 전용)
-  variant?: TextVariant; // 색상 스타일
-  className?: string; // 굵기, grayscale 외 컬러, 추가 CSS 클래스
-  children: React.ReactNode; // 텍스트 내용 (태그 사이에 들어갈 것)
-} & React.HTMLAttributes<HTMLElement>; // onClick 같은 HTML 속성 사용 가능
+  as?: TextAs;
+  size?: TextSize;
+  variant?: TextVariant;
+  className?: string;
+  children: React.ReactNode;
+} & React.HTMLAttributes<HTMLElement>;
 
 export default function Text({
   as: Component = 'span',
@@ -23,8 +44,8 @@ export default function Text({
   children,
   ...props
 }: TextProps) {
-  // undefined가 포함되지 않도록, 유효한 클래스만 모아서 className으로 사용
   const mergedClassName = [size, variant, className].filter(Boolean).join(' ');
+
   return (
     <Component className={mergedClassName} {...props}>
       {children}
