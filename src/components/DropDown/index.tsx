@@ -11,24 +11,6 @@ import Trigger from './Trigger';
 import useClickOutside from '@/hooks/useClickOutside';
 import { cn } from '@/util/cn';
 
-/**
- * Example
- *
- * // 기본 선택형 드롭다운
- * <DropDown type>
- *   <DropDown.Trigger placeholder="선택하세요">옵션 1</DropDown.Trigger>
- *   <DropDown.List>
- *     <DropDown.Item>옵션 1</DropDown.Item>
- *     <DropDown.Item>옵션 2</DropDown.Item>
- *   </DropDown.List>
- * </DropDown>
- *
- * // DropDown 컴포넌트에서 사용할 수 있는 타입
- * // - 'select' : 기본 선택형 드롭다운 (기본값)
- * // - 'filter' : 정렬/필터용 드롭다운
- * // - 'menu'   : 액션 메뉴 (수정, 삭제 등)
- */
-
 const DropdownVariants = cva('relative', {
   variants: {
     type: {
@@ -60,6 +42,25 @@ interface DropDownProps {
 
 const DropDownContext = createContext<DropDownContextValue | null>(null);
 
+/**
+ * @example
+ *
+ * 기본 select 타입
+ * ```tsx
+ * <DropDown type>
+ *   <DropDown.Trigger placeholder="선택하세요">옵션 1</DropDown.Trigger>
+ *   <DropDown.List>
+ *     <DropDown.Item>옵션 1</DropDown.Item>
+ *     <DropDown.Item>옵션 2</DropDown.Item>
+ *   </DropDown.List>
+ * </DropDown>
+ * ```
+ *
+ * //DropDown 컴포넌트에서 사용할 수 있는 타입
+ * - 'select' : 기본 선택형 드롭다운 (기본값)
+ * - 'filter' : 정렬/필터용 드롭다운
+ * - 'menu'   : 액션 메뉴 (수정, 삭제 등)
+ */
 function DropDown({ children, type = 'select', className }: DropDownProps) {
   const [open, toggle] = useState(false);
   const [item, setItem] = useState('');
