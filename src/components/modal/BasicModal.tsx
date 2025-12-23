@@ -3,6 +3,21 @@ import Text from '../Text';
 
 import ModalContainer from './ModalContainer';
 
+/**
+ * 
+ * @example
+ * const { isOpen, openModal, closeModal } = useModal();
+ * 
+ * return (
+ *  <>
+ *    {isOpen && (
+        <BasicModal buttonText="확인" onClick={closeModal}>
+          등록완료
+        </BasicModal>
+      )}
+    </>
+  )
+ */
 export default function BasicModal({
   children,
   buttonText,
@@ -10,7 +25,7 @@ export default function BasicModal({
 }: {
   children: React.ReactNode;
   buttonText: string;
-  onClick: () => void;
+  onClick?: () => void;
 }) {
   return (
     <ModalContainer>
@@ -22,7 +37,7 @@ export default function BasicModal({
           <Button
             variant="primary"
             className="h-[47px] w-[200px]"
-            onClick={onClick}>
+            onClick={() => onClick?.()}>
             {buttonText}
           </Button>
         </div>
