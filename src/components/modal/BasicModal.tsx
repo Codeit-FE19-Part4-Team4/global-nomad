@@ -10,6 +10,7 @@ import ModalContainer from './ModalContainer';
  * 
  * return (
  *  <>
+ *    <button onClick={openModal}>모달 열기</button>
  *    {isOpen && (
         <BasicModal buttonText="확인" onClick={closeModal}>
           등록완료
