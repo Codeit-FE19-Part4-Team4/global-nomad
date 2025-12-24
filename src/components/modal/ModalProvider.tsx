@@ -10,28 +10,22 @@ export default function ModalProvider({
 }) {
   const [activeModal, setActiveModal] = useState<ModalStateType[]>([]);
 
-  const open = <TProps extends Record<string, unknown>>({
-    type,
-    props,
-  }: OpenModalParams<TProps>) => {
+  const open = ({ type, props }: OpenModalParams) => {
     const id = Math.random();
     setActiveModal((activeModal) => {
       return [...activeModal, { type, props, id } as ModalStateType];
     });
-    console.log('open', activeModal);
   };
 
-  const close = (type: string) => {
+  const close = (type: React.ComponentType<any>) => {
     setActiveModal((activeModal) =>
       activeModal.filter((modal) => modal.type !== type)
     );
   };
 
   return (
-    <ModalDispatchContext.Provider value={{ open, close }}>
-      <ModalStateContext.Provider value={activeModal}>
-        {children}
-      </ModalStateContext.Provider>
-    </ModalDispatchContext.Provider>
+    <ModalDispatchContext value={{ open, close }}>
+      <ModalStateContext value={activeModal}>{children}</ModalStateContext>
+    </ModalDispatchContext>
   );
 }

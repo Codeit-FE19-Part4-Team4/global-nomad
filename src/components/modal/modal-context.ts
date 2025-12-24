@@ -5,7 +5,7 @@ type ModalStateContextType = ModalStateType[];
 
 type ModalDispatchContextType = {
   open: ({ type, props }: OpenModalParams) => void;
-  close: (type: string) => void;
+  close: (type: React.ComponentType<any>) => void;
 };
 
 export const ModalStateContext = createContext([] as ModalStateContextType);

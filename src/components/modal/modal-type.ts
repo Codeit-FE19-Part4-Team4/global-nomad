@@ -1,10 +1,8 @@
-export interface OpenModalParams<TProps = Record<string, unknown>> {
-  type: string;
-  props: TProps;
+export interface OpenModalParams {
+  type: React.ComponentType<any>;
+  props: Record<string, unknown>;
 }
 
-export interface ModalStateType<
-  TProps = Record<string, unknown>,
-> extends OpenModalParams<TProps> {
+export interface ModalStateType extends OpenModalParams {
   id: number;
 }
