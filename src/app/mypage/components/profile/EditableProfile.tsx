@@ -8,6 +8,12 @@ import Profile from '@/components/Profile';
 // 파일 크기 제한 (5MB)
 const MAX_SIZE = 5 * 1024 * 1024;
 
+const PROFILE_SIZE_CLASS = `
+  h-[60px] w-[60px]
+  md:h-[70px] md:w-[70px]
+  lg:h-[120px] lg:w-[120px]
+`;
+
 function EditButton() {
   return (
     <label
@@ -40,11 +46,7 @@ export default function EditableProfile({
 
   return (
     <div className="relative inline-block">
-      <Profile
-        src={src}
-        size="lg"
-        className="h-[60px] w-[60px] md:h-[70px] md:w-[70px] lg:h-[120px] lg:w-[120px]"
-      />
+      <Profile src={src} className={PROFILE_SIZE_CLASS} />
       <EditButton />
       <input
         id="profile-upload"

@@ -12,6 +12,13 @@ export default function SidebarNav() {
           icon={item.icon}
           activeIcon={item.activeIcon}
           href={item.href}
+          onClick={
+            'isLogout' in item && item.isLogout
+              ? () => {
+                  /* TODO: 로그아웃 처리 */
+                }
+              : undefined
+          }
         />
       ))}
     </nav>

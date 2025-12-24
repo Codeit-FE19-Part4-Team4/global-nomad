@@ -24,7 +24,7 @@ export default function SidebarNavItem({
   className,
 }: SidebarNavItemProps) {
   const pathname = usePathname();
-  const isActive = pathname === href;
+  const isActive = pathname.startsWith(href);
 
   const handleClick = (e: React.MouseEvent) => {
     if (onClick) {
