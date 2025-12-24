@@ -32,7 +32,7 @@ export default function BasicModal({
         <Button
           variant="primary"
           className="h-[41px] w-[180px] sm:h-[47px] sm:w-[200px]"
-          onClick={() => onClick?.()}>
+          onClick={onClick}>
           {buttonText}
         </Button>
       </div>
