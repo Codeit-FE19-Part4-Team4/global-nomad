@@ -1,5 +1,4 @@
 import Text from '@/components/Text';
-
 export default function TestPage() {
   return (
     <div className="space-y-4 p-10">
