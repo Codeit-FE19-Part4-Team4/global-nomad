@@ -13,7 +13,7 @@
  */
 
 /* 어떤 HTML 태그로 렌더링할지 선택 */
-export type TextAs = 'h2' | 'h3' | 'h4' | 'p' | 'span';
+export type TextAs = 'h2' | 'h3' | 'h4' | 'p' | 'span' | 'label';
 
 /* 텍스트 크기 */
 export type TextSize =
@@ -32,6 +32,7 @@ export type TextProps = {
   as?: TextAs;
   size?: TextSize;
   variant?: TextVariant;
+  htmlFor?: string;
   className?: string;
   children: React.ReactNode;
 } & React.HTMLAttributes<HTMLElement>;
@@ -40,6 +41,7 @@ export default function Text({
   as: Component = 'span',
   size,
   variant,
+  htmlFor,
   className,
   children,
   ...props
@@ -47,7 +49,7 @@ export default function Text({
   const mergedClassName = [size, variant, className].filter(Boolean).join(' ');
 
   return (
-    <Component className={mergedClassName} {...props}>
+    <Component className={mergedClassName} htmlFor={htmlFor} {...props}>
       {children}
     </Component>
   );

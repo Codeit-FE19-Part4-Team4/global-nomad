@@ -10,6 +10,7 @@ export default function RootLayout({
     <html lang="ko">
       <body>
         <div className="page-wrapper">{children}</div>
+        <div id="modal-root" />
       </body>
     </html>
   );
