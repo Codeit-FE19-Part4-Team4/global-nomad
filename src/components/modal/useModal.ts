@@ -1,17 +1,16 @@
 'use client';
 
-import { useState } from 'react';
+import { useContext } from 'react';
+
+import { ModalDispatchContext, ModalStateContext } from './modal-context';
 
 export const useModal = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const activeModal = useContext(ModalStateContext);
+  const dispatch = useContext(ModalDispatchContext);
+  if (!dispatch) {
+    throw new Error('ModalProvider 내부에서 사용하세요.');
+  }
+  const { open: openModal, close: closeModal } = dispatch;
 
-  const openModal = () => {
-    setIsOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsOpen(false);
-  };
-
-  return { isOpen, openModal, closeModal };
+  return { activeModal, openModal, closeModal };
 };
