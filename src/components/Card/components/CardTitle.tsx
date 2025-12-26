@@ -1,6 +1,6 @@
 import { cva } from 'class-variance-authority';
 
-import { cardType } from '../card.type';
+import { cardType } from '../card-type';
 
 import { cn } from '@/util/cn';
 

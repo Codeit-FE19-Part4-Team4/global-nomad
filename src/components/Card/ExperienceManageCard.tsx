@@ -8,8 +8,8 @@ import {
   cardDetailVariants,
   cardListWrap,
   cardVariants,
-} from './card.cva';
-import { ExperienceManageCardProps } from './card.type';
+} from './card-cva';
+import { ExperienceManageCardProps } from './card-type';
 import CardPrice from './components/CardPrice';
 import CardThumb from './components/CardThumb';
 import CardTitle from './components/CardTitle';

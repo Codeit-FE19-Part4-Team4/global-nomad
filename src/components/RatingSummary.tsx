@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority';
 import Image from 'next/image';
 
-import { cardType } from './Card/card.type';
+import { cardType } from './Card/card-type';
 
 import starUrl from '@/assets/icons/main/ic-start-on.svg';
 

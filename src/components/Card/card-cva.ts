@@ -4,14 +4,14 @@ import { cn } from '@/util/cn';
 
 // 카드 card,list 타입별 형태
 export const cardVariants = cva(
-  'flex overflow-hidden cursor-pointer shadow-[0px_4px_24px_0px_#9CB4CA33] group ',
+  'flex overflow-hidden cursor-pointer shadow-[0px_4px_24px_0px_#9CB4CA33] group',
   {
     variants: {
       type: {
         card: [
           'flex-col shrink-0',
           'min-h-[242px] md:min-h-[423px] lg:min-h-[366px]',
-          'w-[calc(100%_/_2)] md:w-[calc(100%_/_2)] lg:w-[calc(100%_/_4)]',
+          'w-[calc((100%-18px)/2)] md:w-[calc((100%-20px)/2)] lg:w-[calc((100%-24px*3)/4)]',
           'rounded-[18px] lg:rounded-[32px]',
         ],
         list: [

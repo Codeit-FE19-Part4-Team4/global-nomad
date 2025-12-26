@@ -2,12 +2,13 @@ import Link from 'next/link';
 
 import RatingSummary from '../RatingSummary';
 
-import { cardDetailVariants, cardVariants } from './card.cva';
-import { ExperienceCardProps } from './card.type';
+import { cardDetailVariants, cardVariants } from './card-cva';
+import { ExperienceCardProps } from './card-type';
 import CardPrice from './components/CardPrice';
 import CardThumb from './components/CardThumb';
 import CardTitle from './components/CardTitle';
 
+import { cn } from '@/util/cn';
 /**
  * 체험목록 화면의 카드 컴포넌트 입니다.
  *
@@ -28,6 +29,7 @@ import CardTitle from './components/CardTitle';
     price={item.price}
     rating={item.rating}
     reviewCount={item.reviewCount}
+    className="w-[34.933vw]" //가로목록 형태일때 넓이스타일 추가
   />
  */
 export default function ExperienceCard({
@@ -38,9 +40,12 @@ export default function ExperienceCard({
   price,
   rating,
   reviewCount,
+  className,
 }: ExperienceCardProps) {
   return (
-    <Link href={`/activities/${id}`} className={cardVariants({ type })}>
+    <Link
+      href={`/activities/${id}`}
+      className={cn(cardVariants({ type }), className)}>
       <CardThumb type={type} bannerImageUrl={bannerImageUrl} title={title} />
       <div className={cardDetailVariants({ type })}>
         <div>

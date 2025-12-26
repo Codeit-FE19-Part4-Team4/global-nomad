@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority';
 import Image from 'next/image';
 
-import { cardType } from '../card.type';
+import { cardType } from '../card-type';
 
 import { cn } from '@/util/cn';
 

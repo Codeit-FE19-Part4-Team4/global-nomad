@@ -6,8 +6,8 @@ import {
   cardDetailVariants,
   cardListWrap,
   cardVariants,
-} from './card.cva';
-import { ReservationCardProps } from './card.type';
+} from './card-cva';
+import { ReservationCardProps } from './card-type';
 import CardPrice from './components/CardPrice';
 import CardSchedule from './components/CardSchedule';
 import CardThumb from './components/CardThumb';
