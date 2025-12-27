@@ -1,8 +1,5 @@
-import {
-  STATUS_BADGE_LABEL,
-  StatusBadgeStatus,
-} from '@/components/Badge/status-badge';
-import { statusBadgeStyle } from '@/components/Badge/status-badge.cva';
+import { STATUS_BADGE_LABEL, StatusBadgeStatus } from './status-badge';
+import { statusBadgeStyle } from './status-badge.cva';
 
 interface StatusBadgeProps {
   status: StatusBadgeStatus;
