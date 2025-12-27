@@ -6,8 +6,14 @@
 import { cva } from 'class-variance-authority';
 
 export const CalendarBadgeStyle = cva(
-  // 기본 스타일
-  'inline-flex items-center px-6 py-1 rounded-lg bold body-lg',
+  [
+    // 레이아웃
+    'inline-flex items-center w-fit',
+    // 박스
+    'px-6 py-1 rounded-lg',
+    // 텍스트
+    'bold body-lg',
+  ],
   {
     variants: {
       // 예약 상태별 색상
