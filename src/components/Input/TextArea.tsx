@@ -26,13 +26,12 @@ type TextAreaProps = CommonInputProps & {
  * @example
  * <TextArea label='소개' placeholder='자기소개를 입력하세요' rows={4} /> 👉🏻 기본
  * <TextArea maxLength={100} showCount /> 👉🏻 글자 수 표시
- * <TextArea state='error' errorMessage='필수 입력입니다' /> 👉🏻 에러
+ * <TextArea errorMessage='필수 입력입니다' /> 👉🏻 에러
  */
 const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
   function TextArea(
     {
       label,
-      state = 'default',
       errorMessage,
       rows = 4,
       maxLength,
@@ -45,16 +44,14 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
     },
     ref
   ) {
-    const isDisabled = state === 'disabled' || disabled;
+    const hasError = Boolean(errorMessage);
     const currentLength = typeof value === 'string' ? value.length : 0;
+    const state = hasError ? 'error' : disabled ? 'disabled' : 'default';
 
     return (
-      // 입력필드 래퍼
       <BaseInput
         label={label}
-        state={state}
         errorMessage={errorMessage}
-        // 글자 수 카운터
         rightBottom={
           showCount && maxLength ? (
             <Text as="span" className="body-sm text-gray-600">
@@ -64,14 +61,13 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
         }>
         {(inputId) => (
           <div className={cn(textAreaStyle({ state }))}>
-            {/* 텍스트 입력 필드 */}
             <textarea
               ref={ref}
               id={inputId}
               rows={rows}
               maxLength={maxLength}
               value={value}
-              disabled={isDisabled}
+              disabled={disabled}
               onChange={(e) => onChange?.(e.target.value)}
               className={cn(
                 'w-full resize-none bg-transparent outline-none',

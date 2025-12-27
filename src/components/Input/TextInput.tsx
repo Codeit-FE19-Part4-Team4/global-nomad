@@ -15,6 +15,8 @@ type TextInputProps = CommonInputProps & {
   clearable?: boolean;
   /** 값 변경 시 호출 */
   onChange?: (value: string) => void;
+  /** 초기화 버튼 클릭 시 호출 (미지정 시 onChange('') 호출) */
+  onClear?: () => void;
 } & Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'>;
 
 /**
@@ -23,16 +25,16 @@ type TextInputProps = CommonInputProps & {
  * @example
  * <TextInput label="이메일" placeholder="이메일을 입력하세요" /> 👉🏻 기본
  * <TextInput value={email} onChange={setEmail} clearable /> 👉🏻 입력 삭제 버튼
- * <TextInput state="error" errorMessage="필수 입력입니다" /> 👉🏻 에러
+ * <TextInput errorMessage="필수 입력입니다" /> 👉🏻 에러
  */
 const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
   function TextInput(
     {
       label,
-      state = 'default',
       errorMessage,
       clearable,
       onChange,
+      onClear,
       disabled,
       value,
       className,
@@ -40,11 +42,21 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     },
     ref
   ) {
-    const isDisabled = state === 'disabled' || disabled;
-    const showClearButton = clearable && value && !isDisabled;
+    const hasError = Boolean(errorMessage);
+    const state = hasError ? 'error' : disabled ? 'disabled' : 'default';
+    const showClearButton =
+      clearable && value !== '' && value != null && !disabled;
+
+    const handleClear = () => {
+      if (onClear) {
+        onClear();
+      } else {
+        onChange?.('');
+      }
+    };
 
     return (
-      <BaseInput label={label} state={state} errorMessage={errorMessage}>
+      <BaseInput label={label} errorMessage={errorMessage}>
         {(inputId) => (
           <div className={cn(inputStyle({ state }), 'group relative')}>
             {/* 입력 필드 */}
@@ -52,7 +64,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
               ref={ref}
               id={inputId}
               value={value}
-              disabled={isDisabled}
+              disabled={disabled}
               onChange={(e) => onChange?.(e.target.value)}
               className={cn(
                 'w-full bg-transparent outline-none',
@@ -67,14 +79,13 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
             {showClearButton && (
               <button
                 type="button"
-                onClick={() => onChange?.('')}
-                aria-label="입력값 삭제"
+                onClick={handleClear}
                 className={cn(
                   'absolute top-1/2 right-4 -translate-y-1/2',
-                  'cursor-pointer hover:opacity-80',
-                  'hidden group-focus-within:block'
+                  'cursor-pointer transition-opacity hover:opacity-80',
+                  'opacity-0 group-focus-within:opacity-100 focus:opacity-100'
                 )}>
-                <Image src={ic_delete} alt="" width={24} height={24} />
+                <Image src={ic_delete} alt="삭제" width={24} height={24} />
               </button>
             )}
           </div>

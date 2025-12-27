@@ -18,30 +18,25 @@ type PasswordInputProps = CommonInputProps & {
 
 /**
  * 비밀번호 입력 컴포넌트
+ * - 보기/숨기기 토글 버튼 제공
+ * - disabled 상태에서는 토글 버튼 숨김
  *
  * @example
  * <PasswordInput label='비밀번호' placeholder='비밀번호를 입력하세요' /> 👉🏻 기본
- * <PasswordInput state='error' errorMessage='8자 이상 입력하세요' /> 👉🏻 에러
+ * <PasswordInput errorMessage='8자 이상 입력하세요' /> 👉🏻 에러
  */
 const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
   function PasswordInput(
-    {
-      label,
-      state = 'default',
-      errorMessage,
-      onChange,
-      disabled,
-      value,
-      className,
-      ...props
-    },
+    { label, errorMessage, onChange, disabled, value, className, ...props },
     ref
   ) {
-    const isDisabled = state === 'disabled' || disabled;
     const [showPassword, setShowPassword] = useState(false);
 
+    // disabled, errorMessage 유무에 따라 상태 결정
+    const state = disabled ? 'disabled' : errorMessage ? 'error' : 'default';
+
     return (
-      <BaseInput label={label} state={state} errorMessage={errorMessage}>
+      <BaseInput label={label} errorMessage={errorMessage}>
         {(inputId) => (
           <div className={cn(inputStyle({ state }), 'group relative')}>
             {/* 입력 필드 */}
@@ -50,7 +45,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
               id={inputId}
               type={showPassword ? 'text' : 'password'}
               value={value}
-              disabled={isDisabled}
+              disabled={disabled}
               onChange={(e) => onChange?.(e.target.value)}
               className={cn(
                 'w-full bg-transparent pr-12 outline-none',
@@ -60,12 +55,11 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
               {...props}
             />
 
-            {/* 보기/숨기기 토글 */}
-            {!isDisabled && (
+            {/* 보기/숨기기 토글 버튼 */}
+            {!disabled && (
               <button
                 type="button"
                 onClick={() => setShowPassword((prev) => !prev)}
-                aria-label={showPassword ? '비밀번호 숨기기' : '비밀번호 보기'}
                 className={cn(
                   'absolute top-1/2 right-4 -translate-y-1/2',
                   'cursor-pointer hover:opacity-80'
