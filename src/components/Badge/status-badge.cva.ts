@@ -6,12 +6,18 @@
 import { cva } from 'class-variance-authority';
 
 export const statusBadgeStyle = cva(
-  // 기본 스타일
-  'inline-flex items-center px-3 py-1 rounded-lg bold body-lg',
+  [
+    // 레이아웃
+    'inline-flex items-center w-fit',
+    // 박스
+    'px-3 py-1 rounded-lg',
+    // 텍스트
+    'bold body-lg',
+  ],
   {
     variants: {
+      // 예약 상태별 색상
       status: {
-        // 예약 상태별 색상
         pending: 'bg-green-100 text-green-500',
         confirmed: 'bg-mint-100 text-mint-500',
         completed: 'bg-primary-100 text-primary-500',

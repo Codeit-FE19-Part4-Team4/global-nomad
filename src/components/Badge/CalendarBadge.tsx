@@ -1,8 +1,5 @@
-import {
-  CALENDAR_BADGE_LABEL,
-  CalendarBadgeStatus,
-} from '@/constants/calendar-badge';
-import { CalendarBadgeStyle } from '@/styles/cva/calendar-badge.cva';
+import { CALENDAR_BADGE_LABEL, CalendarBadgeStatus } from './calendar-badge';
+import { CalendarBadgeStyle } from './calendar-badge.cva';
 
 interface CalendarBadgeProps {
   status: CalendarBadgeStatus;
