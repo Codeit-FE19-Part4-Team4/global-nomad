@@ -19,7 +19,7 @@ interface FormModalFrameProps {
  * }
  * <FormModalFrame
  *  submitBtnText="제출하기"
- *  disabled="false"
+ *  disabled={false}
  *  onCloseModal={onCloseModal}
  *  onSubmit={handleSubmit}
  * >
@@ -44,7 +44,7 @@ export default function FormModalFrame({
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-background flex h-fit flex-col gap-5 rounded-[30px] px-6 py-6 py-[20px] sm:gap-[30px] sm:px-[30px]">
+      className="bg-background flex h-fit flex-col gap-5 rounded-[30px] px-6 py-[20px] sm:gap-[30px] sm:px-[30px] sm:py-6">
       <div className={className}>{children}</div>
       <div className="flex w-full gap-2.5 sm:mb-5">
         <Button
