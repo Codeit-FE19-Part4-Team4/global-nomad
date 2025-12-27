@@ -3,9 +3,9 @@ import Image from 'next/image';
 
 import Button from '../Button';
 
-import { useModal } from './useModal';
-
 import imgWarning from '@/assets/images/common/img-warning.svg';
+import { useModal } from '@/hooks/useModal';
+
 interface CancelModalProps {
   message: string;
   rightBtnText: string;

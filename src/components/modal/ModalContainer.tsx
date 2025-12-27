@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
-import { useModal } from './useModal';
+import { useModal } from '@/hooks/useModal';
 
 export default function ModalContainer() {
   const [modalRoot, setModalRoot] = useState<HTMLElement | null>(null);
