@@ -9,6 +9,25 @@ interface FormModalFrameProps {
   className?: string;
 }
 
+/**
+ *
+ * @example
+ * const {closeModal} = useModal()
+ * const handleSubmit = () => {...}
+ * const onCloseModal = () => {
+ *  closeModal(ReviewModal)
+ * }
+ * <FormModalFrame
+ *  submitBtnText="제출하기"
+ *  disabled="false"
+ *  onCloseModal={onCloseModal}
+ *  onSubmit={handleSubmit}
+ * >
+ *  <div>후기를 작성하세요</div>
+ *  <Textarea/>
+ * </FormModalFrame>
+ */
+
 export default function FormModalFrame({
   children,
   submitBtnText,
