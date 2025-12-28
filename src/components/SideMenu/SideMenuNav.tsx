@@ -1,7 +1,7 @@
 import { MY_PAGE_NAV_ITEMS } from './navigation';
 import SideMenuNavItem from './SideMenuNavItem';
 
-export default function SidebarNav() {
+export default function SideMenuNav() {
   return (
     <nav className="flex flex-col gap-2">
       {MY_PAGE_NAV_ITEMS.map((item) => (
