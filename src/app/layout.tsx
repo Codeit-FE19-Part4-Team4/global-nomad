@@ -11,15 +11,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko">
-      <ModalProvider>
-        <body>
+      <body>
+        <ModalProvider>
           <ToastProvider>
             <div className="page-wrapper">{children}</div>
             <ModalContainer />
             <div id="modal-root" />
           </ToastProvider>
-        </body>
-      </ModalProvider>
+        </ModalProvider>
+      </body>
     </html>
   );
 }

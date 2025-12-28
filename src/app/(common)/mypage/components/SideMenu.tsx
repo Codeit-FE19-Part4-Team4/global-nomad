@@ -2,11 +2,10 @@
 
 import { useEffect, useState } from 'react';
 
-import EditableProfile from '../profile/EditableProfile';
+import EditableProfile from '@/components/ProfileEditable';
+import SideMenuNav from '@/components/SideMenu/SideMenuNav';
 
-import SidebarNav from './SidebarNav';
-
-export default function Sidebar() {
+export default function SideMenu() {
   const [profileImage, setProfileImage] = useState<string>();
 
   const handleImageChange = (file: File) => {
@@ -27,7 +26,7 @@ export default function Sidebar() {
       <div className="flex flex-col items-center pb-4 md:pb-6">
         <EditableProfile src={profileImage} onImageChange={handleImageChange} />
       </div>
-      <SidebarNav />
+      <SideMenuNav />
     </aside>
   );
 }

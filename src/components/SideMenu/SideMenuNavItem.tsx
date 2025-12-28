@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 
 import { cn } from '@/util/cn';
 
-interface SidebarNavItemProps {
+interface SideMenuNavItemProps {
   label: string;
   icon: StaticImageData;
   activeIcon: StaticImageData;
@@ -15,14 +15,14 @@ interface SidebarNavItemProps {
   onClick?: () => void;
 }
 
-export default function SidebarNavItem({
+export default function SideMenuNavItem({
   label,
   icon,
   activeIcon,
   href,
   onClick,
   className,
-}: SidebarNavItemProps) {
+}: SideMenuNavItemProps) {
   const pathname = usePathname();
   const isActive = !onClick && pathname.startsWith(href);
 
