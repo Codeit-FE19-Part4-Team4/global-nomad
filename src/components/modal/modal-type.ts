@@ -4,5 +4,5 @@ export interface OpenModalParams {
 }
 
 export interface ModalStateType extends OpenModalParams {
-  id: number;
+  id: string;
 }
