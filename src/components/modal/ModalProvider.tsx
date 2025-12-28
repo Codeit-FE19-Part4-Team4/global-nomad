@@ -3,6 +3,9 @@ import { useState } from 'react';
 
 import { ModalDispatchContext, ModalStateContext } from './modal-context';
 import type { ModalStateType, OpenModalParams } from './modal-type';
+
+let modalIdCounter = 0;
+
 export default function ModalProvider({
   children,
 }: {
@@ -11,7 +14,7 @@ export default function ModalProvider({
   const [activeModal, setActiveModal] = useState<ModalStateType[]>([]);
 
   const open = ({ component, props }: OpenModalParams) => {
-    const id = Math.random();
+    const id = (++modalIdCounter).toString();
     setActiveModal((activeModal) => {
       return [...activeModal, { component, props, id } as ModalStateType];
     });
