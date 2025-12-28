@@ -17,6 +17,17 @@ export default function ModalContainer() {
     return null;
   }
 
+  useEffect(() => {
+    if (activeModal && activeModal?.length > 0) {
+      document.body.classList.add('modal-open');
+    } else {
+      document.body.classList.remove('modal-open');
+    }
+    return () => {
+      document.body.classList.remove('modal-open');
+    };
+  }, [activeModal]);
+
   return createPortal(
     <div className="fixed inset-0 flex items-center justify-center">
       {/*dim*/}
