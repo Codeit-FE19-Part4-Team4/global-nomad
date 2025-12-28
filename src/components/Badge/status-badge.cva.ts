@@ -10,9 +10,9 @@ export const statusBadgeStyle = cva(
     // 레이아웃
     'inline-flex items-center w-fit',
     // 박스
-    'px-3 py-1 rounded-lg',
+    'px-2 py-1 rounded-lg',
     // 텍스트
-    'bold body-lg',
+    'bold text-[13px]',
   ],
   {
     variants: {
