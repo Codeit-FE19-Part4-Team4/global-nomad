@@ -22,7 +22,7 @@ const ButtonVariants = cva(
         lg: 'h-[50px] rounded-[14px]',
         md: 'h-[41px] rounded-[12px] md:h-[47px] md:rounded-[14px]',
         sm: 'h-[41px] rounded-[12px] text-[14px]',
-        xs: 'h-[37px] rounded-[8px]  md:h-[29px] md:w-[71px] text-[14px] text-gray-600 font-[var(--weight-title-sm)] ',
+        xs: 'h-[37px] rounded-[8px]  md:h-[29px] w-full md:w-[68px] text-[14px] text-gray-600 font-[var(--weight-title-sm)] ',
       },
       variant: {
         primary:
@@ -32,6 +32,13 @@ const ButtonVariants = cva(
         tertiary: 'bg-gray-50 text-gray-600 hover:bg-gray-100',
       },
     },
+    compoundVariants: [
+      {
+        size: 'xs',
+        variant: 'secondary',
+        className: 'border-gray-50',
+      },
+    ],
     defaultVariants: {
       size: 'lg',
       variant: 'primary',
