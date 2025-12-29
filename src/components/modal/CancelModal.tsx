@@ -3,13 +3,13 @@ import Image from 'next/image';
 
 import Button from '../Button';
 
-import { useModal } from './useModal';
-
 import imgWarning from '@/assets/images/common/img-warning.svg';
+import { useModal } from '@/hooks/useModal';
+
 interface CancelModalProps {
   message: string;
   rightBtnText: string;
-  onClickRightBtn: () => void;
+  onConfirmDelete: () => Promise<void>;
 }
 
 const buttonStyle = 'h-[41px] w-[113px] sm:h-[47px] sm:w-[135px]';
@@ -17,7 +17,7 @@ const buttonStyle = 'h-[41px] w-[113px] sm:h-[47px] sm:w-[135px]';
 export default function CancelModal({
   message,
   rightBtnText,
-  onClickRightBtn,
+  onConfirmDelete,
 }: CancelModalProps) {
   const { closeModal } = useModal();
   return (
@@ -42,7 +42,7 @@ export default function CancelModal({
           </Button>
           <Button
             variant={'primary'}
-            onClick={onClickRightBtn}
+            onClick={onConfirmDelete}
             className={buttonStyle}>
             {rightBtnText}
           </Button>

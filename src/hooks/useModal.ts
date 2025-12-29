@@ -2,7 +2,10 @@
 
 import { useContext } from 'react';
 
-import { ModalDispatchContext, ModalStateContext } from './modal-context';
+import {
+  ModalDispatchContext,
+  ModalStateContext,
+} from '@/components/modal/modal-context';
 
 export const useModal = () => {
   const activeModal = useContext(ModalStateContext);

@@ -12,3 +12,7 @@
     padding: 0 var(--space-desktop);
   }
 }
+
+body.modal-open {
+  overflow: hidden;
+}
