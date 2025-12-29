@@ -86,7 +86,7 @@ export default function ReservationForm({
     ) {
       document.body.classList.toggle('modal-open', width < PC_WIDTH);
     }
-    prevWidthRef.current = width; // 현재 width를 저장
+    prevWidthRef.current = width;
   }, [width]);
   return (
     <ReservationLayout date={date} isScheduleVisible={isScheduleVisible}>

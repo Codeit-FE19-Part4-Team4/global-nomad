@@ -57,7 +57,7 @@ export const reservationArea = [
  * ReservationOption 스타일
  */
 export const title =
-  'text-title-sm font-bold tracking-[-1px] mb-[8px] md:mb-[24px] ';
+  'text-title-sm font-bold tracking-[-1px] mb-[8px] md:mb-[24px] lg:mb-[8px]';
 export const subTitle = 'font-bold tracking-[-1px] md:mb-[20px]';
 export const optionBox = [
   'w-full',

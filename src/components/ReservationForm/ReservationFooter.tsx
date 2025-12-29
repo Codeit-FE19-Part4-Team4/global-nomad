@@ -31,13 +31,16 @@ export default function ReservationFooter({
   };
   return (
     <div className={cn(footerBox)}>
+      {/* 상단 가격안내 */}
       <div className={cn(infoPrice)}>
         <span className="text-[24px] font-[var(--weight-title-md)] tracking-[-1px]">
           ₩ {formatPrice(activityPrice)}
         </span>
         <span className="text-[20px] tracking-[-3px] text-[#79747E]">/ 인</span>
       </div>
+
       <div className={cn(footerInr)}>
+        {/* 총합계 (가격,인원) */}
         <div className="flex items-center">
           <span className="hidden text-[16px] text-[#79747e] lg:mr-[6px] lg:inline-block">
             총 합계
@@ -45,10 +48,11 @@ export default function ReservationFooter({
           <strong className="text-[20px] leading-1 tracking-[-1px]">
             ₩ {formatPrice(activityPrice * count)}
           </strong>
-          <span className="ml-[6px] text-[16px] tracking-[-2px] text-[#79747e]">
+          <span className="ml-[6px] text-[16px] tracking-[-1px] text-[#79747e] lg:hidden">
             / {count} 명
           </span>
         </div>
+        {/* 스케쥴 영역 토글 */}
         <div>
           {date ? (
             <button
@@ -65,6 +69,7 @@ export default function ReservationFooter({
           )}
         </div>
       </div>
+      {/* 하단 버튼 영역 */}
       <Button
         variant="primary"
         size="lg"
@@ -75,6 +80,7 @@ export default function ReservationFooter({
         )}>
         예약하기
       </Button>
+      {/* 하단 버튼 영역 (모바일,탭 전용) */}
       <div className={cn(mobileBtns, isScheduleVisible && 'grid lg:hidden')}>
         <Button
           variant="secondary"

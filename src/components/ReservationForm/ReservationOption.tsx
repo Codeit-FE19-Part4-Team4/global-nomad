@@ -21,6 +21,9 @@ import IcoPlus from '@/assets/icons/activities/ic-plus.svg';
 import Text from '@/components/Text';
 import { cn } from '@/util/cn';
 
+/**
+ * 인원수 카운트, 예약 가능한 시간을 입력하는 컴포넌트 입니다.
+ */
 export default function ReservationOption({
   count,
   setCount,
@@ -50,7 +53,7 @@ export default function ReservationOption({
   };
   return (
     <div className={cn(optionBox)}>
-      {/* 인원 */}
+      {/* 인원 안내문구 */}
       <div className={cn(scheduleId === undefined && 'hidden', 'md:hidden')}>
         <Text as="h3" className={cn(title)}>
           인원
@@ -59,6 +62,7 @@ export default function ReservationOption({
           예약할 인원을 선택해주세요.
         </Text>
       </div>
+      {/* 인원수 카운트 */}
       <div
         className={cn(countArea, scheduleId === undefined && 'hidden md:flex')}>
         <Text size="body-lg" as="h3" className={cn(subTitle, 'md:mb-0')}>
@@ -66,16 +70,17 @@ export default function ReservationOption({
         </Text>
         <div className={cn(countBox)}>
           <button onClick={handleDecrease} className={cn(countBtn)}>
-            <Image src={IcoMinus} width={20} height={20} alt="" />
+            <Image src={IcoMinus} width={20} height={20} alt="증가" />
           </button>
           <span className="text-[16px] font-[var(--weight-title-xl)] text-[#4B4B4B]">
             {count}
           </span>
           <button onClick={handleIncrease} className={cn(countBtn)}>
-            <Image src={IcoPlus} width={20} height={20} alt="" />
+            <Image src={IcoPlus} width={20} height={20} alt="감소" />
           </button>
         </div>
       </div>
+      {/* 예약 시간 선택 */}
       <div
         className={cn(
           timeArea,

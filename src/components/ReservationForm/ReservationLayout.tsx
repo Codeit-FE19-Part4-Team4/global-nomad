@@ -11,7 +11,6 @@ import { cn } from '@/util/cn';
 export default function ReservationLayout({
   children,
   isScheduleVisible,
-
   date,
 }: ReservationLayoutProps) {
   return (
