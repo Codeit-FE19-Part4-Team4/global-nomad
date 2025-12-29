@@ -31,6 +31,7 @@ export default function ReservationFooter({
   setCount,
 }: ReservationFooterProps) {
   const width = useWindowSize();
+  if (width === undefined) return null;
   const isMobile = width < 767;
   const isNotPC = width < 1024;
 

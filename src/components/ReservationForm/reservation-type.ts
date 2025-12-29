@@ -39,7 +39,6 @@ export interface ReservationFooterProps {
 
 export interface ReservationLayoutProps {
   children: React.ReactNode;
-  date: Date | undefined;
   isScheduleVisible: boolean;
 }
 

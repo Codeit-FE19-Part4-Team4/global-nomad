@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { format } from 'date-fns';
+import { useEffect } from 'react';
 import * as React from 'react';
 
 import Text from '../Text';
@@ -49,8 +50,14 @@ export default function ReservationForm({
   const [scheduleId, setScheduleId] = React.useState<number | undefined>(
     undefined
   );
-  const availableDates = schedules.map((schedule) => new Date(schedule.date));
-  const isReservation = count !== 0 && !!scheduleId;
+  const availableDates = React.useMemo(
+    () => schedules.map((schedule) => new Date(schedule.date)),
+    [schedules]
+  );
+  const isReservation = React.useMemo(
+    () => count !== 0 && !!scheduleId,
+    [count, scheduleId]
+  );
   const [isScheduleVisible, setIsScheduleVisible] =
     React.useState<boolean>(false);
   const width = useWindowSize();
@@ -67,7 +74,7 @@ export default function ReservationForm({
   const handleSelectDate = (selectedDate?: Date) => {
     if (!selectedDate) return;
     setDate(selectedDate);
-    const selectedDateString = selectedDate.toLocaleDateString('sv-SE');
+    const selectedDateString = format(selectedDate, 'yyyy-MM-dd');
     const selectedSchedule = schedules.filter((item) => {
       return item.date === selectedDateString;
     });
@@ -78,6 +85,7 @@ export default function ReservationForm({
 
   // 해상도 1024 이하일때 배경 스크롤 제어
   useEffect(() => {
+    if (width === undefined) return;
     const isMobile = width < PC_WIDTH;
     if (isMobile) {
       if (!isScheduleVisible) {
@@ -89,8 +97,9 @@ export default function ReservationForm({
       document.body.classList.remove('modal-open');
     }
   }, [width, isScheduleVisible]);
+  if (width === undefined) return null;
   return (
-    <ReservationLayout date={date} isScheduleVisible={isScheduleVisible}>
+    <ReservationLayout isScheduleVisible={isScheduleVisible}>
       <div
         className={cn(
           reservationInner,

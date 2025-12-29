@@ -69,13 +69,13 @@ export default function ReservationOption({
         </Text>
         <div className={cn(countBox)}>
           <button onClick={handleDecrease} className={cn(countBtn)}>
-            <Image src={IcoMinus} width={20} height={20} alt="증가" />
+            <Image src={IcoMinus} width={20} height={20} alt="감소" />
           </button>
           <span className="text-[16px] font-[var(--weight-title-xl)] text-[#4B4B4B]">
             {count}
           </span>
           <button onClick={handleIncrease} className={cn(countBtn)}>
-            <Image src={IcoPlus} width={20} height={20} alt="감소" />
+            <Image src={IcoPlus} width={20} height={20} alt="증가" />
           </button>
         </div>
       </div>

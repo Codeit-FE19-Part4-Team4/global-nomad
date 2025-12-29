@@ -11,7 +11,6 @@ import { cn } from '@/util/cn';
 export default function ReservationLayout({
   children,
   isScheduleVisible,
-  date,
 }: ReservationLayoutProps) {
   return (
     <div className={cn(reservationWrap)}>
@@ -19,7 +18,6 @@ export default function ReservationLayout({
       <div
         className={cn(
           reservationBox,
-          !date && !isScheduleVisible && reservationBoxHide,
           !isScheduleVisible && reservationBoxHide
         )}>
         {children}

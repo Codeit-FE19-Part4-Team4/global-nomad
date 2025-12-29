@@ -73,7 +73,7 @@ export const countArea = [
 export const countBox = [
   'w-[144px] h-[48px] px-[10px] border border-[#E0E0E5] rounded-[12px] flex items-center justify-between',
   'md:w-full md:h-[52px] md:mt-[20px] md:px-[20px]',
-  'lg:w-35 lg:h-10 lg:mt-0 lg:px-[9px] lg:rounded-[40px] lg:border-[#eee]',
+  'lg:w-[140px] lg:h-10 lg:mt-0 lg:px-[9px] lg:rounded-[40px] lg:border-[#eee]',
 ];
 export const countBtn = [
   'flex items-center justify-center w-10 h-10 relative cursor-pointer',
@@ -87,7 +87,7 @@ export const timeBox = [
   'md:flex-col md:gap-3',
 ];
 export const timeRadio = [
-  'w-full h-[52px] flex items-center justify-center border border-[#B3B4BC] rounded-[11px] text-[16px] text-[#1F1F22] font-[var(--weight-title-md)] cursor-pointer peer-checked:border-[2px] peer-checked:border-primary-500 peer-checked:bg-primary-100  peer-checked:text-primary-500 ',
+  'w-full h-[52px] flex items-center justify-center border border-[#B3B4BC] rounded-[11px] text-[16px] text-[#1F1F22] font-[var(--weight-title-md)] cursor-pointer peer-checked:border-[2px] peer-checked:border-primary-500 peer-checked:bg-primary-100 peer-checked:text-primary-500',
 ];
 
 /**

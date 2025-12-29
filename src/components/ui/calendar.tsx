@@ -44,7 +44,6 @@ function Calendar({
       formatters={{
         formatMonthDropdown: (date) =>
           date.toLocaleString('default', { month: 'short' }),
-        ...formatters,
         formatWeekdayName: (date) =>
           date.toLocaleString('en-US', { weekday: 'short' }).charAt(0),
         ...formatters,
