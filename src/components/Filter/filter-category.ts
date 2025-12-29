@@ -5,15 +5,15 @@
  */
 
 import IcArtActive from '@/assets/icons/activities/ic-art-active.svg';
-import IcArt from '@/assets/icons/activities/ic-art.svg';
 import IcBusActive from '@/assets/icons/activities/ic-bus-active.svg';
-import IcBus from '@/assets/icons/activities/ic-bus.svg';
 import IcFoodActive from '@/assets/icons/activities/ic-food-active.svg';
-import IcFood from '@/assets/icons/activities/ic-food.svg';
 import IcTourActive from '@/assets/icons/activities/ic-tour-active.svg';
-import IcTour from '@/assets/icons/activities/ic-tour.svg';
 import IcWellbeingActive from '@/assets/icons/activities/ic-wellbeing-active.svg';
-import IcWellbeing from '@/assets/icons/activities/ic-wellbeing.svg';
+import IcArt from '@/assets/icons/main/ic-art.svg';
+import IcBus from '@/assets/icons/main/ic-bus.svg';
+import IcFood from '@/assets/icons/main/ic-food.svg';
+import IcTour from '@/assets/icons/main/ic-tour.svg';
+import IcWellbeing from '@/assets/icons/main/ic-wellbeing.svg';
 
 export const FILTER_CATEGORIES = [
   '문화·예술',
