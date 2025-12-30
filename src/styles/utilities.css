@@ -91,14 +91,22 @@
 
 /* ================== text emphasis ================== */
 /* 프리셋 위에서 굵기만 보정할 때 사용 */
-@utility bold {
-  font-weight: 700;
+@utility light {
+  font-weight: 300;
 }
 
 @utility regular {
+  font-weight: 400;
+}
+
+@utility medium {
   font-weight: 500;
 }
 
-@utility light {
-  font-weight: 400;
+@utility semibold {
+  font-weight: 600;
+}
+
+@utility bold {
+  font-weight: 700;
 }
