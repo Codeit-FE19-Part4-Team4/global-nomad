@@ -8,25 +8,23 @@ import { cva } from 'class-variance-authority';
 export const filterStyle = cva(
   [
     'inline-flex items-center gap-2',
-    'rounded-full',
-    'border cursor-pointer',
-    'regular',
     'shrink-0',
+    'whitespace-nowrap',
+    'rounded-full',
+    'border',
+    'cursor-pointer',
+    'px-4 py-2 body-lg regular',
+    'md:px-6 md:py-3 md:title-md md:regular',
   ],
   {
     variants: {
       selected: {
         true: 'bg-black border-black text-white',
-        false: 'bg-white border-gray-300 text-black',
-      },
-      size: {
-        lg: 'px-6 py-3 title-sm',
-        sm: 'px-4 py-2 body-lg',
+        false: 'bg-white border-gray-200 text-black',
       },
     },
     defaultVariants: {
       selected: false,
-      size: 'lg',
     },
   }
 );

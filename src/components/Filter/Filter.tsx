@@ -9,8 +9,6 @@ import { filterStyle } from './filter.cva';
 interface FilterProps {
   /** 선택 상태 */
   selected?: boolean;
-  /** 버튼 사이즈 */
-  size?: 'lg' | 'sm';
   /** 카테고리 (아이콘 표시용) */
   category?: FilterCategoryType;
   /** 클릭 핸들러 */
@@ -20,34 +18,29 @@ interface FilterProps {
 }
 
 /**
- * 필터 컴포넌트
+ * 필터 버튼 컴포넌트
  *
  * @example
- * <Filter category='문화·예술'>문화·예술</Filter> 👉🏻 카테고리 필터 (아이콘 + 텍스트)
- *
- * @example
- * <Filter category='식음료' size='sm'>식음료</Filter> 👉🏻 작은 사이즈 카테고리 필터
- *
- * @example
- * <Filter selected>예약 승인</Filter> 👉🏻 상태 필터 (아이콘 없음)
+ * <Filter>전체</Filter> 👉🏻 기본
+ * <Filter selected> 선택됨 </Filter> 👉🏻 선택 상태
+ * <Filter category="문화·예술"> 문화·예술 </Filter> 👉🏻 아이콘 포함
  */
 const Filter = forwardRef<HTMLButtonElement, FilterProps>(
-  ({ children, selected = false, size = 'lg', category, onClick }, ref) => {
+  ({ children, selected = false, category, onClick }, ref) => {
     const icon = category && CATEGORY_ICON[category];
-    const iconSize = size === 'sm' ? 20 : 24;
 
     return (
       <button
         ref={ref}
         type="button"
-        className={filterStyle({ selected, size })}
+        className={filterStyle({ selected })}
         onClick={onClick}>
         {icon && (
           <Image
             src={selected ? icon.active : icon.default}
             alt=""
-            width={iconSize}
-            height={iconSize}
+            width={24}
+            height={24}
           />
         )}
         {children}
