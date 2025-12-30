@@ -6,46 +6,58 @@ import Text from '../Text';
 import ImageForm from './ImageForm';
 import Preview from './Preview';
 
-interface ImageProps {
+interface ImageItem {
   file: File;
   id: string;
 }
 
-export default function UploadImageList({
-  children: title,
-  maxImages,
-}: {
+interface UploadImageListProps {
   children: string;
   maxImages: number;
-}) {
-  const [images, setImages] = useState<ImageProps[]>([]);
+  onUploadImage?: (newFiles: File[]) => void;
+  onDeleteImage?: (file: File) => void;
+  multiple?: boolean;
+}
 
-  const handleChangeImgForm = (files: FileList) => {
-    const newImage = [...files].map((file) => ({
+export default function UploadImageList({
+  children: label,
+  maxImages,
+  onUploadImage,
+  onDeleteImage,
+  multiple = true,
+}: UploadImageListProps) {
+  const [images, setImages] = useState<ImageItem[]>([]);
+
+  const handleAddImages = (newfiles: FileList) => {
+    const filesArray = [...newfiles];
+    const newImage = filesArray.map((file) => ({
       id: crypto.randomUUID(),
       file,
     }));
     setImages((prev) => {
       return [...prev, ...newImage];
     });
+    onUploadImage?.(filesArray);
   };
 
-  const handleDeleteImage = (image: File) => {
+  const handleDeleteImage = (selectedFile: File) => {
     setImages((prev) => {
-      return prev.filter((file) => file.file !== image);
+      return prev.filter((image) => image.file !== selectedFile);
     });
+    onDeleteImage?.(selectedFile);
   };
 
   return (
     <div className="flex flex-col gap-2.5">
       <Text as="label" size={'body-lg'} className="bold">
-        {title}
+        {label}
       </Text>
       <div className="flex gap-3 sm:gap-[14px]">
         <ImageForm
           imgCount={images.length}
-          onChange={handleChangeImgForm}
+          onSelectFiles={handleAddImages}
           maxImages={maxImages}
+          multiple={multiple}
         />
         <div className="flex gap-3 sm:gap-[14px]">
           {images.length > 0 &&
@@ -53,8 +65,8 @@ export default function UploadImageList({
               return (
                 <Preview
                   key={image.id}
-                  image={image.file}
-                  title={title}
+                  file={image.file}
+                  label={label}
                   onDelete={handleDeleteImage}
                 />
               );
