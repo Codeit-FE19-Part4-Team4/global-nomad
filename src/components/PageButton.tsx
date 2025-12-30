@@ -15,10 +15,10 @@ export default function PageButton({
     <button
       onClick={onClick}
       className={cn(
-        'flex h-10 w-10 cursor-pointer items-center justify-center p-2',
+        'flex h-10 w-10 cursor-pointer items-center justify-center border-b-2 p-2',
         isClicked
-          ? 'bg-primary-100 border-primary-500 border-b-2'
-          : 'bg-background'
+          ? 'bg-primary-100 border-primary-500'
+          : 'bg-background border-background'
       )}>
       <span
         className={cn(
