@@ -8,8 +8,6 @@ import ic_page_off from '@/assets/icons/activities/ic-page-left-off.svg';
 import ic_page from '@/assets/icons/activities/ic-page-left.svg';
 import { cn } from '@/util/cn';
 
-const PAGES_PER_GROUP = 5;
-
 interface NavigationBtnProps {
   disabled: boolean;
   direction: 'prev' | 'next';
@@ -19,6 +17,7 @@ interface NavigationBtnProps {
 interface PaginationProps {
   totalPage: number;
   handleClickPage?: (page: number) => Promise<void>;
+  pagesPerGroup: number;
 }
 
 function NavigationBtn({ disabled, direction, onClick }: NavigationBtnProps) {
@@ -39,14 +38,15 @@ function NavigationBtn({ disabled, direction, onClick }: NavigationBtnProps) {
 export default function Pagination({
   totalPage,
   handleClickPage,
+  pagesPerGroup,
 }: PaginationProps) {
   const [currentPage, setCurrentPage] = useState(1);
-  const currentGroup = Math.ceil(currentPage / PAGES_PER_GROUP);
+  const currentGroup = Math.ceil(currentPage / pagesPerGroup);
 
   if (totalPage === 0) return null;
 
-  const startPage = (currentGroup - 1) * PAGES_PER_GROUP + 1;
-  const endPage = Math.min(currentGroup * PAGES_PER_GROUP, totalPage);
+  const startPage = (currentGroup - 1) * pagesPerGroup + 1;
+  const endPage = Math.min(currentGroup * pagesPerGroup, totalPage);
   const curtPageGrpArray = Array.from(
     { length: endPage - startPage + 1 },
     (_, i) => startPage + i
