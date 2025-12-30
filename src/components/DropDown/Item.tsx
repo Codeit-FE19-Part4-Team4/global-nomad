@@ -26,12 +26,11 @@ export type ItemProps = {
 };
 
 export default function Item({ children, onSelect }: ItemProps) {
-  const { currentItem, setCurrentItem, setIsOpen, isOpen, type } =
-    useDropDownContext();
-  const value = children || '';
+  const { currentItem, setCurrentItem, setIsOpen, type } = useDropDownContext();
+  const value = children;
 
   const handleClickItem = () => {
-    setIsOpen(!isOpen);
+    setIsOpen(false);
     setCurrentItem(value);
     onSelect?.(value); //params 조작 or 데이터 페칭에 필요한 함수
   };

@@ -48,11 +48,11 @@ const DropDownContext = createContext<DropDownContextValue | null>(null);
  * 기본 select 타입
  * ```tsx
  * <DropDown>
- *   <DropDown.Trigger placeholder="선택하세요">옵션 1</DropDown.Trigger>
- *   <DropDown.List>
- *     <DropDown.Item>옵션 1</DropDown.Item>
- *     <DropDown.Item>옵션 2</DropDown.Item>
- *   </DropDown.List>
+ *   <DropDownTrigger placeholder="선택하세요">옵션 1</DropDownTrigger>
+ *   <DropDownList>
+ *     <DropDownItem>옵션 1</DropDownItem>
+ *     <DropDownItem>옵션 2</DropDownItem>
+ *   </DropDownList>
  * </DropDown>
  * ```
  *
@@ -89,9 +89,10 @@ export function useDropDownContext() {
   }
   return context;
 }
-DropDown.Title = Title;
-DropDown.Trigger = Trigger;
-DropDown.List = List;
-DropDown.Item = Item;
 
-export default DropDown;
+// Named Export
+export { DropDown };
+export { Trigger as DropDownTrigger };
+export { List as DropDownList };
+export { Item as DropDownItem };
+export { Title as DropDownTitle };

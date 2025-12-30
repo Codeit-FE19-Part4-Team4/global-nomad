@@ -75,7 +75,7 @@ export default function Trigger({
           </span>
           <Image
             src={isOpen ? IcoDropUp : IcoDropDown}
-            alt=""
+            alt={isOpen ? '드롭다운 닫기' : '드롭다운 열기'}
             className="absolute right-5"
           />
         </>
