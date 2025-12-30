@@ -70,7 +70,7 @@ export default function ReservationForm({
     React.useState<boolean>(false);
   const width = useWindowSize();
 
-  // TODO: POST 예약하기
+  // TODO: POST 예약하기 API연결
   const handleReservation = ({ scheduleId, count }: ReservationProps) => {};
 
   // 달력 날짜 선택
@@ -88,7 +88,7 @@ export default function ReservationForm({
   // 달력 월 선택
   const handleMonthChange = (month: Date) => {
     setCurrentMonth(month);
-    // TODO: 체험 예약 가능일 조회 API연결
+    // TODO: GET 체험 예약 가능일 조회 API연결 (month, activityId)
   };
 
   // 해상도 1024 이하일때 배경 스크롤 제어
