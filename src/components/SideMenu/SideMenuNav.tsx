@@ -1,12 +1,11 @@
-import SidebarNavItem from './SidebarNavItem';
+import { MY_PAGE_NAV_ITEMS } from './navigation';
+import SideMenuNavItem from './SideMenuNavItem';
 
-import { MY_PAGE_NAV_ITEMS } from '@/app/mypage/constants/navigation';
-
-export default function SidebarNav() {
+export default function SideMenuNav() {
   return (
     <nav className="flex flex-col gap-2">
       {MY_PAGE_NAV_ITEMS.map((item) => (
-        <SidebarNavItem
+        <SideMenuNavItem
           key={item.href}
           label={item.label}
           icon={item.icon}

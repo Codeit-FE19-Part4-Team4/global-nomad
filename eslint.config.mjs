@@ -1,7 +1,8 @@
 import next from '@next/eslint-plugin-next';
-import tseslint from 'typescript-eslint';
 import prettier from 'eslint-config-prettier';
 import importPlugin from 'eslint-plugin-import';
+import reactHooks from 'eslint-plugin-react-hooks';
+import tseslint from 'typescript-eslint';
 
 export default [
   next.configs['core-web-vitals'],
@@ -10,7 +11,13 @@ export default [
   importPlugin.flatConfigs.typescript,
   prettier,
   {
+    plugins: {
+      'react-hooks': reactHooks,
+    },
     rules: {
+      // ✅ React Hooks 규칙 추가
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
       // TypeScript
       '@typescript-eslint/no-unused-vars': [
         'warn',
