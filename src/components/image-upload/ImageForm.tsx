@@ -48,7 +48,7 @@ export default function ImageForm({
     <button
       type="button"
       disabled={disabled}
-      className={cn('inline-block h-fit w-fit')}
+      className={'inline-block h-fit w-fit'}
       onClick={() => inputRef.current?.click()}>
       {!disabled && (
         <input

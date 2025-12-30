@@ -40,7 +40,7 @@ export default function Preview({ file, label, onDelete }: PreviewProps) {
       </div>
       <button
         onClick={() => handleDelete(file)}
-        className="absolute top-[-4px] right-[-4px]">
+        className="absolute top-[-4px] right-[-4px] cursor-pointer">
         <Image src={ic_delete} alt="이미지 삭제" />
       </button>
     </div>
