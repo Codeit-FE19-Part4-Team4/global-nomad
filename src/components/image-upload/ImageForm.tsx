@@ -72,7 +72,9 @@ export default function ImageForm({
           alt={disabled ? '이미지 추가 제한' : '이미지 추가'}
           className="h-10 w-10"
         />
-        <span className="text-[14px] text-gray-600">{`${imgCount}/${maxImages}`}</span>
+        <span className="text-[14px] text-gray-600">
+          {imgCount}/{maxImages}
+        </span>
       </div>
     </button>
   );
