@@ -22,6 +22,26 @@ interface UploadImageListProps {
   multiple?: boolean;
 }
 
+/**
+ * url 생성 api 연동은 컴포넌트 외부에서 처리합니다.
+ *
+ * @param onUploadImage
+ * 이미지가 등록될 때 실행되는 콜백 함수입니다.
+ * 추가되는 파일들을 배열 형태의 파라미터로 전달합니다.
+ *
+ * @param onDeleteImage
+ * 이미지가 삭제될 때 실행되는 콜백 함수입니다.
+ * 삭제되는 파일 하나를 파라미터로 전달합니다.
+ *
+ * @example
+ * <UploadImageList maxImages={1}
+ * onUploadImage={이미지가 등록되면 실행되는 함수}
+ * onDeleteImage={이미지를 삭제하면 실행되는 함수}
+ * multiple=false //1개 선택일 때만 false 지정
+ * >배너 이미지 등록</UploadImageList>
+ *
+ */
+
 export default function UploadImageList({
   children: label,
   maxImages,
