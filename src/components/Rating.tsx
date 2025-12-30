@@ -17,7 +17,9 @@ const starButtonClass =
  *
  * @example
  * <Rating value={3} /> 👉🏻 읽기 전용 (3점 표시)
- * <Rating value={4} onChange={(v) => setValue(v)} /> 👉🏻 클릭 가능 (별점 선택)
+ *
+ * const [value, setValue] = useState(4);
+ * <Rating value={value} onChange={setValue} /> 👉🏻 클릭 가능 (별점 선택)
  */
 export default function Rating({ value, onChange }: RatingProps) {
   const isInteractive = Boolean(onChange);
