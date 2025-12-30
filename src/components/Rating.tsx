@@ -4,55 +4,47 @@ import IcStarOff from '@/assets/icons/main/ic-star-off.svg';
 import IcStarOn from '@/assets/icons/main/ic-star-on.svg';
 
 type RatingProps = {
-  size: 'lg' | 'md' | 'sm';
   value: number;
   onChange?: (value: number) => void;
 };
 
-const RATING_STYLE = {
-  lg: { iconSize: 42, gap: 'gap-2' },
-  md: { iconSize: 36, gap: 'gap-2' },
-  sm: { iconSize: 18, gap: 'gap-0.5' },
-};
-
 const STARS = [1, 2, 3, 4, 5] as const;
+const starButtonClass =
+  'cursor-pointer transition-transform hover:scale-105 active:scale-95';
 
 /**
- * 별점 입력/표시 컴포넌트
- *
- * - size: 별 크기 (lg | md | sm)
- * - value: 현재 별점 (0-5)
- * - onChange: 별점 변경 핸들러 (없으면 readonly), 같은 별 재클릭 시 0점으로 리셋
+ * 별점 컴포넌트
  *
  * @example
- * <Rating size='lg' value={rating} onChange={setRating} /> 👉🏻 별점 선택
- * <Rating size='sm' value={5} /> 👉🏻 별점 표시
+ * <Rating value={3} /> 👉🏻 읽기 전용 (3점 표시)
+ * <Rating value={4} onChange={(v) => setValue(v)} /> 👉🏻 클릭 가능 (별점 선택)
  */
-export default function Rating({ size, value, onChange }: RatingProps) {
-  const { iconSize, gap } = RATING_STYLE[size];
-  const iconProps = { width: iconSize, height: iconSize };
-  const interactiveStyle = 'cursor-pointer hover:scale-105 active:scale-95';
+export default function Rating({ value, onChange }: RatingProps) {
+  const isInteractive = Boolean(onChange);
+  const sizeClass = isInteractive
+    ? 'w-9 h-9 md:w-[42px] md:h-[42px]'
+    : 'w-5 h-5';
+  const size = isInteractive ? 42 : 20;
 
   return (
-    <div className={`flex ${gap}`}>
+    <div className="flex gap-0.5 md:gap-2">
       {STARS.map((star) => {
         const icon = (
           <Image
             src={star <= value ? IcStarOn : IcStarOff}
-            alt=""
-            className="pointer-events-none"
-            {...iconProps}
+            alt={`${star}점`}
+            width={size}
+            height={size}
+            className={sizeClass}
           />
         );
 
-        // onChange 유무에 따라 클릭 가능한 버튼 또는 표시 전용
-        return onChange ? (
+        return isInteractive ? (
           <button
             key={star}
             type="button"
-            aria-label={`${star}점`}
-            className={interactiveStyle}
-            onClick={() => onChange(star === value ? 0 : star)}>
+            className={starButtonClass}
+            onClick={() => onChange?.(star)}>
             {icon}
           </button>
         ) : (
