@@ -1,10 +1,13 @@
 'use client';
 import { useState } from 'react';
 
+import BasicModal from '../modal/BasicModal';
 import Text from '../Text';
 
 import ImageForm from './ImageForm';
 import Preview from './Preview';
+
+import { useModal } from '@/hooks/useModal';
 
 interface ImageItem {
   file: File;
@@ -26,11 +29,26 @@ export default function UploadImageList({
   onDeleteImage,
   multiple = true,
 }: UploadImageListProps) {
+  const { openModal, closeModal } = useModal();
   const [images, setImages] = useState<ImageItem[]>([]);
 
   const handleAddImages = (newfiles: FileList) => {
     const filesArray = [...newfiles];
-    const newImage = filesArray.map((file) => ({
+    const imagefiles = filesArray.filter((file) =>
+      file.type.startsWith('image/')
+    );
+    if (filesArray.length !== imagefiles.length) {
+      openModal({
+        component: BasicModal,
+        props: {
+          message: '이미지 파일만 업로드 가능합니다.',
+          buttonText: '확인',
+          onClick: () => closeModal(BasicModal),
+        },
+      });
+      return;
+    }
+    const newImage = imagefiles.map((file) => ({
       id: crypto.randomUUID(),
       file,
     }));

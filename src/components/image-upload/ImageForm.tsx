@@ -52,6 +52,7 @@ export default function ImageForm({
       onClick={() => inputRef.current?.click()}>
       {!disabled && (
         <input
+          accept="image/*"
           multiple={multiple}
           ref={inputRef}
           type="file"
