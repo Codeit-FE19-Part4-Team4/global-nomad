@@ -22,7 +22,6 @@ export const filterStyle = cva(
       size: {
         lg: 'px-6 py-3 title-sm',
         sm: 'px-4 py-2 body-lg',
-        icon: 'p-2',
       },
     },
     defaultVariants: {
