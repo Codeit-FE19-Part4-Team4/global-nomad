@@ -1,5 +1,5 @@
 /*
- * 디자인 토큰 
+ * 디자인 토큰
  * 색상, 타이포그래피, 간격 등 디자인의 기본 값을 정의합니다.
  */
 
@@ -30,7 +30,7 @@
   --orange-400: #ffcb02;
   --orange-100: #fff8dd;
 
-  /* 회색 */
+  /* 그레이 스케일 */
   --black: #000000;
   --gray-950: #1f1f22;
   --gray-900: #323236;
@@ -46,63 +46,55 @@
   --gray-25: #f8f8f8;
   --white: #ffffff;
 
-  /* 타이틀 글자 색상 지정 (기본: gray-950)  */
+  /* 텍스트 컬러 */
   --text-secondary: var(--gray-500);
   --text-tertiary: var(--gray-400);
 
   /* ==================== 타이포그래피 ==================== */
-  /* 폰트 종류 */
-  --font-sans:
-    'Pretendard Variable', -apple-system, BlinkMacSystemFont, system-ui,
-    sans-serif;
+  /* 폰트 패밀리 (layout.tsx에서 --font-noto 주입) */
+  --font-sans: var(--font-noto), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   --font-title: 'Montserrat', sans-serif;
 
-  /* 제목 크기 */
+  /* 폰트 크기 */
   --text-title-xl: 32px;
   --text-title-lg: 24px;
   --text-title-md: 20px;
   --text-title-sm: 18px;
-
-  /* 본문 크기 */
   --text-body-lg: 16px;
+  --text-body-md: 15px;
   --text-body-sm: 14px;
-
-  /* 작은글씨 크기 */
+  --text-body-xs: 13px;
   --text-caption: 12px;
 
-  /* 제목 자간 */
+  /* 자간 */
   --tracking-title-xl: -0.5px;
   --tracking-title-lg: -0.3px;
   --tracking-title-md: -0.2px;
   --tracking-title-sm: -0.1px;
-
-  /* 본문 자간 */
   --tracking-body-lg: 0px;
+  --tracking-body-md: 0px;
   --tracking-body-sm: 0px;
-
-  /* 작은글씨 자간 */
+  --tracking-body-xs: 0px;
   --tracking-caption: 0px;
 
-  /* 제목 굵기 */
+  /* 굵기 */
   --weight-title-xl: 700;
   --weight-title-lg: 600;
   --weight-title-md: 600;
   --weight-title-sm: 500;
-
-  /* 본문 굵기 */
   --weight-body-lg: 400;
+  --weight-body-md: 400;
   --weight-body-sm: 400;
-
-  /* 작은글씨 굵기 */
+  --weight-body-xs: 400;
   --weight-caption: 400;
 
-  /* 줄 간격 */
+  /* 행간 */
   --leading-title-tight: 1.2;
   --leading-title-normal: 1.3;
   --leading-body: 1.6;
   --leading-caption: 1.4;
 
-  /* ==================== 모서리 둥글기 ==================== */
+  /* ==================== 모서리 ==================== */
   --radius-sm: 4px;
   --radius-md: 6px;
   --radius-lg: 8px;
@@ -113,7 +105,6 @@
   /* 색상 */
   --color-primary-500: var(--primary-500);
   --color-primary-100: var(--primary-100);
-
   --color-red-500: var(--red-500);
   --color-red-100: var(--red-100);
   --color-green-500: var(--green-500);
@@ -123,7 +114,6 @@
   --color-orange-500: var(--orange-500);
   --color-orange-400: var(--orange-400);
   --color-orange-100: var(--orange-100);
-
   --color-black: var(--black);
   --color-gray-950: var(--gray-950);
   --color-gray-900: var(--gray-900);
@@ -138,56 +128,50 @@
   --color-gray-50: var(--gray-50);
   --color-gray-25: var(--gray-25);
   --color-white: var(--white);
-
   --color-text-secondary: var(--text-secondary);
   --color-text-tertiary: var(--text-tertiary);
-
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
-  /* 글자 크기 */
+  /* 타이포그래피 */
   --text-title-xl: var(--text-title-xl);
   --text-title-lg: var(--text-title-lg);
   --text-title-md: var(--text-title-md);
   --text-title-sm: var(--text-title-sm);
   --text-body-lg: var(--text-body-lg);
+  --text-body-md: var(--text-body-md);
   --text-body-sm: var(--text-body-sm);
+  --text-body-xs: var(--text-body-xs);
   --text-caption: var(--text-caption);
-
-  /* 자간 */
   --tracking-title-xl: var(--tracking-title-xl);
   --tracking-title-lg: var(--tracking-title-lg);
   --tracking-title-md: var(--tracking-title-md);
   --tracking-title-sm: var(--tracking-title-sm);
   --tracking-body-lg: var(--tracking-body-lg);
+  --tracking-body-md: var(--tracking-body-md);
   --tracking-body-sm: var(--tracking-body-sm);
+  --tracking-body-xs: var(--tracking-body-xs);
   --tracking-caption: var(--tracking-caption);
-
-  /* 글자 굵기 */
   --weight-title-xl: var(--weight-title-xl);
   --weight-title-lg: var(--weight-title-lg);
   --weight-title-md: var(--weight-title-md);
   --weight-title-sm: var(--weight-title-sm);
   --weight-body-lg: var(--weight-body-lg);
+  --weight-body-md: var(--weight-body-md);
   --weight-body-sm: var(--weight-body-sm);
+  --weight-body-xs: var(--weight-body-xs);
   --weight-caption: var(--weight-caption);
-
-  /* 줄 간격 */
   --leading-title-tight: var(--leading-title-tight);
   --leading-title-normal: var(--leading-title-normal);
   --leading-body: var(--leading-body);
   --leading-caption: var(--leading-caption);
-
-  /* 폰트 */
   --font-sans: var(--font-sans);
   --font-title: var(--font-title);
 
-  /* 라운딩 */
+  /* 기타 */
   --radius-sm: var(--radius-sm);
   --radius-md: var(--radius-md);
   --radius-lg: var(--radius-lg);
-
-  /* 간격 */
   --space-mobile: var(--space-mobile);
   --space-tablet: var(--space-tablet);
   --space-desktop: var(--space-desktop);
