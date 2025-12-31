@@ -17,7 +17,7 @@ export default function HeaderAuth() {
   return (
     <div className="flex items-center gap-5">
       <button aria-label="알림" className="relative h-7 w-7">
-        <Image src={imgBell} alt="" fill className="object-contain" />
+        <Image src={imgBell} alt="알림" fill className="object-contain" />
 
         {hasNotification && (
           <span className="absolute top-1 right-0.5 h-2 w-2 rounded-full border border-white bg-red-500" />

@@ -13,7 +13,7 @@ export default function ProfileMenu({ onClose }: ProfileMenuProps) {
         {MY_PAGE_NAV_ITEMS.map((item) => {
           if ('isLogout' in item && item.isLogout) {
             return (
-              <li key={item.label}>
+              <li key={item.id}>
                 <button
                   onClick={() => {
                     console.log('logout');
@@ -27,7 +27,7 @@ export default function ProfileMenu({ onClose }: ProfileMenuProps) {
           }
 
           return (
-            <li key={item.href}>
+            <li key={item.id}>
               <Link
                 href={item.href}
                 onClick={onClose}

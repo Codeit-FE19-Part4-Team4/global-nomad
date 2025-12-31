@@ -12,30 +12,35 @@ import profileIcon from '@/assets/icons/sidemenu/ic-user.svg';
 //TODO 각 메뉴 href 임시 경로 : 실제 경로 연결 필요
 export const MY_PAGE_NAV_ITEMS = [
   {
+    id: 'profile',
     label: '내 정보',
     icon: profileIcon,
     activeIcon: profileActiveIcon,
     href: '/mypage/profile',
   },
   {
+    id: 'reservations',
     label: '내 예약내역',
     icon: reservationIcon,
     activeIcon: reservationActiveIcon,
     href: '/mypage/reservations',
   },
   {
+    id: 'activity',
     label: '체험 관리',
     icon: activityIcon,
     activeIcon: activityActiveIcon,
     href: '/mypage/activity',
   },
   {
+    id: 'activity-status',
     label: '체험 예약현황',
     icon: activityStatusIcon,
     activeIcon: activityStatusActiveIcon,
     href: '/mypage/activity-status',
   },
   {
+    id: 'logout',
     label: '로그아웃',
     icon: logoutIcon,
     activeIcon: logoutActiveIcon,
