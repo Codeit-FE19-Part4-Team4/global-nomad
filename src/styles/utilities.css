@@ -46,11 +46,27 @@
   line-height: var(--leading-body);
 }
 
+/* 15px */
+@utility body-md {
+  font-size: var(--text-body-md);
+  font-weight: var(--weight-body-md);
+  letter-spacing: var(--tracking-body-md);
+  line-height: var(--leading-body);
+}
+
 /* 14px */
 @utility body-sm {
   font-size: var(--text-body-sm);
   font-weight: var(--weight-body-sm);
   letter-spacing: var(--tracking-body-sm);
+  line-height: var(--leading-body);
+}
+
+/* 13px */
+@utility body-xs {
+  font-size: var(--text-body-xs);
+  font-weight: var(--weight-body-xs);
+  letter-spacing: var(--tracking-body-xs);
   line-height: var(--leading-body);
 }
 
@@ -75,14 +91,22 @@
 
 /* ================== text emphasis ================== */
 /* 프리셋 위에서 굵기만 보정할 때 사용 */
-@utility bold {
-  font-weight: 700;
+@utility light {
+  font-weight: 300;
 }
 
 @utility regular {
+  font-weight: 400;
+}
+
+@utility medium {
   font-weight: 500;
 }
 
-@utility light {
-  font-weight: 400;
+@utility semibold {
+  font-weight: 600;
+}
+
+@utility bold {
+  font-weight: 700;
 }

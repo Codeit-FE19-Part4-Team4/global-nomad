@@ -1,5 +1,9 @@
-import { STATUS_BADGE_LABEL, StatusBadgeStatus } from './status-badge';
 import { statusBadgeStyle } from './status-badge.cva';
+
+import {
+  RESERVATION_STATUS_LABEL,
+  StatusBadgeStatus,
+} from '@/constants/reservation-status';
 
 interface StatusBadgeProps {
   status: StatusBadgeStatus;
@@ -15,7 +19,7 @@ interface StatusBadgeProps {
 export default function StatusBadge({ status }: StatusBadgeProps) {
   return (
     <span className={statusBadgeStyle({ status })}>
-      {STATUS_BADGE_LABEL[status]}
+      {RESERVATION_STATUS_LABEL[status]}
     </span>
   );
 }
