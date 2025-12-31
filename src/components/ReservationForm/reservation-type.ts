@@ -1,7 +1,7 @@
 export interface TimeSlot {
-  id: number;
-  startTime: string; // "HH:mm"
   endTime: string; // "HH:mm"
+  startTime: string; // "HH:mm"
+  id: number;
 }
 
 export interface Schedule {
