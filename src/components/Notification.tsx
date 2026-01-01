@@ -65,6 +65,7 @@ export default function Notification() {
             <span className="bold flex-1 text-[16px] text-gray-950">
               알림 {mockdata.totalCount}개
             </span>
+            <button className="text-[12px]">모두 읽음</button>
             <button onClick={() => setIsOpen(false)}>
               <Image src={ic_close} alt="알림 닫기" />
             </button>
