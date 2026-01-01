@@ -39,10 +39,10 @@ export default function ModalContainer() {
         return (
           <div
             key={modal.id}
-            className="fixed inset-0 flex items-center justify-center">
+            className="fixed inset-0 z-20 flex items-center justify-center">
             {/*dim*/}
             <div className="absolute inset-0 bg-black opacity-50" />
-            <div className="relative z-10">
+            <div className="relative">
               <Modal {...props} key={modal.id} />
             </div>
           </div>

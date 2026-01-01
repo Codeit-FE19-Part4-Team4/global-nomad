@@ -52,7 +52,8 @@
 
   /* ==================== 타이포그래피 ==================== */
   /* 폰트 패밀리 (layout.tsx에서 --font-noto 주입) */
-  --font-sans: var(--font-noto), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-sans:
+    var(--font-noto), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   --font-title: 'Montserrat', sans-serif;
 
   /* 폰트 크기 */
@@ -179,4 +180,5 @@
 
 @theme {
   --shadow-search: 0 6px 10px 0 rgba(13, 153, 255, 0.05);
+  --shadow-notification: 0 2px 8px 0 rgba(120, 116, 134, 0.25);
 }
