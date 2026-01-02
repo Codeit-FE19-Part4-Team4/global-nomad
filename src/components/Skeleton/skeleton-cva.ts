@@ -12,9 +12,9 @@ export { cardThumVariants } from '@/components/Card/components/CardThumb';
 export const skeletonBarVariants = cva('animate-pulse bg-gray-100 rounded', {
   variants: {
     variant: {
-      primary: 'h-[14px] md:h-[17px] lg:h-[19px] w-2/4',
-      secondary: 'h-[14px] md:h-[17px] w-2/3',
-      tertiary: 'h-[16px] md:h-[18px] w-1/2',
+      primary: 'h-[14px] md:h-[17px] lg:h-[20px] w-1/2',
+      secondary: 'h-[14px] md:h-[17px] lg:h-[20px] w-2/3',
+      tertiary: 'h-[14px] md:h-[17px] lg:h-[20px] w-1/2',
     },
   },
 });

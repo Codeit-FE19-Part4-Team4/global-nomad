@@ -9,7 +9,7 @@ import { cn } from '@/util/cn';
  *
  * @example
  * <CardSkeleton /> 👉🏻 기본 카드형(card) 스켈레톤
- * <CardSkeleton type="list" /> 👉🏻 리스트형(list) 카드 스켈레톤
+ * <CardSkeleton type='list' /> 👉🏻 리스트형(list) 카드 스켈레톤
  */
 export default function CardSkeleton({
   type = 'card',
@@ -22,9 +22,9 @@ export default function CardSkeleton({
 
       {/* 텍스트 영역을 대체하는 Skeleton 막대 */}
       <div className={cn(cardDetailVariants({ type }))}>
-        <div className={cn(skeletonBarVariants({ variant: 'primary' }))} />
-        <div className={cn(skeletonBarVariants({ variant: 'secondary' }))} />
-        <div className={cn(skeletonBarVariants({ variant: 'tertiary' }))} />
+        {(['primary', 'secondary', 'tertiary'] as const).map((variant) => (
+          <div key={variant} className={cn(skeletonBarVariants({ variant }))} />
+        ))}
       </div>
     </div>
   );
