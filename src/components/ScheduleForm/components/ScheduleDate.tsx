@@ -39,7 +39,10 @@ export function ScheduleDate({ isDraft, onChange, value }: ScheduleDateProps) {
         <div className="relative flex gap-2 pt-[26px] md:pt-[29px]">
           <Text
             as="span"
-            className="md:text-body-lg absolute top-0 text-[14px] font-[var(--weight-title-md)] text-gray-950 md:block">
+            className={cn(
+              'absolute top-0 text-[14px] font-[var(--weight-title-md)] text-gray-950',
+              'md:text-body-lg md:block'
+            )}>
             날짜
           </Text>
           <TextInput

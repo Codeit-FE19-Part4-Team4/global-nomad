@@ -21,11 +21,14 @@ export function ScheduleBtn({ isDraft, onClick }: ScheduleBtnProp) {
       <button
         onClick={onClick}
         className={cn(
-          'flex h-[28px] w-[28px] cursor-pointer items-center justify-center rounded-[50%] md:h-[42px] md:w-[42px]',
+          'flex h-[28px] w-[28px] cursor-pointer items-center justify-center rounded-[50%]',
+          'md:h-[42px] md:w-[42px]',
           isDraft ? 'bg-primary-500' : 'bg-gray-50'
         )}>
-        <Image src={isDraft ? IcoAdd : IcoDelete} alt="" />
-        <span className="sr-only">{isDraft ? '추가' : '삭제'}</span>
+        <Image
+          src={isDraft ? IcoAdd : IcoDelete}
+          alt={isDraft ? '추가' : '삭제'}
+        />
       </button>
     </div>
   );
