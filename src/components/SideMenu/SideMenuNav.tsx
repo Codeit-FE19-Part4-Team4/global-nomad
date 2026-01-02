@@ -2,7 +2,7 @@ import SideMenuNavItem from './SideMenuNavItem';
 
 import { MY_PAGE_MENU_ITEMS, LOGOUT_ITEM } from '@/constants/navigation';
 
-export default function SideMenuNav() {
+export default function SideMenuNav({ onClose }: { onClose?: () => void }) {
   const handleLogout = () => {
     // TODO: 로그아웃 처리
     console.log('logout');
@@ -16,6 +16,7 @@ export default function SideMenuNav() {
           icon={item.icon}
           activeIcon={item.activeIcon}
           href={item.href}
+          onClick={onClose}
         />
       ))}
       {/* 로그아웃 */}
