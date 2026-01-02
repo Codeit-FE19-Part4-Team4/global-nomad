@@ -17,7 +17,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="inline-block h-full w-full">
+                  className="relative inline-block h-full w-full">
                   <Image fill src={icon} alt="" />
                 </a>
               </li>

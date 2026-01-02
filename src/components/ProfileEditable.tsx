@@ -9,7 +9,7 @@ import Profile from '@/components/Profile';
 const MAX_SIZE = 5 * 1024 * 1024;
 
 const PROFILE_SIZE_CLASS = `
-  h-[60px] w-[60px]
+  h-[120px] w-[120px]
   md:h-[70px] md:w-[70px]
   lg:h-[120px] lg:w-[120px]
 `;
@@ -19,7 +19,7 @@ function EditButton() {
     <label
       htmlFor="profile-upload"
       aria-label="프로필 이미지 수정"
-      className="bg-primary absolute right-0 bottom-0 flex h-5 w-5 items-center justify-center rounded-full md:h-6 md:w-6 lg:h-7.5 lg:w-7.5">
+      className="bg-primary absolute right-0 bottom-0 flex h-7.5 w-7.5 items-center justify-center rounded-full md:h-6 md:w-6 lg:h-7.5 lg:w-7.5">
       <Image src={editProfile} alt="" fill className="object-contain" />
     </label>
   );

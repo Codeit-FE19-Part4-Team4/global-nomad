@@ -26,11 +26,8 @@ export default function SideMenuNavItem({
   const pathname = usePathname();
   const isActive = !onClick && pathname.startsWith(href);
 
-  const handleClick = (e: React.MouseEvent) => {
-    if (onClick) {
-      e.preventDefault();
-      onClick();
-    }
+  const handleClick = () => {
+    onClick?.();
   };
 
   return (
