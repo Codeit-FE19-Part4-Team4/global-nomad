@@ -5,11 +5,11 @@
 
 import { cva } from 'class-variance-authority';
 
-const baseStyle = ['w-full rounded-lg border px-4', 'transition-colors'];
+const baseStyle = ['w-full rounded-2xl border px-5', 'transition-colors'];
 
 const stateVariants = {
   default: [
-    'border-gray-200',
+    'border-gray-100',
     'hover:border-gray-500',
     'focus-within:border-gray-950',
   ],

@@ -33,10 +33,10 @@ export default function BaseInput({
   const hasError = Boolean(errorMessage);
 
   return (
-    <div className='mx-auto flex w-full max-w-160 flex-col gap-2'>
+    <div className="mx-auto flex w-full flex-col gap-2">
       {/* 라벨 */}
       {label && (
-        <Text as='label' htmlFor={inputId} className='body-lg bold'>
+        <Text as="label" htmlFor={inputId} className="body-lg bold">
           {label}
         </Text>
       )}
@@ -46,9 +46,9 @@ export default function BaseInput({
 
       {/* 하단 영역 (에러 메시지 / 보조 요소) */}
       {(hasError || rightBottom) && (
-        <div className='flex items-center justify-between'>
+        <div className="flex items-center justify-between">
           {hasError && (
-            <Text as='span' className='body-sm text-red-500'>
+            <Text as="span" className="body-sm text-red-500">
               {errorMessage}
             </Text>
           )}
