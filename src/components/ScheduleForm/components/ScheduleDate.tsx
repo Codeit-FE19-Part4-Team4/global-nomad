@@ -33,11 +33,6 @@ export function ScheduleDate({ isDraft, onChange, value }: ScheduleDateProps) {
   const isIsoDate = (value: string) => {
     return /^\d{4}-\d{2}-\d{2}$/.test(value);
   };
-
-  const calendarClasses = {
-    day: 'text-gray-950 hover:bg-gray-100 rounded-full',
-    daySelected: 'bg-primary-500 text-white rounded-full',
-  };
   return (
     <div className="w-full">
       {isDraft ? (
