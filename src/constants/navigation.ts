@@ -10,36 +10,49 @@ import profileActiveIcon from '@/assets/icons/sidemenu/ic-user-active.svg';
 import profileIcon from '@/assets/icons/sidemenu/ic-user.svg';
 
 //TODO 각 메뉴 href 임시 경로 : 실제 경로 연결 필요
-export const MY_PAGE_NAV_ITEMS = [
+// 일반 메뉴
+export const MY_PAGE_MENU_ITEMS = [
   {
+    id: 'profile',
     label: '내 정보',
     icon: profileIcon,
     activeIcon: profileActiveIcon,
-    href: '/mypage/profile',
+    href: '/mypage',
   },
   {
+    id: 'reservations',
     label: '내 예약내역',
     icon: reservationIcon,
     activeIcon: reservationActiveIcon,
-    href: '/mypage/reservations',
+    href: '/myreservations',
   },
   {
+    id: 'activity',
     label: '체험 관리',
     icon: activityIcon,
     activeIcon: activityActiveIcon,
-    href: '/mypage/activity',
+    href: '/myactivities',
   },
   {
+    id: 'activity-status',
     label: '체험 예약현황',
     icon: activityStatusIcon,
     activeIcon: activityStatusActiveIcon,
-    href: '/mypage/activity-status',
+    href: '/myactivities-reservations',
   },
-  {
-    label: '로그아웃',
-    icon: logoutIcon,
-    activeIcon: logoutActiveIcon,
-    href: '/logout',
-    isLogout: true, // 로그아웃 플래그
-  },
+] as const;
+
+// 로그아웃
+export const LOGOUT_ITEM = {
+  id: 'logout',
+  label: '로그아웃',
+  icon: logoutIcon,
+  activeIcon: logoutActiveIcon,
+  href: '/logout',
+} as const;
+
+// 통합 배열
+export const MY_PAGE_NAV_ITEMS = [
+  ...MY_PAGE_MENU_ITEMS,
+  { ...LOGOUT_ITEM, isLogout: true },
 ] as const;

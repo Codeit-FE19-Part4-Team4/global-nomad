@@ -1,5 +1,5 @@
 import Footer from '@/components/Footer';
-import Header from '@/components/Header';
+import Header from '@/components/Header/Header';
 
 export default function CommonLayout({
   children,
@@ -8,7 +8,7 @@ export default function CommonLayout({
 }) {
   return (
     <>
-      <Header />
+      <Header isLoggedIn={true} />
       <main className="main-content">{children}</main>
       <Footer />
     </>
