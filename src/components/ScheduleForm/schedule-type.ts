@@ -18,7 +18,7 @@ export type ScheduleFormProps = {
 export type ScheduleRowProps = {
   value: ScheduleBase;
   isDraft?: boolean;
-  onClick: (value?: number) => void;
+  onClick: () => void;
   onChange?: (key: keyof ScheduleBase, value: string) => void;
 };
 
