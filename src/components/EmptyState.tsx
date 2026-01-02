@@ -19,7 +19,7 @@ export default function EmptyState({
   return (
     <div className="flex flex-col items-center justify-center py-20 text-center">
       {/* 이미지 */}
-      <Image src={emptyImage} alt="" width={122} height={122} />
+      <Image src={emptyImage} alt="내역 없음" width={122} height={122} />
 
       {/* 텍스트 */}
       {description && (
