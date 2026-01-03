@@ -54,7 +54,9 @@ export default function Notification() {
   return (
     <div className="h-6 w-6 md:relative md:flex md:w-[231px] md:justify-end">
       {/* 알림 아이콘 */}
-      <button className="relative h-6 w-6" onClick={() => setIsOpen(!isOpen)}>
+      <button
+        className="relative h-6 w-6 cursor-pointer"
+        onClick={() => setIsOpen(!isOpen)}>
         <Image src={isOpen ? ic_bell_on : ic_bell} alt={'알림'} />
         {hasNotification && (
           <div className="border-background absolute top-[4.5px] right-[8px] h-1.5 w-1.5 rounded-full border bg-red-500" />
