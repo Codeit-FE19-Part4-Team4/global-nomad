@@ -4,18 +4,10 @@ import {
   DropDownList,
   DropDownTrigger,
 } from '../../DropDown';
-import { ScheduleBase, TIME_OPTIONS } from '../schedule-type';
+import { ScheduleTimeProps, TIME_OPTIONS } from '../schedule-type';
 
 import { TextInput } from '@/components/Input';
 import Text from '@/components/Text';
-
-type ScheduleTimeProps = {
-  feildKey: keyof ScheduleBase;
-  isDraft?: boolean;
-  title?: string;
-  value: string;
-  onChange?: (key: keyof ScheduleBase, value: string) => void;
-};
 
 export function ScheduleTime({
   feildKey,

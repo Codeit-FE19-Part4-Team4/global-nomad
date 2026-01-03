@@ -2,14 +2,11 @@
 
 import Image from 'next/image';
 
+import { ScheduleBtnProp } from '../schedule-type';
+
 import IcoDelete from '@/assets/icons/activities/ic-minus.svg';
 import IcoAdd from '@/assets/icons/activities/ic-plus-white.svg';
 import { cn } from '@/util/cn';
-
-type ScheduleBtnProp = {
-  onClick: () => void;
-  isDraft?: boolean;
-};
 
 export function ScheduleBtn({ isDraft, onClick }: ScheduleBtnProp) {
   return (

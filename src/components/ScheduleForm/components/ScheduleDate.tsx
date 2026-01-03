@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import * as React from 'react';
 
-import { ScheduleBase } from '../schedule-type';
+import { ScheduleDateProps } from '../schedule-type';
 
 import IcoCalendar from '@/assets/icons/activities/ic-calendar.svg';
 import { TextInput } from '@/components/Input';
@@ -17,12 +17,6 @@ import {
 } from '@/components/ui/popover';
 import { cn } from '@/util/cn';
 import { formatDateYYMMDD, parseDate } from '@/util/format';
-
-type ScheduleDateProps = {
-  isDraft?: boolean;
-  onChange?: (key: keyof ScheduleBase, value: string) => void;
-  value: string;
-};
 
 export function ScheduleDate({ isDraft, onChange, value }: ScheduleDateProps) {
   const [open, setOpen] = React.useState(false);
