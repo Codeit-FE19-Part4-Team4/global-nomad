@@ -19,7 +19,7 @@ function EditButton() {
     <label
       htmlFor="profile-upload"
       aria-label="프로필 이미지 수정"
-      className="bg-primary absolute right-0 bottom-0 flex h-7.5 w-7.5 items-center justify-center rounded-full md:h-6 md:w-6 lg:h-7.5 lg:w-7.5">
+      className="bg-primary absolute right-0 bottom-0 flex h-7.5 w-7.5 cursor-pointer items-center justify-center rounded-full md:h-6 md:w-6 lg:h-7.5 lg:w-7.5">
       <Image src={editProfile} alt="" fill className="object-contain" />
     </label>
   );
