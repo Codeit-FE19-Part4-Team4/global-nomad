@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 import { cardType } from './Card/card-type';
 
-import starUrl from '@/assets/icons/main/ic-start-on.svg';
+import starUrl from '@/assets/icons/main/ic-star-on.svg';
 
 export const RatingAreaVariants = cva('flex items-center gap-0.5', {
   variants: {
@@ -14,7 +14,7 @@ export const RatingAreaVariants = cva('flex items-center gap-0.5', {
     },
   },
 });
-export const StartVariants = cva('', {
+export const StarVariants = cva('', {
   variants: {
     type: {
       card: 'h-[11.25px] w-[11.25px] md:h-5 md:w-5',
@@ -68,7 +68,7 @@ export default function RatingSummary({
 }: RatingSummaryProps) {
   return (
     <div className={RatingAreaVariants({ type })}>
-      <Image src={starUrl} alt="" className={StartVariants({ type })} />
+      <Image src={starUrl} alt="" className={StarVariants({ type })} />
       <span className={RatingVariants({ type })}>{rating}</span>
       <span className={ReviewVariants({ type })}>({reviewCount})</span>
     </div>
