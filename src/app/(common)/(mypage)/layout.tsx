@@ -17,7 +17,7 @@ export default function MyPageLayout({
   const [isOpen, setIsOpen] = useState(false);
   const closeMenu = () => setIsOpen(false);
   return (
-    <div className="mypage-layout relative flex min-h-screen">
+    <div className="mypage-layout relative flex">
       {/* 플로팅 버튼 */}
       <button
         type="button"
