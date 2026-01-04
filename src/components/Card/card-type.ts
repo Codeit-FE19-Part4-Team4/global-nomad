@@ -5,7 +5,7 @@ export type experienceStatusType =
   | 'completed'
   | 'declined'
   | 'canceled';
-export interface ExperienceCard {
+export interface ExperienceCardBase {
   id: number;
   title: string;
   price: number;
@@ -15,12 +15,12 @@ export interface ExperienceCard {
 }
 export interface ExperienceCardProps {
   type?: cardType;
-  item: ExperienceCard;
+  item: ExperienceCardBase;
   className?: string;
 }
 export interface ExperienceManageCardProps {
   type?: cardType;
-  item: ExperienceCard;
+  item: ExperienceCardBase;
   onEdit?: (id: number) => void;
   onDelete?: (id: number) => void;
 }
