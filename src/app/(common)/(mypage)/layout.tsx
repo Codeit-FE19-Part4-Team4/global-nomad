@@ -16,11 +16,7 @@ export default function MyPageLayout({
   const openMenu = () => setIsOpen(true);
   const closeMenu = () => setIsOpen(false);
   return (
-    <MenuProvider
-      value={{
-        openMenu: () => setIsOpen(true),
-        closeMenu: () => setIsOpen(false),
-      }}>
+    <MenuProvider value={{ openMenu, closeMenu }}>
       <div className="mypage-layout flex min-h-[calc(100vh-225px)]">
         {/* PC / 태블릿 */}
         <div className="hidden w-[280px] md:block">
