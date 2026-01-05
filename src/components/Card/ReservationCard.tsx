@@ -36,6 +36,7 @@ export default function ReservationCard({
   onReserveCancel,
 }: ReservationCardProps) {
   const {
+    id,
     activity,
     totalPrice,
     date,
@@ -45,7 +46,7 @@ export default function ReservationCard({
     status,
     reviewSubmitted,
   } = item;
-  const { title, bannerImageUrl, id } = activity;
+  const { title, bannerImageUrl } = activity;
   const isCancelPossible = status === 'pending';
   const isReviewPossible = !reviewSubmitted && status === 'completed';
 

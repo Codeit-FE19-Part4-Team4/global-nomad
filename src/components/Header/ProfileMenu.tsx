@@ -9,7 +9,7 @@ interface ProfileMenuProps {
 
 export default function ProfileMenu({ onClose, onLogout }: ProfileMenuProps) {
   return (
-    <div className="absolute top-16 right-0">
+    <div className="absolute top-16 right-0 z-50">
       <ul className="w-43 rounded-2xl border border-gray-100 bg-white p-3 shadow">
         {MY_PAGE_MENU_ITEMS.map((item) => (
           <li key={item.id}>

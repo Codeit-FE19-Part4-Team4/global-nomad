@@ -3,14 +3,6 @@
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0px var(--space-mobile);
-
-  @media (min-width: 768px) {
-    padding: 30px var(--space-tablet);
-  }
-  @media (min-width: 1024px) {
-    padding: 0 var(--space-desktop);
-  }
 }
 
 body.modal-open {

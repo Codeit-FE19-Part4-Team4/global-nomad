@@ -35,7 +35,7 @@ export default function SideMenuNavItem({
       href={href}
       onClick={handleClick}
       className={cn(
-        'group flex items-center gap-3.5 rounded-lg px-4 py-3 text-gray-600 transition-colors md:px-3',
+        'group flex items-center gap-2 rounded-lg px-4 py-3 text-gray-600 transition-colors md:px-3',
         isActive
           ? 'bg-primary-100 text-gray-950'
           : 'hover:bg-primary-100 hover:text-gray-950',
