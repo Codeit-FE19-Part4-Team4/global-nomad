@@ -22,7 +22,7 @@ moment.updateLocale('en', {
 });
 
 //TODO: 이벤트(내 체험 월별 예약 조회) api 가져오기
-const mockEvents: CalendarEventData[] = [
+export const mockEvents: CalendarEventData[] = [
   {
     title: '완료 1',
     start: new Date(2026, 0, 9),
@@ -109,7 +109,6 @@ export default function ReservationManagementCalendar() {
     console.log('클릭한 날짜:', slotInfo);
     alert(`날짜 클릭: ${moment(slotInfo.start).format('YYYY-MM-DD')}`);
   };
-
   return (
     <div className="shadow-calendar bg-background h-fit w-full rounded-3xl pt-5 pb-2.5">
       <Calendar

@@ -12,10 +12,11 @@ import type {
 
 import CalendarBadge from '../Badge/CalendarBadge';
 
+import { mockEvents } from './ReservationManagementCalendar';
+
 import ic_next from '@/assets/icons/activities/ic-calender-next.svg';
 import ic_prev from '@/assets/icons/activities/ic-calender-prev.svg';
 import { cn } from '@/util/cn';
-
 export const Toolbar = ({ date, onNavigate }: ToolbarProps) => {
   const customLabel = moment(date).format('YYYY년 M월');
   return (
@@ -38,21 +39,32 @@ export const Toolbar = ({ date, onNavigate }: ToolbarProps) => {
   );
 };
 
+//TODO: 데이터 바꾸기
 export const MyDateHeader = ({ date, isOffRange }: DateHeaderProps) => {
+  const hasEvent = mockEvents.some(
+    (e) => e.start?.toDateString() === date.toDateString()
+  );
   const day = date.getDate();
   return (
-    <div
-      className={cn(
-        'px-3 pt-[18px] text-center text-[16px] font-normal',
-        isOffRange ? 'text-gray-400' : 'text-gray-800'
-      )}>
-      {day}
+    <div className="relative">
+      <div
+        className={cn(
+          'cursor-pointer px-3 pt-[18px] text-center text-[12px] font-medium md:text-[16px]',
+          isOffRange ? 'text-gray-400' : 'text-gray-800'
+        )}>
+        {day}
+      </div>
+      {hasEvent && (
+        <div className="absolute top-4 right-3 h-1.5 w-1.5 rounded-full bg-red-500 sm:right-6 md:right-8 lg:right-12" />
+      )}
     </div>
   );
 };
 
 export const MonthHeader = ({ label }: HeaderProps) => {
-  return <div className="bold border-0 p-3 text-[16px]">{label}</div>;
+  return (
+    <div className="bold border-0 p-3 text-[13px] md:text-[16px]">{label}</div>
+  );
 };
 
 export const MyDateCellWrapper = ({ children }: DateCellWrapperProps) => {
