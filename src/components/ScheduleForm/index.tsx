@@ -4,12 +4,9 @@ import { useEffect, useState } from 'react';
 import { useToastContext } from '../toast/ToastProvider';
 
 import ScheduleRow from './components/ScheduleRow';
-import {
-  ScheduleBase,
-  ScheduleServer,
-  ScheduleFormProps,
-} from './schedule-type';
+import { ScheduleServer, ScheduleFormProps } from './schedule-type';
 
+import { ScheduleBase } from '@/types/activities';
 import { formatToServerDate } from '@/util/format';
 
 const INITIAL_SCHEDULE: ScheduleBase = {
@@ -113,7 +110,7 @@ export default function ScheduleForm({
   useEffect(() => {
     if (!initialSchedules) return;
     setScheduleData(initialSchedules);
-  }, [initialSchedules]);
+  }, []);
 
   return (
     <>

@@ -4,10 +4,11 @@ import {
   DropDownList,
   DropDownTrigger,
 } from '../../DropDown';
-import { ScheduleTimeProps, TIME_OPTIONS } from '../schedule-type';
+import { ScheduleTimeProps } from '../schedule-type';
 
 import { TextInput } from '@/components/Input';
 import Text from '@/components/Text';
+import { TIME_OPTIONS } from '@/constants/activities';
 
 export function ScheduleTime({
   feildKey,
