@@ -22,7 +22,7 @@ export default function PageHeader({ title, description }: PageHeaderProps) {
         <Image src={menuIcon} alt="메뉴 열기" width={24} height={24} />
       </button>
       {/* 타이틀 영역 */}
-      <div className="pl-0 md:pl-0">
+      <div>
         <h1 className="text-[20px] font-bold text-gray-950">{title}</h1>
 
         {description && (
