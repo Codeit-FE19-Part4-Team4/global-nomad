@@ -4,6 +4,7 @@
 @import "../styles/theme.css";       
 @import "../styles/base.css";        
 @import "../styles/utilities.css";   
+@import "../styles/layout.css";  
 
 /* ================== Base 레이어 ================== */
 @layer base {
