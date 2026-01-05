@@ -9,9 +9,8 @@ export const cardVariants = cva(
     variants: {
       type: {
         card: [
-          'flex-col shrink-0',
+          'flex-col',
           'min-h-[242px] md:min-h-[423px] lg:min-h-[366px]',
-          'w-[calc((100%-18px)/2)] md:w-[calc((100%-20px)/2)] lg:w-[calc((100%-24px*3)/4)]',
           'rounded-[18px] lg:rounded-[32px]',
         ],
         list: [
@@ -30,7 +29,7 @@ export const cardDetailVariants = cva(
   {
     variants: {
       type: {
-        card: ['py-[16px] px-[17px]', ' lg:py-[20px] lg:px-[30px]'],
+        card: ['py-[16px] px-[17px]', 'lg:py-[20px] lg:px-[30px]'],
         list: [
           'py-[23px] px-[20px]',
           'md:py-[20px] md:px-[37px]',

@@ -18,7 +18,7 @@ export default function CardPrice({ price, headCount }: CardPriceProps) {
       </span>
       <span
         className={cn(
-          'text-[14px] tracking-[-2px] text-gray-400',
+          'text-[14px] tracking-[-0.5px] text-gray-400',
           'md:text-[16px]'
         )}>
         / {headCount ? headCount + '명' : '인'}

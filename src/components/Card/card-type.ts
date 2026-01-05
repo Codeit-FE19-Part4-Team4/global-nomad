@@ -5,52 +5,44 @@ export type experienceStatusType =
   | 'completed'
   | 'declined'
   | 'canceled';
-
-export interface CardBaseProps {
-  type?: cardType;
+export interface ExperienceCardBase {
   id: number;
   title: string;
   price: number;
   bannerImageUrl: string;
+  rating: number;
+  reviewCount: number;
+}
+export interface ExperienceCardProps {
+  type?: cardType;
+  item: ExperienceCardBase;
   className?: string;
 }
-
-type Experience = {
-  id: number;
-  title: string;
-  bannerImageUrl: string;
-  price: number;
-  rating: number;
-  reviewCount: number;
-};
-export interface ExperienceCardProps extends CardBaseProps {
-  item: Experience;
-  rating: number;
-  reviewCount: number;
-}
-export interface ExperienceManageCardProps extends CardBaseProps {
-  item: Experience;
-  rating: number;
-  reviewCount: number;
+export interface ExperienceManageCardProps {
+  type?: cardType;
+  item: ExperienceCardBase;
   onEdit?: (id: number) => void;
   onDelete?: (id: number) => void;
 }
-
-type ReservationCard = {
+export interface ReservationCard {
+  id: number;
+  activity: activityType;
   totalPrice: number;
   date: string;
   startTime: string;
   endTime: string;
   headCount: number;
-  activity: {
-    id: number;
-    title: string;
-    bannerImageUrl: string;
-  };
   status: experienceStatusType;
   reviewSubmitted: boolean;
+}
+
+export type activityType = {
+  title: string;
+  bannerImageUrl: string;
 };
-export interface ReservationCardProps extends CardBaseProps {
+
+export interface ReservationCardProps {
+  type?: cardType;
   item: ReservationCard;
   onReviewSubmit?: (id: number) => void;
   onReserveCancel?: (id: number) => void;
