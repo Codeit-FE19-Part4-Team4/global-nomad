@@ -2,7 +2,7 @@
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './calendar.css';
 import moment from 'moment';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
+import { Calendar, momentLocalizer, type SlotInfo } from 'react-big-calendar';
 
 import {
   Toolbar,
@@ -13,6 +13,8 @@ import {
   ShowMore,
 } from './CalendarComponents';
 import type { CalendarEventData } from './CalendarComponents';
+
+import type { ReservationDashboardRes } from '@/types/reservation-manage';
 moment.locale('ko');
 
 const localizer = momentLocalizer(moment);
@@ -21,7 +23,7 @@ moment.updateLocale('en', {
   weekdaysMin: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
 });
 
-//TODO: 이벤트(내 체험 월별 예약 조회) api 가져오기
+//TODO: 이벤트(내 체험 월별 예약 조회) api 가져오기 프롭스 data 가공
 export const mockEvents: CalendarEventData[] = [
   {
     title: '완료 1',
@@ -96,18 +98,19 @@ export const mockEvents: CalendarEventData[] = [
     count: 2,
   },
 ];
-
-export default function ReservationManagementCalendar() {
-  //TODO: 이벤트 클릭시 팝업
-  const handleSelectEvent = (event: any) => {
-    console.log('클릭한 이벤트:', event);
-    alert(`이벤트: ${event.title}`);
-  };
-
-  //TODO: 날짜 클릭시 팝업
-  const handleSelectSlot = (slotInfo: any) => {
+interface ReservationManagementCalendarProps {
+  data: ReservationDashboardRes;
+  onSelectSlot: (slotInfo: SlotInfo) => void;
+}
+export default function ReservationManagementCalendar({
+  data,
+  onSelectSlot,
+}: ReservationManagementCalendarProps) {
+  //TODO: 날짜 클릭시 팝업(콘솔, alert 삭제)
+  const handleSelectSlot = (slotInfo: SlotInfo) => {
     console.log('클릭한 날짜:', slotInfo);
     alert(`날짜 클릭: ${moment(slotInfo.start).format('YYYY-MM-DD')}`);
+    onSelectSlot(slotInfo);
   };
   return (
     <div className="shadow-calendar bg-background h-fit w-full rounded-3xl pt-5 pb-2.5">
@@ -119,7 +122,6 @@ export default function ReservationManagementCalendar() {
         events={mockEvents}
         startAccessor="start"
         endAccessor="end"
-        onSelectEvent={handleSelectEvent}
         onSelectSlot={handleSelectSlot}
         selectable
         views={['month']}
