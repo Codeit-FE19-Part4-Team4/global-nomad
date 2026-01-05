@@ -4,34 +4,13 @@
 @import "../styles/theme.css";       
 @import "../styles/base.css";        
 @import "../styles/utilities.css";   
-@import "../styles/layout.css";      
+@import "../styles/layout.css";  
 
 /* ================== Base 레이어 ================== */
 @layer base {
   body {
     color: var(--foreground);           /* #1F1F22 */
     background-color: var(--background); /* #FFFFFF */
-  }
-}
-
-/* ================== Components 레이어 ================== */
-@layer components {
-  /* 페이지 전체 래퍼 (최대 너비 + 반응형 여백) */
-  .page-wrapper {
-    width: 100%;
-    max-width: 1200px; 
-    margin: 0 auto; 
-    padding-inline: var(--space-mobile); /* 모바일: 좌우 20px 여백 */
-
-    /* 태블릿 (768px 이상) */
-    @media (min-width: 768px) {
-      padding-inline: var(--space-tablet); /* 좌우 32px 여백 */
-    }
-
-    /* 데스크톱 (1024px 이상) */
-    @media (min-width: 1024px) {
-      padding-inline: var(--space-desktop); /* 좌우 40px 여백 */
-    }
   }
 }
 
