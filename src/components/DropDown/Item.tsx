@@ -31,7 +31,9 @@ export default function Item({ children, onSelect }: ItemProps) {
 
   const handleClickItem = () => {
     setIsOpen(false);
-    setCurrentItem(value);
+    if (type !== 'menu') {
+      setCurrentItem(value);
+    }
     onSelect?.(value); //params 조작 or 데이터 페칭에 필요한 함수
   };
 
@@ -41,7 +43,7 @@ export default function Item({ children, onSelect }: ItemProps) {
         onClick={handleClickItem}
         className={cn(
           itemVariants({ type }),
-          currentItem === value && 'bg-primary-100'
+          type !== 'menu' && currentItem === value && 'bg-primary-100'
         )}>
         {children}
       </button>

@@ -3,7 +3,7 @@ import { cva } from 'class-variance-authority';
 import { useDropDownContext } from './index';
 
 const listVariants = cva(
-  'absolute flex flex-col align gap-1 text-text-primary max-h-[250px] overflow-x-hidden overflw-y-auto border-gray-100 border bg-white z-10',
+  'absolute flex flex-col align gap-1 text-text-primary max-h-[250px] overflow-x-hidden overflow-y-auto border-gray-100 border bg-white z-10 [&::-webkit-scrollbar]:w-[6px] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-gray-400',
   {
     variants: {
       type: {
