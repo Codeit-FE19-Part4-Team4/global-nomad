@@ -31,27 +31,48 @@ interface DropDownContextValue {
   isOpen: boolean;
   currentItem: string;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setCurrentItem: React.Dispatch<React.SetStateAction<string>>;
+  setCurrentItem: (value: string) => void;
   type: DropDownType;
 }
 interface DropDownProps {
   children: React.ReactNode;
   type?: DropDownType;
   className?: string;
+  value?: string;
+  onValueChange?: (value: string) => void;
 }
 
 const DropDownContext = createContext<DropDownContextValue | null>(null);
 
 /**
  * @example
- *
- * 기본 select 타입
+ * // 1. 제어 컴포넌트
  * ```tsx
- * <DropDown>
- *   <DropDownTrigger placeholder="선택하세요">옵션 1</DropDownTrigger>
+ * const [selected, setSelected] = useState('');
+ * <DropDown
+ *   value={selected}
+ *   onValueChange={(val) => setSelected(val)}
+ * >
+ *   <DropDownTrigger placeholder="시간 선택" />
  *   <DropDownList>
- *     <DropDownItem>옵션 1</DropDownItem>
- *     <DropDownItem>옵션 2</DropDownItem>
+ *     <DropDownItem>09:00</DropDownItem>
+ *     <DropDownItem>10:00</DropDownItem>
+ *   </DropDownList>
+ * </DropDown>
+ * ```
+ *
+ * @example
+ * // 2. Item별 개별 액션 (onSelect 사용)
+ * ```tsx
+ * <DropDown type="menu">
+ *   <DropDownTrigger />
+ *   <DropDownList>
+ *     <DropDownItem onSelect={() => router.push(`/edit/${id}`)}>
+ *       수정
+ *     </DropDownItem>
+ *     <DropDownItem onSelect={handleDelete}>
+ *       삭제
+ *     </DropDownItem>
  *   </DropDownList>
  * </DropDown>
  * ```
@@ -61,23 +82,35 @@ const DropDownContext = createContext<DropDownContextValue | null>(null);
  * - 'filter' : 정렬/필터용 드롭다운
  * - 'menu'   : 액션 메뉴 (수정, 삭제 등)
  */
-function DropDown({ children, type = 'select', className }: DropDownProps) {
+function DropDown({
+  children,
+  type = 'select',
+  className,
+  value,
+  onValueChange,
+}: DropDownProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentItem, setCurrentItem] = useState('');
+  const [internalValue, setInternalValue] = useState(''); //내부 state
   const dropDownRef = useClickOutside(() => {
     setIsOpen(false);
   });
 
+  const currentItem = value !== undefined ? value : internalValue;
+  const setCurrentItem = (newValue: string) => {
+    if (value === undefined) {
+      setInternalValue(newValue);
+    }
+    onValueChange?.(newValue);
+  };
+
   return (
     <DropDownContext.Provider
       value={{ isOpen, setIsOpen, setCurrentItem, currentItem, type }}>
-      <>
-        <div
-          ref={dropDownRef}
-          className={cn(dropdownVariants({ type }), className)}>
-          {children}
-        </div>
-      </>
+      <div
+        ref={dropDownRef}
+        className={cn(dropdownVariants({ type }), className)}>
+        {children}
+      </div>
     </DropDownContext.Provider>
   );
 }

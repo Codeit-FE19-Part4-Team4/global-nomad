@@ -42,7 +42,7 @@ export const reservationDimmed = [
 ];
 export const reservationInner = ['md:h-[100%]', 'lg:block'];
 export const reservationBox = [
-  'flex flex-col justify-between w-full rounded-t-[24px] bg-white overflow-hidden',
+  'flex flex-col justify-between w-full rounded-t-[24px] bg-white overflow-hidden z-1',
   'md:h-auto pt-[24px] px-[24px]',
   'lg:block lg:h-[100%] lg:min-h-[856px] lg:p-[30px] lg:pt-[83px] lg:rounded-[24px] lg:shadow-[0_4px_24px_0_rgba(156,180,202,0.2)] lg:border lg:border-[#ddd] lg:relative',
 ];
