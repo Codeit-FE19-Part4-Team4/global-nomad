@@ -1,8 +1,10 @@
 import { cva } from 'class-variance-authority';
 import Image from 'next/image';
+import { useState } from 'react';
 
 import { cardType } from '../card-type';
 
+import ImgEmpty from '@/assets/images/common/img-empty-thum.svg';
 import { cn } from '@/util/cn';
 
 export const cardThumVariants = cva(
@@ -28,10 +30,12 @@ export default function CardThumb({
   bannerImageUrl,
   title,
 }: CardThumbProps) {
+  const [img, setImg] = useState<string>(bannerImageUrl);
   return (
     <div className={cn(cardThumVariants({ type }))}>
       <Image
-        src={bannerImageUrl}
+        src={img}
+        onError={() => setImg(ImgEmpty)}
         alt={title}
         fill
         className="object-cover object-center transition-transform duration-300 ease-out group-hover:scale-110"
