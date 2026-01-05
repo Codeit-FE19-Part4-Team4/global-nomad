@@ -43,23 +43,14 @@ const textVariants = cva(
 );
 
 export type TriggerProps = {
-  children?: string;
   placeholder?: string;
   className?: string;
 };
 
-export default function Trigger({
-  children,
-  placeholder,
-  className,
-}: TriggerProps) {
-  const { isOpen, setIsOpen, currentItem, type, setCurrentItem } =
-    useDropDownContext();
-  const value = currentItem || placeholder || children;
-
-  useEffect(() => {
-    setCurrentItem(children || '');
-  }, []);
+export default function Trigger({ placeholder, className }: TriggerProps) {
+  const { isOpen, setIsOpen, currentItem, type } = useDropDownContext();
+  const displayValue = currentItem || placeholder;
+  const isPlaceholder = !currentItem;
 
   return (
     <button
@@ -69,9 +60,9 @@ export default function Trigger({
         <>
           <span
             className={textVariants({
-              color: value === placeholder ? 'placeholder' : 'text',
+              color: isPlaceholder ? 'placeholder' : 'text',
             })}>
-            {value}
+            {displayValue}
           </span>
           <Image
             src={isOpen ? IcoDropUp : IcoDropDown}
