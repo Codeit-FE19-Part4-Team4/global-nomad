@@ -20,9 +20,7 @@ export default function LoginPage() {
 
   return (
     <>
-      <form
-        onSubmit={handleSubmit}
-        className="flex w-full max-w-[640px] flex-shrink-0 flex-col gap-7.5">
+      <form onSubmit={handleSubmit} className="flex w-full flex-col gap-7.5">
         <TextInput
           label="이메일"
           placeholder="example@email.com"
