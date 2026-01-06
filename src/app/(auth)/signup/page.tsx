@@ -69,6 +69,7 @@ export default function SignupPage() {
               email: validateEmail(form.email),
             }))
           }
+          autoComplete="email"
           errorMessage={errors.email}
           required
         />
@@ -92,6 +93,7 @@ export default function SignupPage() {
               password: validatePassword(form.password),
             }))
           }
+          autoComplete="new-password"
           errorMessage={errors.password}
           required
         />
@@ -107,6 +109,7 @@ export default function SignupPage() {
               passwordConfirm: validatePasswordConfirm(),
             }))
           }
+          autoComplete="new-password"
           errorMessage={errors.passwordConfirm}
           required
         />

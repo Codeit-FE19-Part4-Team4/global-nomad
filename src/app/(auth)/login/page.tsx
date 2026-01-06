@@ -47,6 +47,7 @@ export default function LoginPage() {
               email: validateEmail(email),
             }))
           }
+          autoComplete="email"
           errorMessage={errors.email}
           required
         />
@@ -62,6 +63,7 @@ export default function LoginPage() {
               password: validatePassword(password),
             }))
           }
+          autoComplete="current-password"
           errorMessage={errors.password}
           required
         />
