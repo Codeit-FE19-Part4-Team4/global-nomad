@@ -4,16 +4,17 @@ export type ScheduleUI = ScheduleBase & {
   id: number;
   isDeleted: boolean;
 };
+export type ScheduleServer = {
+  id: number;
+  date: string;
+  startTime: string;
+  endTime: string;
+};
 
 export type ScheduleFormProps = {
-  initialSchedules?: {
-    id: number;
-    date: string;
-    startTime: string;
-    endTime: string;
-  }[];
+  initialSchedules?: ScheduleServer[];
   onAdd: (schedule: ScheduleBase) => void;
-  onDelete: (payload: number | ScheduleBase) => void;
+  onDelete: (item: number | ScheduleBase) => void;
 };
 
 export type ScheduleRowProps = {

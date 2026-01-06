@@ -31,11 +31,11 @@ const INITIAL_SCHEDULE: ScheduleBase = {
     }
     setSchedulesToAdd((prev) =>
       prev.filter(
-        (item) =>
+        (schedule) =>
           !(
-            item.date === item.date &&
-            item.startTime === item.startTime &&
-            item.endTime === item.endTime
+            schedule.date === item.date &&
+            schedule.startTime === item.startTime &&
+            schedule.endTime === item.endTime
           )
       )
     );
