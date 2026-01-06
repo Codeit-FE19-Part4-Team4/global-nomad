@@ -1,5 +1,5 @@
 'use client';
-import { add } from 'date-fns';
+import dynamic from 'next/dynamic';
 import { useState } from 'react';
 
 import Button from '@/components/Button';
@@ -10,10 +10,13 @@ import {
   DropDownItem,
 } from '@/components/DropDown';
 import { FILTER_CATEGORIES } from '@/components/Filter/filter-category';
-import ImageForm from '@/components/image-upload/ImageForm';
+import UploadImageList from '@/components/image-upload/UploadImageList';
 import { TextArea, TextInput } from '@/components/Input';
-import ScheduleForm from '@/components/ScheduleForm';
 import type { ScheduleBase } from '@/types/activities';
+
+const ScheduleForm = dynamic(() => import('@/components/ScheduleForm'), {
+  ssr: false,
+});
 
 export default function Page() {
   const [title, setTitle] = useState('');
@@ -23,10 +26,12 @@ export default function Page() {
   const [address, setAddress] = useState('');
   const [schedulesToAdd, setSchedulesToAdd] = useState<ScheduleBase[]>([]);
   const [scheduleIdsToRemove, setScheduleIdsToRemove] = useState<number[]>([]);
+  const [bannerImage, setBannerImage] = useState<File[] | null>(null);
+
   return (
-    <div>
+    <div className="mx-auto flex max-w-[700px] flex-col gap-6 lg:mt-10 lg:mb-25">
       <h2 className="bold text-[18px]">내 체험 등록</h2>
-      <form>
+      <form className="flex flex-col gap-6">
         <TextInput
           label="제목"
           placeholder="제목을 입력해 주세요"
@@ -62,23 +67,44 @@ export default function Page() {
           value={price}
           onChange={setPrice}
         />
-        <TextInput
-          label="주소"
-          placeholder="주소를 입력해 주세요"
-          value={address}
-          onChange={setAddress}
-        />
-        <div className="flex flex-col gap-0">
-          <span className="bold text-[16px]">예약 가능 시간대</span>
-          <ScheduleForm
-            initialSchedules={[]}
-            setSchedulesToAdd={setSchedulesToAdd}
-            setScheduleIdsToRemove={setScheduleIdsToRemove}
+        <div className="flex flex-col gap-[30px]">
+          {/* 외부 api 연결 필요 */}
+          <TextInput
+            label="주소"
+            placeholder="주소를 입력해 주세요"
+            value={address}
+            onChange={setAddress}
           />
+          <div className="flex flex-col gap-2.5">
+            <span className="text-[16px] font-medium">상세 주소</span>
+            <TextInput
+              placeholder="상세주소를 입력해 주세요"
+              value={address}
+              onChange={setAddress}
+            />
+          </div>
+          <div className="flex flex-col gap-0">
+            <span className="bold text-[16px]">예약 가능 시간대</span>
+            <ScheduleForm
+              initialSchedules={[]}
+              setSchedulesToAdd={setSchedulesToAdd}
+              setScheduleIdsToRemove={setScheduleIdsToRemove}
+            />
+          </div>
+          <UploadImageList maxImages={1} multiple={false}>
+            배너 이미지 등록
+          </UploadImageList>
+          <UploadImageList maxImages={4} multiple={true}>
+            소개 이미지 등록
+          </UploadImageList>
+          <Button
+            type="submit"
+            as="button"
+            variant="primary"
+            className="w-full">
+            등록하기
+          </Button>
         </div>
-        <Button as="button" variant="primary" className="w-full">
-          등록하기
-        </Button>
       </form>
     </div>
   );
