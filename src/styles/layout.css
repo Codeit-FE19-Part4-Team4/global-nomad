@@ -1,9 +1,4 @@
 /* 페이지 전체 공통 레이아웃 */
-.page-wrapper {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-}
 
 body.modal-open {
   overflow: hidden;
