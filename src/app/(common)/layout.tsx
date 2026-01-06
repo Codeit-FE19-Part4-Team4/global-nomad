@@ -9,7 +9,7 @@ export default function CommonLayout({
   return (
     <>
       <Header isLoggedIn={true} />
-      <main className="main-content">{children}</main>
+      <main className="px-6 md:px-8 lg:px-10">{children}</main>
       <Footer />
     </>
   );

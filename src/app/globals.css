@@ -1,15 +1,16 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* ================== 디자인 시스템 스타일 ================== */
-@import "../styles/theme.css";       
-@import "../styles/base.css";        
-@import "../styles/utilities.css";   
-@import "../styles/layout.css";  
+@import '../styles/theme.css';
+@import '../styles/base.css';
+@import '../styles/utilities.css';
+@import '../styles/layout.css';
 
 /* ================== Base 레이어 ================== */
+
 @layer base {
   body {
-    color: var(--foreground);           /* #1F1F22 */
+    color: var(--foreground); /* #1F1F22 */
     background-color: var(--background); /* #FFFFFF */
   }
 }
