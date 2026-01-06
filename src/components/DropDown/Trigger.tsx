@@ -54,7 +54,10 @@ export default function Trigger({ placeholder, className }: TriggerProps) {
 
   return (
     <button
-      onClick={() => setIsOpen(!isOpen)}
+      onClick={(e) => {
+        e.preventDefault();
+        setIsOpen(!isOpen);
+      }}
       className={cn(triggerVariants({ type: type }), className)}>
       {type !== 'menu' ? (
         <>
