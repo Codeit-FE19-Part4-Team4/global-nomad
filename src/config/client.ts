@@ -24,7 +24,7 @@ export async function apiFetch<T, P = Params>(
   // query string 생성
   if (params) {
     Object.entries(params).forEach(([key, value]) => {
-      if (value !== undefined) {
+      if (value != null) {
         searchParams.set(key, String(value));
       }
     });
@@ -36,20 +36,41 @@ export async function apiFetch<T, P = Params>(
   }`;
 
   // 공통 헤더, body JSON 설정
+  const isFormData = body instanceof FormData;
   const res = await fetch(url, {
     headers: {
-      'Content-Type': 'application/json',
+      ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
       ...headers,
     },
-    body: body ? JSON.stringify(body) : undefined,
+    body: isFormData ? body : body ? JSON.stringify(body) : undefined,
     ...options,
   });
 
   // 공통 에러 처리
   if (!res.ok) {
     const errorBody = await res.json().catch(() => null);
-    throw new Error(errorBody?.message ?? `API Error ${res.status}`);
+    throw new ApiError(
+      errorBody?.message ?? `API Error ${res.status}`,
+      res.status,
+      errorBody
+    );
+  }
+
+  // 204 No Content 처리
+  if (res.status === 204) {
+    return undefined as T;
   }
 
   return res.json();
+}
+
+export class ApiError extends Error {
+  constructor(
+    message: string,
+    public readonly status: number,
+    public readonly body: any
+  ) {
+    super(message);
+    this.name = 'ApiError';
+  }
 }
