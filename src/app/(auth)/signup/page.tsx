@@ -7,11 +7,18 @@ import { useState } from 'react';
 import kakaoLogo from '@/assets/icons/auth/ic-kakao.svg';
 import Button from '@/components/Button';
 import { TextInput, PasswordInput } from '@/components/Input';
+import { validateEmail, validatePassword } from '@/features/auth/validations';
 
 export default function SignupPage() {
   const [form, setForm] = useState({
     email: '',
     nickname: '',
+    password: '',
+    passwordConfirm: '',
+  });
+
+  const [errors, setErrors] = useState({
+    email: '',
     password: '',
     passwordConfirm: '',
   });
@@ -23,15 +30,28 @@ export default function SignupPage() {
     }));
   };
 
+  const validatePasswordConfirm = () => {
+    if (!form.passwordConfirm) return '';
+    return form.password === form.passwordConfirm
+      ? ''
+      : '비밀번호가 일치하지 않습니다.';
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (form.password !== form.passwordConfirm) {
-      alert('비밀번호가 일치하지 않습니다.');
-      return;
-    }
+    const emailError = validateEmail(form.email);
+    const passwordError = validatePassword(form.password);
+    const passwordConfirmError = validatePasswordConfirm();
 
-    // TODO: 회원가입 API 연동
+    setErrors({
+      email: emailError,
+      password: passwordError,
+      passwordConfirm: passwordConfirmError,
+    });
+
+    if (emailError || passwordError || passwordConfirmError) return;
+
     console.log(form);
   };
 
@@ -43,8 +63,16 @@ export default function SignupPage() {
           placeholder="이메일을 입력해 주세요"
           value={form.email}
           onChange={handleChange('email')}
+          onBlur={() =>
+            setErrors((prev) => ({
+              ...prev,
+              email: validateEmail(form.email),
+            }))
+          }
+          errorMessage={errors.email}
           required
         />
+
         <TextInput
           label="닉네임"
           placeholder="닉네임을 입력해 주세요"
@@ -58,6 +86,13 @@ export default function SignupPage() {
           placeholder="8자 이상 입력해 주세요"
           value={form.password}
           onChange={handleChange('password')}
+          onBlur={() =>
+            setErrors((prev) => ({
+              ...prev,
+              password: validatePassword(form.password),
+            }))
+          }
+          errorMessage={errors.password}
           required
         />
 
@@ -66,6 +101,13 @@ export default function SignupPage() {
           placeholder="비밀번호를 한 번 더 입력해 주세요"
           value={form.passwordConfirm}
           onChange={handleChange('passwordConfirm')}
+          onBlur={() =>
+            setErrors((prev) => ({
+              ...prev,
+              passwordConfirm: validatePasswordConfirm(),
+            }))
+          }
+          errorMessage={errors.passwordConfirm}
           required
         />
 
@@ -73,19 +115,18 @@ export default function SignupPage() {
           회원가입
         </Button>
       </form>
+
       <div className="flex items-center gap-3.5 py-7.5">
         <div className="h-px flex-1 bg-gray-100" />
         <span className="text-sm text-gray-600">SNS 계정으로 회원가입하기</span>
         <div className="h-px flex-1 bg-gray-100" />
       </div>
 
-      {/* 카카오 로그인 */}
       <Button type="button" size="lg" variant="secondary" className="w-full">
         <Image src={kakaoLogo} alt="카카오로고" width={24} height={24} />
         카카오 회원가입
       </Button>
 
-      {/* 회원가입 이동 */}
       <p className="mt-6 text-center text-sm text-gray-400">
         회원이신가요?{' '}
         <Link href="/login" className="underline">
