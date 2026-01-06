@@ -5,6 +5,7 @@ import './globals.css';
 import ModalContainer from '@/components/modal/ModalContainer';
 import ModalProvider from '@/components/modal/ModalProvider';
 import { ToastProvider } from '@/components/toast/ToastProvider';
+import QueryProvider from '@/context/QueryProvider';
 
 /**
  * Noto Sans KR 폰트 설정
@@ -28,13 +29,15 @@ export default function RootLayout({
   return (
     <html lang="ko" className={notoSansKR.variable}>
       <body className={notoSansKR.className}>
-        <ModalProvider>
-          <ToastProvider>
-            <div className="page-wrapper">{children}</div>
-            <ModalContainer />
-            <div id="modal-root" />
-          </ToastProvider>
-        </ModalProvider>
+        <QueryProvider>
+          <ModalProvider>
+            <ToastProvider>
+              <div className="page-wrapper">{children}</div>
+              <ModalContainer />
+              <div id="modal-root" />
+            </ToastProvider>
+          </ModalProvider>
+        </QueryProvider>
       </body>
     </html>
   );

@@ -8,11 +8,11 @@ import { cva } from 'class-variance-authority';
 export const CalendarBadgeStyle = cva(
   [
     // 레이아웃
-    'inline-flex items-center w-fit',
+    'inline-flex items-center w-full justify-center h-4 md:h-[21px]',
     // 박스
-    'px-6 py-1 rounded-lg',
+    'px-2 py-1 rounded-[4px]',
     // 텍스트
-    'bold body-lg',
+    'font-normal text-[10px] md:text-[14px]',
   ],
   {
     variants: {
