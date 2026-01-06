@@ -27,6 +27,7 @@ export default function ActivityForm() {
   const [schedulesToAdd, setSchedulesToAdd] = useState<ScheduleBase[]>([]);
   const [scheduleIdsToRemove, setScheduleIdsToRemove] = useState<number[]>([]);
   const [bannerImage, setBannerImage] = useState<File[] | null>(null);
+  const [subImage, setSubImage] = useState<File[] | null>(null);
 
   return (
     <div className="mx-auto flex max-w-[700px] flex-col gap-6 lg:mt-10 lg:mb-25">
@@ -36,11 +37,14 @@ export default function ActivityForm() {
           label="제목"
           placeholder="제목을 입력해 주세요"
           value={title}
-          onChange={setTitle}
+          onChange={(title) => setTitle(title)}
         />
         <div className="flex flex-col gap-2.5">
           <span className="bold text-[16px]">카테고리</span>
-          <DropDown type="select" value={category}>
+          <DropDown
+            type="select"
+            value={category}
+            onValueChange={(value) => setCategory(value)}>
             <DropDownTrigger placeholder="카테고리를 선택해 주세요"></DropDownTrigger>
             <DropDownList>
               {FILTER_CATEGORIES.map((category) => (
@@ -53,13 +57,13 @@ export default function ActivityForm() {
           label="설명"
           placeholder="체험에 대한 설명을 입력해 주세요"
           value={description}
-          onChange={setDescription}
+          onChange={(description) => setDescription(description)}
         />
         <TextInput
           label="가격"
           placeholder="체험 금액을 입력해 주세요"
           value={price}
-          onChange={setPrice}
+          onChange={(price) => setPrice(price)}
         />
         <div className="flex flex-col gap-[30px]">
           {/* 외부 api 연결 필요 */}
@@ -67,7 +71,7 @@ export default function ActivityForm() {
             label="주소"
             placeholder="주소를 입력해 주세요"
             value={address}
-            onChange={setAddress}
+            onChange={(address) => setAddress(address)}
           />
           <div className="flex flex-col gap-2.5">
             <span className="text-[16px] font-medium">상세 주소</span>
@@ -85,13 +89,25 @@ export default function ActivityForm() {
               setScheduleIdsToRemove={setScheduleIdsToRemove}
             />
           </div>
-          <UploadImageList maxImages={1} multiple={false}>
+          <UploadImageList
+            maxImages={1}
+            multiple={false}
+            onUploadImage={(file) => setBannerImage(file)}>
             배너 이미지 등록
           </UploadImageList>
           <UploadImageList maxImages={4} multiple={true}>
             소개 이미지 등록
           </UploadImageList>
           <Button
+            disabled={
+              !title ||
+              !category ||
+              !description ||
+              !price ||
+              !address ||
+              !schedulesToAdd ||
+              !bannerImage
+            }
             type="submit"
             as="button"
             variant="primary"

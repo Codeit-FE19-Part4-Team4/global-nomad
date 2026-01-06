@@ -16,6 +16,7 @@ export function ScheduleBtn({ isDraft, onClick }: ScheduleBtnProp) {
         'flex min-h-[54px] shrink-0 items-center'
       )}>
       <button
+        type="button"
         onClick={onClick}
         className={cn(
           'flex h-[28px] w-[28px] cursor-pointer items-center justify-center rounded-[50%]',
