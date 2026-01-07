@@ -6,11 +6,9 @@ import Link from 'next/link';
 import emptyImage from '@/assets/images/common/img-empty.svg';
 import Button from '@/components/Button';
 
-type EmptyStateProps = {
-  description?: string;
-  buttonText: string;
-  buttonHref: string;
-};
+type EmptyStateProps =
+  | { description?: string; buttonText?: undefined; buttonHref?: undefined }
+  | { description?: string; buttonText: string; buttonHref: string };
 
 export default function EmptyState({
   description,
@@ -28,14 +26,16 @@ export default function EmptyState({
       )}
 
       {/* 버튼 */}
-      <Button
-        as={Link}
-        href={buttonHref}
-        variant="primary"
-        size="xl"
-        className="mt-6 w-[183px] text-[16px] font-bold">
-        {buttonText}
-      </Button>
+      {buttonText && buttonHref && (
+        <Button
+          as={Link}
+          href={buttonHref}
+          variant="primary"
+          size="xl"
+          className="mt-6 w-[183px] text-[16px] font-bold">
+          {buttonText}
+        </Button>
+      )}
     </div>
   );
 }

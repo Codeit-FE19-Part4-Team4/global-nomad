@@ -6,17 +6,39 @@ import { useState } from 'react';
 import kakaoLogo from '@/assets/icons/auth/ic-kakao.svg';
 import Button from '@/components/Button';
 import { TextInput, PasswordInput } from '@/components/Input';
+import { validateEmail, validatePassword } from '@/features/auth/validations';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const [errors, setErrors] = useState({
+    email: '',
+    password: '',
+  });
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // TODO: 로그인 API 연동
+    const newErrors = {
+      email: !email ? '이메일을 입력해 주세요.' : validateEmail(email),
+      password: !password
+        ? '비밀번호를 입력해 주세요.'
+        : validatePassword(password),
+    };
+
+    setErrors(newErrors);
+
+    if (Object.values(newErrors).some(Boolean)) return;
+    // TODO 로그인 API 호출
     console.log({ email, password });
   };
+
+  const isFormValid =
+    email.length > 0 &&
+    password.length > 0 &&
+    !validateEmail(email) &&
+    !validatePassword(password);
 
   return (
     <>
@@ -26,6 +48,14 @@ export default function LoginPage() {
           placeholder="example@email.com"
           value={email}
           onChange={setEmail}
+          onBlur={() =>
+            setErrors((prev) => ({
+              ...prev,
+              email: validateEmail(email),
+            }))
+          }
+          autoComplete="email"
+          errorMessage={errors.email}
           required
         />
 
@@ -34,10 +64,22 @@ export default function LoginPage() {
           placeholder="비밀번호 입력"
           value={password}
           onChange={setPassword}
+          onBlur={() =>
+            setErrors((prev) => ({
+              ...prev,
+              password: validatePassword(password),
+            }))
+          }
+          autoComplete="current-password"
+          errorMessage={errors.password}
           required
         />
 
-        <Button type="submit" size="lg" variant="primary">
+        <Button
+          type="submit"
+          size="lg"
+          variant="primary"
+          disabled={!isFormValid}>
           로그인
         </Button>
       </form>
@@ -48,13 +90,11 @@ export default function LoginPage() {
         <div className="h-px flex-1 bg-gray-100" />
       </div>
 
-      {/* 카카오 로그인 */}
       <Button type="button" size="lg" variant="secondary" className="w-full">
         <Image src={kakaoLogo} alt="카카오로고" width={24} height={24} />
         카카오 로그인
       </Button>
 
-      {/* 회원가입 이동 */}
       <p className="mt-6 text-center text-sm text-gray-400">
         회원이 아니신가요?{' '}
         <Link href="/signup" className="underline">
