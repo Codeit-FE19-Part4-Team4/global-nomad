@@ -20,8 +20,13 @@ export default function LoginPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const emailError = validateEmail(email);
-    const passwordError = validatePassword(password);
+    const emailError = !email
+      ? '이메일을 입력해 주세요.'
+      : validateEmail(email);
+
+    const passwordError = !password
+      ? '비밀번호를 입력해 주세요.'
+      : validatePassword(password);
 
     setErrors({
       email: emailError,
@@ -29,7 +34,7 @@ export default function LoginPage() {
     });
 
     if (emailError || passwordError) return;
-
+    // TODO 로그인 API 호출
     console.log({ email, password });
   };
 

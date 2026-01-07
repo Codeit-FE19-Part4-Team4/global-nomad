@@ -7,7 +7,12 @@ import { useState } from 'react';
 import kakaoLogo from '@/assets/icons/auth/ic-kakao.svg';
 import Button from '@/components/Button';
 import { TextInput, PasswordInput } from '@/components/Input';
-import { validateEmail, validatePassword } from '@/features/auth/validations';
+import {
+  validateEmail,
+  validatePassword,
+  validateNickname,
+  validatePasswordConfirm,
+} from '@/features/auth/validations';
 
 export default function SignupPage() {
   const [form, setForm] = useState({
@@ -19,6 +24,7 @@ export default function SignupPage() {
 
   const [errors, setErrors] = useState({
     email: '',
+    nickname: '',
     password: '',
     passwordConfirm: '',
   });
@@ -30,27 +36,31 @@ export default function SignupPage() {
     }));
   };
 
-  const validatePasswordConfirm = () => {
-    if (!form.passwordConfirm) return '';
-    return form.password === form.passwordConfirm
-      ? ''
-      : '비밀번호가 일치하지 않습니다.';
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const emailError = validateEmail(form.email);
-    const passwordError = validatePassword(form.password);
-    const passwordConfirmError = validatePasswordConfirm();
+    const emailError = !form.email
+      ? '이메일을 입력해 주세요.'
+      : validateEmail(form.email);
+    const nicknameError = !form.nickname
+      ? '닉네임을 입력해 주세요.'
+      : validateNickname(form.nickname);
+    const passwordError = !form.password
+      ? '비밀번호를 입력해 주세요.'
+      : validatePassword(form.password);
+    const passwordConfirmError = !form.passwordConfirm
+      ? '비밀번호 확인을 입력해 주세요.'
+      : validatePasswordConfirm(form.password, form.passwordConfirm);
 
     setErrors({
       email: emailError,
+      nickname: nicknameError,
       password: passwordError,
       passwordConfirm: passwordConfirmError,
     });
 
-    if (emailError || passwordError || passwordConfirmError) return;
+    if (emailError || nicknameError || passwordError || passwordConfirmError)
+      return;
 
     console.log(form);
   };
@@ -79,6 +89,13 @@ export default function SignupPage() {
           placeholder="닉네임을 입력해 주세요"
           value={form.nickname}
           onChange={handleChange('nickname')}
+          onBlur={() =>
+            setErrors((prev) => ({
+              ...prev,
+              nickname: validateNickname(form.nickname),
+            }))
+          }
+          errorMessage={errors.nickname}
           required
         />
 
@@ -106,7 +123,10 @@ export default function SignupPage() {
           onBlur={() =>
             setErrors((prev) => ({
               ...prev,
-              passwordConfirm: validatePasswordConfirm(),
+              passwordConfirm: validatePasswordConfirm(
+                form.password,
+                form.passwordConfirm
+              ),
             }))
           }
           autoComplete="new-password"
