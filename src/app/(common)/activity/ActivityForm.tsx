@@ -29,6 +29,28 @@ export default function ActivityForm() {
   const [bannerImage, setBannerImage] = useState<File[] | null>(null);
   const [subImage, setSubImage] = useState<File[] | null>(null);
 
+  const handleAddSchedule = (schedule: ScheduleBase) => {
+    setSchedulesToAdd((prev) => [...prev, schedule]);
+  };
+  const handleDeleteSchedule = (item: number | ScheduleBase) => {
+    if (typeof item === 'number') {
+      setScheduleIdsToRemove((prev) =>
+        prev.includes(item) ? prev : [...prev, item]
+      );
+      return;
+    }
+    setSchedulesToAdd((prev) =>
+      prev.filter(
+        (schedule) =>
+          !(
+            schedule.date === item.date &&
+            schedule.startTime === item.startTime &&
+            schedule.endTime === item.endTime
+          )
+      )
+    );
+  };
+
   return (
     <div className="mx-auto flex max-w-[700px] flex-col gap-6 lg:mt-10 lg:mb-25">
       <h2 className="bold text-[18px]">내 체험 등록</h2>
@@ -85,8 +107,8 @@ export default function ActivityForm() {
             <span className="bold text-[16px]">예약 가능 시간대</span>
             <ScheduleForm
               initialSchedules={[]}
-              setSchedulesToAdd={setSchedulesToAdd}
-              setScheduleIdsToRemove={setScheduleIdsToRemove}
+              onAdd={handleAddSchedule}
+              onDelete={handleDeleteSchedule}
             />
           </div>
           <UploadImageList
