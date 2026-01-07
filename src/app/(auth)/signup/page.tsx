@@ -39,28 +39,24 @@ export default function SignupPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const emailError = !form.email
-      ? '이메일을 입력해 주세요.'
-      : validateEmail(form.email);
-    const nicknameError = !form.nickname
-      ? '닉네임을 입력해 주세요.'
-      : validateNickname(form.nickname);
-    const passwordError = !form.password
-      ? '비밀번호를 입력해 주세요.'
-      : validatePassword(form.password);
-    const passwordConfirmError = !form.passwordConfirm
-      ? '비밀번호 확인을 입력해 주세요.'
-      : validatePasswordConfirm(form.password, form.passwordConfirm);
+    const newErrors = {
+      email: !form.email
+        ? '이메일을 입력해 주세요.'
+        : validateEmail(form.email),
+      nickname: !form.nickname
+        ? '닉네임을 입력해 주세요.'
+        : validateNickname(form.nickname),
+      password: !form.password
+        ? '비밀번호를 입력해 주세요.'
+        : validatePassword(form.password),
+      passwordConfirm: !form.passwordConfirm
+        ? '비밀번호 확인을 입력해 주세요.'
+        : validatePasswordConfirm(form.password, form.passwordConfirm),
+    };
 
-    setErrors({
-      email: emailError,
-      nickname: nicknameError,
-      password: passwordError,
-      passwordConfirm: passwordConfirmError,
-    });
+    setErrors(newErrors);
 
-    if (emailError || nicknameError || passwordError || passwordConfirmError)
-      return;
+    if (Object.values(newErrors).some(Boolean)) return;
 
     console.log(form);
   };
