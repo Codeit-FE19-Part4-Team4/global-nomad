@@ -1,6 +1,6 @@
 'use client';
-import dynamic from 'next/dynamic';
-import { useState } from 'react';
+// import dynamic from 'next/dynamic';
+import { useReducer } from 'react';
 
 import Button from '@/components/Button';
 import {
@@ -14,21 +14,76 @@ import UploadImageList from '@/components/image-upload/UploadImageList';
 import { TextArea, TextInput } from '@/components/Input';
 import type { ScheduleBase } from '@/types/activities';
 
-const ScheduleForm = dynamic(() => import('@/components/ScheduleForm'), {
-  ssr: false,
-});
+// const ScheduleForm = dynamic(() => import('@/components/ScheduleForm'), {
+//   ssr: false,
+// });
+
+const INITIAL_FORM = {
+  title: '',
+  category: '',
+  description: '',
+  price: 0,
+  address: '',
+  schedulesToAdd: [],
+  scheduleIdsToRemove: [],
+  bannerImage: [],
+  subImage: [],
+};
+
+type FormState = {
+  title: string;
+  category: string;
+  description: string;
+  price: number;
+  address: string;
+  schedulesToAdd: ScheduleBase[];
+  scheduleIdsToRemove: number[];
+  bannerImage: File[];
+  subImage: File[];
+};
+
+type Action<K extends keyof FormState> =
+  | {
+      type: 'CHANGE_FIELD';
+      field: K;
+      value: FormState[K];
+    }
+  | { type: 'RESET' };
+
+const reducer = (state: FormState, action: Action<keyof FormState>) => {
+  switch (action.type) {
+    case 'CHANGE_FIELD':
+      return {
+        ...state,
+        [action.field]: action.value,
+      };
+    case 'RESET':
+      return INITIAL_FORM;
+  }
+};
 
 export default function ActivityForm() {
-  const [title, setTitle] = useState('');
-  const [category, setCategory] = useState('');
-  const [description, setDescription] = useState('');
-  const [price, setPrice] = useState('');
-  const [address, setAddress] = useState('');
-  const [schedulesToAdd, setSchedulesToAdd] = useState<ScheduleBase[]>([]);
-  const [scheduleIdsToRemove, setScheduleIdsToRemove] = useState<number[]>([]);
-  const [bannerImage, setBannerImage] = useState<File[] | null>(null);
-  const [subImage, setSubImage] = useState<File[] | null>(null);
-
+  const [state, dispatch] = useReducer(reducer, INITIAL_FORM);
+  const handleChangeField = <K extends keyof FormState>(
+    field: K,
+    value: FormState[K]
+  ) => {
+    return dispatch({
+      type: 'CHANGE_FIELD',
+      field,
+      value,
+    });
+  };
+  const {
+    title,
+    category,
+    description,
+    price,
+    address,
+    schedulesToAdd,
+    bannerImage,
+    subImage,
+  } = state;
   return (
     <div className="mx-auto flex max-w-[700px] flex-col gap-6 lg:mt-10 lg:mb-25">
       <h2 className="bold text-[18px]">내 체험 등록</h2>
@@ -37,14 +92,16 @@ export default function ActivityForm() {
           label="제목"
           placeholder="제목을 입력해 주세요"
           value={title}
-          onChange={(title) => setTitle(title)}
+          onChange={(title) => handleChangeField('title', title)}
         />
         <div className="flex flex-col gap-2.5">
           <span className="bold text-[16px]">카테고리</span>
           <DropDown
             type="select"
-            value={category}
-            onValueChange={(value) => setCategory(value)}>
+            value={state.category}
+            onValueChange={(category) =>
+              handleChangeField('category', category)
+            }>
             <DropDownTrigger placeholder="카테고리를 선택해 주세요"></DropDownTrigger>
             <DropDownList>
               {FILTER_CATEGORIES.map((category) => (
@@ -57,13 +114,16 @@ export default function ActivityForm() {
           label="설명"
           placeholder="체험에 대한 설명을 입력해 주세요"
           value={description}
-          onChange={(description) => setDescription(description)}
+          onChange={(description) =>
+            handleChangeField('description', description)
+          }
         />
         <TextInput
+          type="number"
           label="가격"
           placeholder="체험 금액을 입력해 주세요"
-          value={price}
-          onChange={(price) => setPrice(price)}
+          value={price === 0 ? '' : price.toString()}
+          onChange={(price) => handleChangeField('price', +price)}
         />
         <div className="flex flex-col gap-[30px]">
           {/* 외부 api 연결 필요 */}
@@ -71,31 +131,29 @@ export default function ActivityForm() {
             label="주소"
             placeholder="주소를 입력해 주세요"
             value={address}
-            onChange={(address) => setAddress(address)}
+            onChange={(address) => handleChangeField('address', address)}
           />
           <div className="flex flex-col gap-2.5">
             <span className="text-[16px] font-medium">상세 주소</span>
-            <TextInput
-              placeholder="상세주소를 입력해 주세요"
-              value={address}
-              onChange={setAddress}
-            />
+            <TextInput placeholder="상세주소를 입력해 주세요" value={address} />
           </div>
           <div className="flex flex-col gap-0">
             <span className="bold text-[16px]">예약 가능 시간대</span>
-            <ScheduleForm
-              initialSchedules={[]}
-              setSchedulesToAdd={setSchedulesToAdd}
-              setScheduleIdsToRemove={setScheduleIdsToRemove}
-            />
           </div>
           <UploadImageList
             maxImages={1}
             multiple={false}
-            onUploadImage={(file) => setBannerImage(file)}>
+            onUploadImage={(bannerImage) =>
+              handleChangeField('bannerImage', bannerImage)
+            }>
             배너 이미지 등록
           </UploadImageList>
-          <UploadImageList maxImages={4} multiple={true}>
+          <UploadImageList
+            maxImages={4}
+            multiple={true}
+            onUploadImage={(subImage) =>
+              handleChangeField('subImage', subImage)
+            }>
             소개 이미지 등록
           </UploadImageList>
           <Button
