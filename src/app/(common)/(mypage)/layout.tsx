@@ -38,7 +38,7 @@ export default function MyPageLayout({
             {/* 왼쪽 슬라이드 메뉴 */}
             <div
               className={cn(
-                'absolute top-0 left-0 flex h-full items-center bg-white transition-transform duration-300',
+                'absolute top-0 left-0 flex h-full w-[280px] items-center bg-white transition-transform duration-300',
                 isOpen ? 'translate-x-0' : '-translate-x-full'
               )}>
               <SideMenu onClose={closeMenu} />
