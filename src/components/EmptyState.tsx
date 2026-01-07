@@ -26,7 +26,7 @@ export default function EmptyState({
       )}
 
       {/* 버튼 */}
-      {buttonText && (
+      {buttonText && buttonHref && (
         <Button
           as={Link}
           href={buttonHref}
