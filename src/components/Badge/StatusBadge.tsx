@@ -1,12 +1,12 @@
 import { statusBadgeStyle } from './status-badge.cva';
 
 import {
-  RESERVATION_STATUS_LABEL,
-  StatusBadgeStatus,
-} from '@/constants/reservation-status';
+  RESERVATION_UI_STATUS_LABEL,
+  ReservationUIStatus,
+} from '@/constants/reservation-ui-status';
 
 interface StatusBadgeProps {
-  status: StatusBadgeStatus;
+  status: ReservationUIStatus;
 }
 
 /**
@@ -19,7 +19,7 @@ interface StatusBadgeProps {
 export default function StatusBadge({ status }: StatusBadgeProps) {
   return (
     <span className={statusBadgeStyle({ status })}>
-      {RESERVATION_STATUS_LABEL[status]}
+      {RESERVATION_UI_STATUS_LABEL[status]}
     </span>
   );
 }

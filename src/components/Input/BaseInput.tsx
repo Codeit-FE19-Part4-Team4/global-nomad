@@ -3,6 +3,7 @@
 import { useId } from 'react';
 
 import Text from '@/components/Text';
+import { cn } from '@/util/cn';
 
 type BaseInputProps = {
   /** 라벨 텍스트 */
@@ -19,7 +20,7 @@ type BaseInputProps = {
  * Input 공통 래퍼: 라벨, 에러 메시지, 하단 보조 영역을 관리합니다.
  *
  * @example
- * <BaseInput label='이메일'>
+ * <BaseInput label="이메일">
  *   {(id) => <input id={id} />}
  * </BaseInput>
  */
@@ -46,7 +47,11 @@ export default function BaseInput({
 
       {/* 하단 영역 (에러 메시지 / 보조 요소) */}
       {(hasError || rightBottom) && (
-        <div className="flex items-center justify-between">
+        <div
+          className={cn(
+            'flex items-center',
+            hasError ? 'justify-between' : 'justify-end'
+          )}>
           {hasError && (
             <Text as="span" className="body-sm text-red-500">
               {errorMessage}

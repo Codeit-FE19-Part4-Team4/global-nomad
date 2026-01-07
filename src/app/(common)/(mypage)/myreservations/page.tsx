@@ -1,19 +1,19 @@
 import PageHeader from '../components/PageHeader';
 
-import EmptyState from '@/components/EmptyState';
+import ReservationClient from './components/ReservationClient';
 
-export default function MyReservations() {
+export default function MyReservationsPage() {
   return (
-    <div>
-      <PageHeader
-        title="예약내역"
-        description="예약내역 변경 및 취소할 수 있습니다."
-      />
-      <EmptyState
-        description="아직 예약 내역이 없어요"
-        buttonText="체험 둘러보기"
-        buttonHref="/"
-      />
-    </div>
+    <section>
+      <header>
+        <PageHeader
+          title="내 예약내역"
+          description="예약내역 변경 및 취소할 수 있습니다."
+        />
+      </header>
+
+      {/* 데이터 패칭 및 로딩/에러 관리는 클라이언트 컴포넌트에서 */}
+      <ReservationClient />
+    </section>
   );
 }
