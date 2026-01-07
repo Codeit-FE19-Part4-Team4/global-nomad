@@ -34,6 +34,12 @@ export default function LoginPage() {
     console.log({ email, password });
   };
 
+  const isFormValid =
+    email.length > 0 &&
+    password.length > 0 &&
+    !validateEmail(email) &&
+    !validatePassword(password);
+
   return (
     <>
       <form onSubmit={handleSubmit} className="flex w-full flex-col gap-7.5">
@@ -69,7 +75,11 @@ export default function LoginPage() {
           required
         />
 
-        <Button type="submit" size="lg" variant="primary">
+        <Button
+          type="submit"
+          size="lg"
+          variant="primary"
+          disabled={!isFormValid}>
           로그인
         </Button>
       </form>

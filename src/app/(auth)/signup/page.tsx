@@ -61,6 +61,16 @@ export default function SignupPage() {
     console.log(form);
   };
 
+  const isFormValid =
+    form.email.length > 0 &&
+    form.nickname.length > 0 &&
+    form.password.length > 0 &&
+    form.passwordConfirm.length > 0 &&
+    !validateEmail(form.email) &&
+    !validateNickname(form.nickname) &&
+    !validatePassword(form.password) &&
+    !validatePasswordConfirm(form.password, form.passwordConfirm);
+
   return (
     <>
       <form onSubmit={handleSubmit} className="flex flex-col gap-7.5">
@@ -130,7 +140,11 @@ export default function SignupPage() {
           required
         />
 
-        <Button type="submit" size="lg" variant="primary">
+        <Button
+          type="submit"
+          size="lg"
+          variant="primary"
+          disabled={!isFormValid}>
           회원가입
         </Button>
       </form>
