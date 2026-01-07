@@ -14,10 +14,10 @@ export type ReservationStatusType =
  * GET /{teamId}/my-reservations
  */
 export interface RequestGetMyReservations {
-  teamId: string;
-  cursorId?: number;
-  size?: number;
-  status?: ReservationStatusType;
+  teamId: string; // path param
+  cursorId?: number; // query
+  size?: number; // query
+  status?: ReservationStatusType; // query
 }
 
 /**
@@ -25,10 +25,10 @@ export interface RequestGetMyReservations {
  * POST /{teamId}/my-reservations/{reservationId}/reviews
  */
 export interface RequestCreateReview {
-  teamId: string;
-  reservationId: number;
-  rating: number;
-  content: string;
+  teamId: string; // path param
+  reservationId: number; // path param
+  rating: number; // body
+  content: string; // body
 }
 
 /** ======================
