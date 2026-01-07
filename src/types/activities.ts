@@ -1,15 +1,29 @@
-export interface ScheduleBase {
-  date: string;
-  startTime: string;
-  endTime: string;
-}
-
 /** ======================
  * Request Types
  ======================= */
 export type MethodType = 'offset' | 'cursor';
 export type CategoryType = '문화·예술' | '식음료' | '투어' | '관광' | '웰빙';
 export type SortType = 'most_reviewed' | 'price_asc' | 'price_desc' | 'latest';
+export type ActivityImageResponse = {
+  activityImageUrl: string;
+};
+
+export interface ScheduleBase {
+  date: string;
+  startTime: string;
+  endTime: string;
+}
+
+export interface PostActivityRequest {
+  title: string;
+  category: CategoryType | '';
+  description: string;
+  address: string;
+  price: number;
+  schedules: ScheduleBase[];
+  bannerImageUrl: string;
+  subImageUrls: string[];
+}
 
 export interface RequestGetActivities {
   method: MethodType;
@@ -42,4 +56,14 @@ export type ActivityType = {
 export interface ResponseGetActivities {
   activities: ActivityType[];
   totalCount: number;
+}
+
+export interface SubImage {
+  id: number;
+  imageUrl: string;
+}
+
+export interface ResponsePostActivities extends ActivityType {
+  subImages: SubImage[];
+  schedules: ScheduleBase[];
 }

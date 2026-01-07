@@ -1,7 +1,9 @@
 'use client';
-// import dynamic from 'next/dynamic';
-import { useReducer } from 'react';
+import moment from 'moment';
+import dynamic from 'next/dynamic';
+import { useReducer, useState } from 'react';
 
+import { postActivity, postActivityImage } from '@/api/activities';
 import Button from '@/components/Button';
 import {
   DropDown,
@@ -12,45 +14,39 @@ import {
 import { FILTER_CATEGORIES } from '@/components/Filter/filter-category';
 import UploadImageList from '@/components/image-upload/UploadImageList';
 import { TextArea, TextInput } from '@/components/Input';
-import type { ScheduleBase } from '@/types/activities';
+import type {
+  PostActivityRequest,
+  CategoryType,
+  ScheduleBase,
+} from '@/types/activities';
 
-// const ScheduleForm = dynamic(() => import('@/components/ScheduleForm'), {
-//   ssr: false,
-// });
+const ScheduleForm = dynamic(() => import('@/components/ScheduleForm'), {
+  ssr: false,
+});
 
-const INITIAL_FORM = {
+const INITIAL_FORM: PostActivityRequest = {
   title: '',
   category: '',
   description: '',
   price: 0,
   address: '',
-  schedulesToAdd: [],
-  scheduleIdsToRemove: [],
-  bannerImage: [],
-  subImage: [],
+  schedules: [],
+  bannerImageUrl: '',
+  subImageUrls: [],
 };
 
-type FormState = {
-  title: string;
-  category: string;
-  description: string;
-  price: number;
-  address: string;
-  schedulesToAdd: ScheduleBase[];
-  scheduleIdsToRemove: number[];
-  bannerImage: File[];
-  subImage: File[];
-};
-
-type Action<K extends keyof FormState> =
+type Action<K extends keyof PostActivityRequest> =
   | {
       type: 'CHANGE_FIELD';
       field: K;
-      value: FormState[K];
+      value: PostActivityRequest[K];
     }
   | { type: 'RESET' };
 
-const reducer = (state: FormState, action: Action<keyof FormState>) => {
+const reducer = (
+  state: PostActivityRequest,
+  action: Action<keyof PostActivityRequest>
+) => {
   switch (action.type) {
     case 'CHANGE_FIELD':
       return {
@@ -64,9 +60,11 @@ const reducer = (state: FormState, action: Action<keyof FormState>) => {
 
 export default function ActivityForm() {
   const [state, dispatch] = useReducer(reducer, INITIAL_FORM);
-  const handleChangeField = <K extends keyof FormState>(
+  const [bannerImage, setBannerImage] = useState<File[]>([]);
+  const [subImages, setSubImages] = useState<File[]>([]);
+  const handleChangeField = <K extends keyof PostActivityRequest>(
     field: K,
-    value: FormState[K]
+    value: PostActivityRequest[K]
   ) => {
     return dispatch({
       type: 'CHANGE_FIELD',
@@ -74,20 +72,69 @@ export default function ActivityForm() {
       value,
     });
   };
-  const {
-    title,
-    category,
-    description,
-    price,
-    address,
-    schedulesToAdd,
-    bannerImage,
-    subImage,
-  } = state;
+  const { title, category, description, price, address, schedules } = state;
+
+  const handleDeleteImages = async (
+    imageType: 'bannerImage' | 'subImage',
+    selectedFile: File
+  ) => {
+    if (imageType === 'bannerImage') {
+      setBannerImage([]);
+    } else {
+      setSubImages((prev) => {
+        return prev.filter((file) => file !== selectedFile);
+      });
+    }
+  };
+
+  const handleSchedule = (method: 'add' | 'delete', schedule: ScheduleBase) => {
+    const schedules = [...state.schedules, schedule].map((schedule) => {
+      const date = moment(schedule.date, 'YYYY-MM-DD').format('YYYY-MM-DD');
+      return { ...schedule, date };
+    });
+    const filteredSchedule = state.schedules.filter(
+      (item) => item !== schedule
+    );
+    handleChangeField(
+      'schedules',
+      method === 'add' ? schedules : filteredSchedule
+    );
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (bannerImage?.length === 0) {
+      alert('배너이미지를 등록해주세요.');
+      return;
+    }
+    const bannerImageUrl = await Promise.all(
+      bannerImage.map(async (image: File) => {
+        const res = await postActivityImage(image);
+        return res.activityImageUrl;
+      })
+    );
+    const subImageUrls =
+      subImages.length > 0
+        ? await Promise.all(
+            subImages.map(async (image: File) => {
+              const res = await postActivityImage(image);
+              return res.activityImageUrl;
+            })
+          )
+        : [];
+    const requestData = {
+      ...state,
+      bannerImageUrl: bannerImageUrl[0],
+      subImageUrls,
+    };
+    console.log(state);
+    await postActivity(requestData);
+  };
+
   return (
     <div className="mx-auto flex max-w-[700px] flex-col gap-6 lg:mt-10 lg:mb-25">
       <h2 className="bold text-[18px]">내 체험 등록</h2>
-      <form className="flex flex-col gap-6">
+      <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
         <TextInput
           label="제목"
           placeholder="제목을 입력해 주세요"
@@ -99,9 +146,10 @@ export default function ActivityForm() {
           <DropDown
             type="select"
             value={state.category}
-            onValueChange={(category) =>
-              handleChangeField('category', category)
-            }>
+            onValueChange={(category) => {
+              const realCategory = category as CategoryType;
+              handleChangeField('category', realCategory);
+            }}>
             <DropDownTrigger placeholder="카테고리를 선택해 주세요"></DropDownTrigger>
             <DropDownList>
               {FILTER_CATEGORIES.map((category) => (
@@ -133,27 +181,30 @@ export default function ActivityForm() {
             value={address}
             onChange={(address) => handleChangeField('address', address)}
           />
-          <div className="flex flex-col gap-2.5">
-            <span className="text-[16px] font-medium">상세 주소</span>
-            <TextInput placeholder="상세주소를 입력해 주세요" value={address} />
-          </div>
           <div className="flex flex-col gap-0">
             <span className="bold text-[16px]">예약 가능 시간대</span>
+            <ScheduleForm
+              initialSchedules={[]}
+              onAdd={(schedule) => handleSchedule('add', schedule)}
+              // 체험 등록일 때만 고려한 로직
+              onDelete={(schedule) => {
+                const defaultSchedule = schedule as ScheduleBase;
+                handleSchedule('delete', defaultSchedule);
+              }}
+            />
           </div>
           <UploadImageList
             maxImages={1}
             multiple={false}
-            onUploadImage={(bannerImage) =>
-              handleChangeField('bannerImage', bannerImage)
-            }>
+            onUploadImage={(file) => setBannerImage(file)}
+            onDeleteImage={(file) => handleDeleteImages('bannerImage', file)}>
             배너 이미지 등록
           </UploadImageList>
           <UploadImageList
             maxImages={4}
             multiple={true}
-            onUploadImage={(subImage) =>
-              handleChangeField('subImage', subImage)
-            }>
+            onUploadImage={(files) => setSubImages(files)}
+            onDeleteImage={(file) => handleDeleteImages('subImage', file)}>
             소개 이미지 등록
           </UploadImageList>
           <Button
@@ -163,8 +214,8 @@ export default function ActivityForm() {
               !description ||
               !price ||
               !address ||
-              !schedulesToAdd ||
-              !bannerImage
+              schedules.length === 0 ||
+              bannerImage.length === 0
             }
             type="submit"
             as="button"
