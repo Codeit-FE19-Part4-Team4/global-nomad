@@ -34,7 +34,7 @@ export function ScheduleDate({ isDraft, onChange, value }: ScheduleDateProps) {
           <Text
             as="span"
             className={cn(
-              'absolute top-0 text-[14px] font-[var(--weight-title-md)] text-gray-950',
+              'absolute top-0 text-[14px] font-[var(--weight-title-sm)] text-gray-950',
               'md:text-body-lg md:block'
             )}>
             날짜

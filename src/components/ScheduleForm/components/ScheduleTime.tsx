@@ -26,7 +26,7 @@ export function ScheduleTime({
         <div className="relative pt-0 md:pt-[29px]">
           <Text
             as="span"
-            className="text-body-lg absolute top-0 hidden font-[var(--weight-title-lg)] text-gray-950 md:block">
+            className="text-body-lg absolute top-0 hidden font-[var(--weight-title-sm)] text-gray-950 md:block">
             {title}
           </Text>
           <DropDown value={value} onValueChange={handleSelectItem}>

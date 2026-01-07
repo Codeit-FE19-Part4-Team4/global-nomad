@@ -1,19 +1,24 @@
 import { ScheduleBase } from '@/types/activities';
 
-export type ScheduleServer = ScheduleBase & {
+export type ScheduleUI = ScheduleBase & {
   id: number;
-  isNew?: boolean;
-  isDeleted?: boolean;
+  isDeleted: boolean;
+};
+export type ScheduleServer = {
+  id: number;
+  date: string;
+  startTime: string;
+  endTime: string;
 };
 
 export type ScheduleFormProps = {
   initialSchedules?: ScheduleServer[];
-  setSchedulesToAdd: React.Dispatch<React.SetStateAction<ScheduleBase[]>>;
-  setScheduleIdsToRemove: React.Dispatch<React.SetStateAction<number[]>>;
+  onAdd: (schedule: ScheduleBase) => void;
+  onDelete: (item: number | ScheduleBase) => void;
 };
 
 export type ScheduleRowProps = {
-  value: ScheduleBase;
+  value: ScheduleUI | ScheduleBase;
   isDraft?: boolean;
   onClick: () => void;
   onChange?: (key: keyof ScheduleBase, value: string) => void;
