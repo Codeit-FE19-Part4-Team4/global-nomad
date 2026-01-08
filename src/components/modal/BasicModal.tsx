@@ -23,14 +23,16 @@ export default function BasicModal({
   buttonText,
   onClick,
 }: {
-  message: string;
+  message: React.ReactNode | string;
   buttonText: string;
   onClick?: () => void;
 }) {
   return (
-    <div className="bg-background h-[140px] w-[320px] rounded-[30px] py-[30px] pt-[34px] pb-[30px] md:h-[170px] md:w-[400px] md:px-10 md:pt-10">
+    <div className="bg-background h-fit min-h-[140px] w-[320px] rounded-[30px] py-[30px] pt-[34px] pb-[30px] md:min-h-[170px] md:w-[400px] md:px-10 md:pt-10">
       <div className="flex w-full flex-col items-center justify-center gap-5">
-        <span className="text-[16px] font-bold md:text-[18px]">{message}</span>
+        <div className="text-center text-[16px] font-bold **:text-center **:text-[18px] **:font-bold md:text-[18px]">
+          {message}
+        </div>
         <Button
           variant="primary"
           className="h-[41px] w-[180px] md:h-[47px] md:w-[200px]"
