@@ -1,15 +1,7 @@
 import ReviewModal from '../components/ReviewModal';
 
 import { useModal } from '@/hooks/useModal';
-
-interface ReservationItem {
-  id: number;
-  activity: { title: string };
-  date: string;
-  startTime: string;
-  endTime: string;
-  headCount: number;
-}
+import { MyReservation } from '@/types/myreservations';
 
 /**
  * 리뷰 작성 모달 UI 흐름만 담당하는 커스텀 훅
@@ -21,7 +13,7 @@ interface ReservationItem {
 export function useReviewModal() {
   const { openModal, closeModal } = useModal();
 
-  const openReviewModal = (item: ReservationItem) => {
+  const openReviewModal = (item: MyReservation) => {
     openModal({
       component: ReviewModal,
       props: {
@@ -31,8 +23,6 @@ export function useReviewModal() {
         startTime: item.startTime,
         endTime: item.endTime,
         headCount: item.headCount,
-
-        onCloseModal: () => closeModal(ReviewModal),
 
         onSubmit: () => {
           closeModal(ReviewModal);

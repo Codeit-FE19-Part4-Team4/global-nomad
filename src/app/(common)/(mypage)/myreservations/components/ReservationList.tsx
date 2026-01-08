@@ -16,7 +16,7 @@ type StatusFilter = ReservationStatusType | 'all';
 
 // 전체 예약 목록 (필터링 전 원본 데이터)
 interface Props {
-  reservationList: MyReservation[];
+  reservationList: MyReservation[] | null;
 }
 
 /**
@@ -41,6 +41,16 @@ export default function ReservationList({ reservationList }: Props) {
   }, [reservationList, selectedStatus]);
 
   const isEmpty = filteredReservations.length === 0;
+
+  // 리뷰 작성 핸들러
+  const handleReviewSubmit = (reservationId: number) => {
+    const reservation = filteredReservations.find(
+      (r) => r.id === reservationId
+    );
+    if (!reservation) return;
+
+    openReviewModal(reservation);
+  };
 
   // 예약 취소 핸들러
   const handleReserveCancel = (reservationId: number) => {
@@ -81,7 +91,7 @@ export default function ReservationList({ reservationList }: Props) {
               {/* 예약 카드 (UI만) */}
               <ReservationCard
                 item={item}
-                onReviewSubmit={() => openReviewModal(item)}
+                onReviewSubmit={handleReviewSubmit}
                 onReserveCancel={handleReserveCancel}
               />
             </div>
