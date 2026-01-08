@@ -88,6 +88,7 @@ export default function LoginPage() {
           autoComplete="email"
           errorMessage={errors.email}
           required
+          clearable
         />
 
         <PasswordInput
