@@ -1,23 +1,39 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 import kakaoLogo from '@/assets/icons/auth/ic-kakao.svg';
 import Button from '@/components/Button';
 import { TextInput, PasswordInput } from '@/components/Input';
+import { login } from '@/features/auth/apis/login';
 import { validateEmail, validatePassword } from '@/features/auth/validations';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  useEffect(() => {
+    const savedEmail = sessionStorage.getItem('signupEmail');
+    const savedPassword = sessionStorage.getItem('signupPassword');
+
+    if (savedEmail) setEmail(savedEmail);
+    if (savedPassword) setPassword(savedPassword);
+
+    // 사용 후 제거
+    sessionStorage.removeItem('signupEmail');
+    sessionStorage.removeItem('signupPassword');
+  }, []);
+
   const [errors, setErrors] = useState({
     email: '',
     password: '',
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const newErrors = {
@@ -30,8 +46,22 @@ export default function LoginPage() {
     setErrors(newErrors);
 
     if (Object.values(newErrors).some(Boolean)) return;
-    // TODO 로그인 API 호출
-    console.log({ email, password });
+    try {
+      const result = await login({ email, password });
+
+      // 토큰 저장
+      localStorage.setItem('accessToken', result.accessToken);
+      localStorage.setItem('refreshToken', result.refreshToken);
+
+      router.push('/');
+    } catch (err) {
+      if (err instanceof Error) {
+        setErrors({
+          email: '',
+          password: err.message,
+        });
+      }
+    }
   };
 
   const isFormValid =
