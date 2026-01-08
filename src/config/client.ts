@@ -35,11 +35,14 @@ export async function apiFetch<T, P = Params>(
     searchParams.toString() ? `?${searchParams.toString()}` : ''
   }`;
 
+  const token =
+    typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
   // 공통 헤더, body JSON 설정
   const isFormData = body instanceof FormData;
   const res = await fetch(url, {
     headers: {
       ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
+      ...(token ? { Authorization: `Bearer ${token}` } : {}), // 토큰 추가
       ...headers,
     },
     body: isFormData ? body : body ? JSON.stringify(body) : undefined,

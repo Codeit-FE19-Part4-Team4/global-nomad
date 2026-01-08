@@ -1,7 +1,10 @@
 'use client';
 import moment from 'moment';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/navigation';
 import { useReducer, useState } from 'react';
+
+import PostCode from '../PostCode';
 
 import { postActivity, postActivityImage } from '@/api/activities';
 import Button from '@/components/Button';
@@ -14,6 +17,8 @@ import {
 import { FILTER_CATEGORIES } from '@/components/Filter/filter-category';
 import UploadImageList from '@/components/image-upload/UploadImageList';
 import { TextArea, TextInput } from '@/components/Input';
+import BasicModal from '@/components/modal/BasicModal';
+import { useModal } from '@/hooks/useModal';
 import type {
   PostActivityRequest,
   CategoryType,
@@ -59,9 +64,13 @@ const reducer = (
 };
 
 export default function Page() {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<Error | null>(null);
   const [state, dispatch] = useReducer(reducer, INITIAL_FORM);
   const [bannerImage, setBannerImage] = useState<File[]>([]);
   const [subImages, setSubImages] = useState<File[]>([]);
+  const router = useRouter();
+  const { openModal, closeModal } = useModal();
   const handleChangeField = <K extends keyof PostActivityRequest>(
     field: K,
     value: PostActivityRequest[K]
@@ -100,35 +109,62 @@ export default function Page() {
       method === 'add' ? schedules : filteredSchedule
     );
   };
-
+  //TODO: react-query사용, 에러처리
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     if (bannerImage?.length === 0) {
       alert('배너이미지를 등록해주세요.');
       return;
     }
-    const bannerImageUrl = await Promise.all(
-      bannerImage.map(async (image: File) => {
-        const res = await postActivityImage(image);
-        return res.activityImageUrl;
-      })
-    );
-    const subImageUrls =
-      subImages.length > 0
-        ? await Promise.all(
-            subImages.map(async (image: File) => {
-              const res = await postActivityImage(image);
-              return res.activityImageUrl;
-            })
-          )
-        : [];
-    const requestData = {
-      ...state,
-      bannerImageUrl: bannerImageUrl[0],
-      subImageUrls,
-    };
-    console.log(state);
-    await postActivity(requestData);
+    try {
+      const bannerImageUrl = await Promise.all(
+        bannerImage.map(async (image: File) => {
+          const res = await postActivityImage(image);
+          return res.activityImageUrl;
+        })
+      );
+      const subImageUrls =
+        subImages.length > 0
+          ? await Promise.all(
+              subImages.map(async (image: File) => {
+                const res = await postActivityImage(image);
+                return res.activityImageUrl;
+              })
+            )
+          : [];
+      const requestData = {
+        ...state,
+        bannerImageUrl: bannerImageUrl[0],
+        subImageUrls,
+      };
+      console.log(state);
+      await postActivity(requestData);
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error);
+      } else {
+        setError(new Error('알 수 없는 오류가 발생했습니다.'));
+      }
+    } finally {
+      setIsLoading(false);
+      openModal({
+        component: BasicModal,
+        props: {
+          message: (
+            <div className="flex flex-col justify-center">
+              <span>체험 등록이 완료되었습니다.</span>
+              <span>내 체험 관리 페이지로 이동합니다.</span>
+            </div>
+          ),
+          buttonText: '확인',
+          onClick: () => {
+            closeModal(BasicModal);
+            router.push('/myactivities');
+          },
+        },
+      });
+    }
   };
 
   return (
@@ -174,13 +210,7 @@ export default function Page() {
           onChange={(price) => handleChangeField('price', +price)}
         />
         <div className="flex flex-col gap-[30px]">
-          {/* 외부 api 연결 필요 */}
-          <TextInput
-            label="주소"
-            placeholder="주소를 입력해 주세요"
-            value={address}
-            onChange={(address) => handleChangeField('address', address)}
-          />
+          <PostCode handleChangeField={handleChangeField} />
           <div className="flex flex-col gap-0">
             <span className="bold text-[16px]">예약 가능 시간대</span>
             <ScheduleForm
