@@ -5,14 +5,13 @@ import { cardType } from '../card-type';
 import { cn } from '@/util/cn';
 
 export const cardTitleVariants = cva(
-  'font-[var(--weight-title-lg)] text-gray-950 tracking-[var(--tracking-title-xl)] overflow-hidden line-clamp-2',
+  'font-[var(--weight-title-lg)] text-gray-950 tracking-[var(--tracking-title-xl)] overflow-hidden line-clamp-1',
   {
     variants: {
       type: {
         card: [
-          'mb-4px text-[14px] leading-[19px]',
-          'md:mb-[2px] md:text-[18px] md:leading-[23px]',
-          'lg:mb-[2px]',
+          'mb-[4px] text-[14px] leading-[19px] -mr-3',
+          'md:mb-[6px] md:text-[18px] md:leading-[23px] md:-mr-4',
         ],
         list: [
           'mb-4px text-[14px] leading-[17px]',

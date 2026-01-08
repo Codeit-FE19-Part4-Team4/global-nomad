@@ -2,7 +2,6 @@
 
 import { cva } from 'class-variance-authority';
 import Image from 'next/image';
-import { useEffect } from 'react';
 
 import { useDropDownContext } from './index';
 
@@ -16,7 +15,7 @@ const triggerVariants = cva('flex items-center relative cursor-pointer ', {
   variants: {
     type: {
       menu: 'w-[28px] h-[28px] justify-center',
-      filter: 'w-full h-[54px] pl-[20px] pr-[44px] rounded-[16px] border-none',
+      filter: 'w-full h-[40px] pl-[12px] pr-[36px] rounded-0 border-none',
       select:
         'w-full h-[54px] pl-[20px] pr-[44px] rounded-[16px] border border-gray-100',
     },
@@ -41,6 +40,18 @@ const textVariants = cva(
     },
   }
 );
+const arrowVariants = cva('absolute ', {
+  variants: {
+    type: {
+      menu: 'right-5',
+      filter: 'w-5 h-5 mt-0.5 right-[12px]',
+      select: 'right-5',
+    },
+  },
+  defaultVariants: {
+    type: 'select',
+  },
+});
 
 export type TriggerProps = {
   placeholder?: string;
@@ -70,7 +81,7 @@ export default function Trigger({ placeholder, className }: TriggerProps) {
           <Image
             src={isOpen ? IcoDropUp : IcoDropDown}
             alt={isOpen ? '드롭다운 닫기' : '드롭다운 열기'}
-            className="absolute right-5"
+            className={arrowVariants({ type: type })}
           />
         </>
       ) : (

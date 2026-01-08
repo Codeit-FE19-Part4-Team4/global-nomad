@@ -47,12 +47,16 @@ export default function Searchbar({
     const trimmedValue = value.trim();
     if (!trimmedValue) {
       params.delete('search');
-      replace(`${pathName}?${params.toString()}`);
+      replace(`${pathName}?${params.toString()}`, {
+        scroll: false,
+      });
       return;
     }
     onSearch?.(trimmedValue);
     params.set('search', trimmedValue);
-    replace(`${pathName}?${params.toString()}`);
+    replace(`${pathName}?${params.toString()}`, {
+      scroll: false,
+    });
   };
 
   const handleEnterKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {

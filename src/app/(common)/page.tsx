@@ -1,3 +1,172 @@
-export default function CommonPage() {
-  return <div></div>;
+'use client';
+
+import { useQuery } from '@tanstack/react-query';
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+
+import { getActivities } from '../../api/activities';
+
+import BannerActivities from './components/BannerActivities';
+import BestActivities from './components/BestActivities';
+import TotalActivities from './components/TotalActivities';
+
+import Searchbar from '@/components/Searchbar';
+import { SORT_OPTIONS } from '@/constants/activities';
+import useWindowSize from '@/hooks/useWindowSize';
+import {
+  CategoryType,
+  RequestGetActivities,
+  SortType,
+} from '@/types/activities';
+import { cn } from '@/util/cn';
+
+export default function LandingPage() {
+  const searchParams = useSearchParams();
+  const initialKeyword = searchParams.get('search');
+  const width = useWindowSize();
+  const [page, setPage] = useState(1);
+  const [sort, setSort] = useState<SortType>('latest');
+  const [selectedFilter, setSelectedFilter] = useState<CategoryType | null>(
+    null
+  );
+  const [value, setValue] = useState(searchParams.get('search') ?? '');
+  const [keyword, setKeyword] = useState<string | null>(initialKeyword);
+  const [allLength, setAllLength] = useState<number>(() => {
+    if (!width) return 8;
+    if (width < 768) return 6;
+    if (width < 1024) return 4;
+    return 8;
+  });
+
+  // 검색
+  const handleSearch = () => {
+    setSort('latest');
+    setSelectedFilter(null);
+    setPage(1);
+    setKeyword(value);
+  };
+
+  // 배너 체험
+  const BannerParams: RequestGetActivities = {
+    method: 'offset',
+    sort: 'price_desc',
+    category: '투어',
+    page: 1,
+    size: 3,
+  };
+  const { data: bannerData } = useQuery({
+    queryKey: ['activities', 'banner'],
+    queryFn: () => getActivities(BannerParams),
+  });
+
+  // 인기 체험
+  const bestParams: RequestGetActivities = {
+    method: 'offset',
+    sort: 'most_reviewed',
+    page: 1,
+    size: 8,
+  };
+  const { data: bestData, isLoading: isBestLoading } = useQuery({
+    queryKey: ['activities', 'best'],
+    queryFn: () => getActivities(bestParams),
+  });
+
+  // 모든 체험
+  const allParams: RequestGetActivities = {
+    method: 'offset',
+    sort: sort,
+    page: page,
+    size: allLength,
+    ...(selectedFilter && { category: selectedFilter }),
+    ...(keyword && { keyword: keyword }),
+  };
+  const { data: AllData, isLoading: isAllLoading } = useQuery({
+    queryKey: [
+      'activities',
+      'all',
+      page,
+      allLength,
+      sort,
+      selectedFilter,
+      keyword,
+    ],
+    queryFn: () => getActivities(allParams),
+    enabled: !!allLength,
+    placeholderData: (previousData) => previousData,
+  });
+  const totalPage = Math.ceil((AllData?.totalCount ?? 0) / allLength);
+  const handleClickPage = async (page: number) => {
+    setPage(page);
+  };
+
+  useEffect(() => {
+    if (!width) return;
+    if (width < 768) {
+      setAllLength(6);
+    } else if (width < 1024) {
+      setAllLength(4);
+    } else {
+      setAllLength(8);
+    }
+  }, [width]);
+
+  useEffect(() => {
+    const search = searchParams.get('search');
+    if (!search) {
+      setValue('');
+      setKeyword(null);
+    }
+  }, [searchParams]);
+
+  return (
+    <div className={cn('overflow-hidden', '-mx-6 px-6', 'md:-mx-8 md:px-8')}>
+      <div className="m-auto max-w-[1200px]">
+        {/* 배너 */}
+        <BannerActivities data={bannerData?.activities} />
+
+        {/* 검색영역 */}
+        <Searchbar
+          title="무엇을 체험하고 싶으신가요?"
+          placeholder="검색어를 입력하세요"
+          onSearch={handleSearch}
+          value={value}
+          setValue={setValue}
+        />
+
+        {/* 인기 체험 */}
+        {!keyword && (
+          <BestActivities
+            data={bestData?.activities}
+            isLoading={isBestLoading}
+          />
+        )}
+
+        {/* 모든 체험 */}
+        <TotalActivities
+          data={AllData?.activities}
+          isLoading={isAllLoading}
+          currentPage={page}
+          totalCount={AllData?.totalCount}
+          totalPage={totalPage}
+          pagesPerGroup={allLength}
+          handleClickPage={handleClickPage}
+          keyword={keyword}
+          sort={sort}
+          setSort={setSort}
+          setPage={setPage}
+          SORT_OPTIONS={SORT_OPTIONS}
+          selectedFilter={selectedFilter}
+          setSelectedFilter={setSelectedFilter}
+        />
+
+        {/* 배경 */}
+        <div
+          className={cn(
+            'absolute inset-0 z-[-1] bg-[url("/main/img-main-bg.svg")] bg-repeat-x',
+            'bg-[length:1200px_auto] bg-[position:-2%_0]',
+            'md:bg-[length:1920px_auto] md:bg-[position:50%_0]'
+          )}></div>
+      </div>
+    </div>
+  );
 }

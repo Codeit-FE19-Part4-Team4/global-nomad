@@ -15,7 +15,7 @@ const dropdownVariants = cva('relative', {
   variants: {
     type: {
       menu: 'w-7',
-      filter: 'w-[148px]',
+      filter: 'min-w-[72px] md:w-[148px]',
       select: 'w-full',
     },
   },

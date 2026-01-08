@@ -1,6 +1,5 @@
 'use client';
 import Image from 'next/image';
-import { useState } from 'react';
 
 import PageButton from './PageButton';
 
@@ -16,6 +15,7 @@ interface NavigationBtnProps {
 
 interface PaginationProps {
   totalPage: number;
+  currentPage: number;
   handleClickPage?: (page: number) => Promise<void>;
   pagesPerGroup: number;
 }
@@ -37,10 +37,10 @@ function NavigationBtn({ disabled, direction, onClick }: NavigationBtnProps) {
 
 export default function Pagination({
   totalPage,
+  currentPage,
   handleClickPage,
   pagesPerGroup,
 }: PaginationProps) {
-  const [currentPage, setCurrentPage] = useState(1);
   const currentGroup = Math.ceil(currentPage / pagesPerGroup);
 
   if (totalPage === 0) return null;
@@ -58,12 +58,10 @@ export default function Pagination({
     if (pageToNavigate < 1 || pageToNavigate > totalPage) {
       return;
     }
-    setCurrentPage(pageToNavigate);
     handleClickPage?.(pageToNavigate);
   };
 
   const onClickPage = (page: number) => {
-    setCurrentPage(page);
     handleClickPage?.(page);
   };
 
