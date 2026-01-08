@@ -12,8 +12,12 @@ export const filterStyle = cva(
     'rounded-full',
     'border',
     'cursor-pointer',
-    'px-4 py-2 body-lg regular',
-    'md:px-6 md:py-3 md:title-md md:regular',
+
+    // 모바일
+    'px-3 py-2 body-sm medium',
+
+    // 태블릿 / 웹
+    'md:px-4 md:py-2 md:body-lg md:medium',
   ],
   {
     variants: {

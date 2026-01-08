@@ -1,10 +1,7 @@
+import { ReservationUIStatus } from '@/constants/reservation-ui-status';
+
 export type cardType = 'card' | 'list';
-export type experienceStatusType =
-  | 'pending'
-  | 'confirmed'
-  | 'completed'
-  | 'declined'
-  | 'canceled';
+
 export interface ExperienceCardBase {
   id: number;
   title: string;
@@ -32,7 +29,7 @@ export interface ReservationCard {
   startTime: string;
   endTime: string;
   headCount: number;
-  status: experienceStatusType;
+  status: ReservationUIStatus;
   reviewSubmitted: boolean;
 }
 
