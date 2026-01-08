@@ -71,32 +71,34 @@ export default function SignupPage() {
       //TODO toast 팝업으로 교체
       alert('회원가입이 완료되었습니다!');
       sessionStorage.setItem('signupEmail', form.email);
-      sessionStorage.setItem('signupPassword', form.password);
 
       router.push('/login');
     } catch (error) {
-      if (!(error instanceof Error)) return;
-
-      if (error.message.includes('이메일')) {
+      //TODO 에러처리
+      if (error instanceof Error) {
+        if (error.message.includes('이메일')) {
+          setErrors((prev) => ({
+            ...prev,
+            email: error.message,
+          }));
+        } else if (error.message.includes('닉네임')) {
+          setErrors((prev) => ({
+            ...prev,
+            nickname: error.message,
+          }));
+        } else {
+          setErrors((prev) => ({
+            ...prev,
+            password: error.message,
+          }));
+        }
+      } else {
+        // 예상치 못한 에러
         setErrors((prev) => ({
           ...prev,
-          email: error.message,
+          password: '알 수 없는 오류가 발생했습니다.',
         }));
-        return;
       }
-
-      if (error.message.includes('닉네임')) {
-        setErrors((prev) => ({
-          ...prev,
-          nickname: error.message,
-        }));
-        return;
-      }
-
-      setErrors((prev) => ({
-        ...prev,
-        password: error.message,
-      }));
     }
   };
 

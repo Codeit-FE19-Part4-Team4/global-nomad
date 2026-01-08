@@ -1,22 +1,22 @@
-export type SignupRequest = {
+export interface SignupRequest {
   email: string;
   password: string;
   nickname: string;
-};
+}
 
-export type SignupResponse = {
+export interface SignupResponse {
   id: number;
   email: string;
   nickname: string;
   profileImageUrl: string;
   createdAt: string;
   updatedAt: string;
-};
+}
 
-export type LoginRequest = {
+export interface LoginRequest {
   email: string;
   password: string;
-};
+}
 
 export interface LoginResponse {
   user: {
@@ -32,11 +32,4 @@ export interface LoginResponse {
 }
 
 // 공통 사용자 정보
-export interface UserResponse {
-  id: number;
-  email: string;
-  nickname: string;
-  profileImageUrl: string;
-  createdAt: string;
-  updatedAt: string;
-}
+export type UserResponse = SignupResponse;
