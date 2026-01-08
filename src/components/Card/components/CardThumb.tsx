@@ -38,9 +38,8 @@ export default function CardThumb({
         onError={() => setImg(ImgEmpty)}
         alt={title}
         fill
-        priority
-        unoptimized
         className="left-1/2! -translate-x-1/2 object-cover object-center transition-transform duration-300 ease-out group-hover:scale-110"
+        sizes="(max-width: 767px) 100%, (max-width: 1023px) 50%, 25%"
       />
     </div>
   );

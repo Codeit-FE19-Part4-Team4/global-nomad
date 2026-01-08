@@ -22,7 +22,7 @@ interface TotalActivitiesProp {
   totalCount: number | undefined;
   totalPage: number;
   pagesPerGroup: number;
-  handleClickPage: (page: number) => Promise<void>;
+  handleClickPage: (page: number) => void;
   keyword: string | null;
   sort: SortType;
   setSort: Dispatch<SetStateAction<SortType>>;

@@ -16,7 +16,7 @@ interface NavigationBtnProps {
 interface PaginationProps {
   totalPage: number;
   currentPage: number;
-  handleClickPage?: (page: number) => Promise<void>;
+  handleClickPage?: (page: number) => void;
   pagesPerGroup: number;
 }
 

@@ -47,7 +47,7 @@ export default function LandingPage() {
   };
 
   // 배너 체험
-  const BannerParams: RequestGetActivities = {
+  const bannerParams: RequestGetActivities = {
     method: 'offset',
     sort: 'price_desc',
     category: '투어',
@@ -56,7 +56,7 @@ export default function LandingPage() {
   };
   const { data: bannerData } = useQuery({
     queryKey: ['activities', 'banner'],
-    queryFn: () => getActivities(BannerParams),
+    queryFn: () => getActivities(bannerParams),
   });
 
   // 인기 체험
@@ -80,7 +80,7 @@ export default function LandingPage() {
     ...(selectedFilter && { category: selectedFilter }),
     ...(keyword && { keyword: keyword }),
   };
-  const { data: AllData, isLoading: isAllLoading } = useQuery({
+  const { data: allData, isLoading: isAllLoading } = useQuery({
     queryKey: [
       'activities',
       'all',
@@ -94,8 +94,8 @@ export default function LandingPage() {
     enabled: !!allLength,
     placeholderData: (previousData) => previousData,
   });
-  const totalPage = Math.ceil((AllData?.totalCount ?? 0) / allLength);
-  const handleClickPage = async (page: number) => {
+  const totalPage = Math.ceil((allData?.totalCount ?? 0) / allLength);
+  const handleClickPage = (page: number) => {
     setPage(page);
   };
 
@@ -143,10 +143,10 @@ export default function LandingPage() {
 
         {/* 모든 체험 */}
         <TotalActivities
-          data={AllData?.activities}
+          data={allData?.activities}
           isLoading={isAllLoading}
           currentPage={page}
-          totalCount={AllData?.totalCount}
+          totalCount={allData?.totalCount}
           totalPage={totalPage}
           pagesPerGroup={allLength}
           handleClickPage={handleClickPage}

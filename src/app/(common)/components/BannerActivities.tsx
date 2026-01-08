@@ -58,7 +58,7 @@ export default function BannerActivities({ data }: BannerActivitiesProps) {
                 </h3>
                 <Image
                   src={item.bannerImageUrl}
-                  alt=""
+                  alt={item.title}
                   fill
                   className="object-cover"
                   priority={index === 0}

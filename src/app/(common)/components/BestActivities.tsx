@@ -77,7 +77,7 @@ export default function BestActivities({
                     className={cn(
                       'mb-8 w-[34.933vw]! shrink-0 grow pt-3.5',
                       'md:mb-20 md:w-[calc((100%-18px)/2)]! md:pt-4',
-                      'sh lg:w-[calc((100%-24px*3)/4)]! lg:pt-5'
+                      'lg:w-[calc((100%-24px*3)/4)]! lg:pt-5'
                     )}
                   />
                 ))}
@@ -118,16 +118,16 @@ export default function BestActivities({
               touchStartPreventDefault={false}
               resistanceRatio={0}
               watchSlidesProgress={false}>
-              {data.map((item, index) => {
+              {data.map((item) => {
                 return (
                   <SwiperSlide
-                    key={index}
+                    key={item.id}
                     className={cn(
                       'mb-8 w-[34.933vw]! grow pt-3.5',
                       'md:mb-20 md:w-[calc((100%-18px)/2)]! md:pt-4',
                       'lg:w-[calc((100%-24px*3)/4)]! lg:pt-5'
                     )}>
-                    <ExperienceCard key={item.id} item={item} />
+                    <ExperienceCard item={item} />
                   </SwiperSlide>
                 );
               })}
