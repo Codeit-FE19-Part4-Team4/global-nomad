@@ -27,7 +27,7 @@ export default function MyPageLayout({
           {/* 모바일 */}
           <div
             className={cn(
-              'fixed inset-0 z-40 shadow-[5px_0_30px_#0000004a] transition-opacity duration-300 md:hidden',
+              'fixed shrink-0 inset-0 z-40 shadow-[5px_0_30px_#0000004a] transition-opacity duration-300 md:hidden',
               isOpen
                 ? 'pointer-events-auto opacity-100'
                 : 'pointer-events-none opacity-0'
