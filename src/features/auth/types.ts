@@ -19,14 +19,7 @@ export interface LoginRequest {
 }
 
 export interface LoginResponse {
-  user: {
-    id: number;
-    email: string;
-    nickname: string;
-    profileImageUrl: string;
-    createdAt: string;
-    updatedAt: string;
-  };
+  user: SignupResponse;
   accessToken: string;
   refreshToken: string;
 }
