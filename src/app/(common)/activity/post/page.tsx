@@ -83,7 +83,7 @@ export default function Page() {
   };
   const { title, category, description, price, address, schedules } = state;
 
-  const handleDeleteImages = async (
+  const handleDeleteImages = (
     imageType: 'bannerImage' | 'subImage',
     selectedFile: File
   ) => {
@@ -97,17 +97,25 @@ export default function Page() {
   };
 
   const handleSchedule = (method: 'add' | 'delete', schedule: ScheduleBase) => {
-    const schedules = [...state.schedules, schedule].map((schedule) => {
-      const date = moment(schedule.date, 'YYYY-MM-DD').format('YYYY-MM-DD');
-      return { ...schedule, date };
-    });
-    const filteredSchedule = state.schedules.filter(
-      (item) => item !== schedule
-    );
-    handleChangeField(
-      'schedules',
-      method === 'add' ? schedules : filteredSchedule
-    );
+    if (method === 'add') {
+      const newSchedule = {
+        ...schedule,
+        date: moment(schedule.date, 'YYYY-MM-DD').format('YYYY-MM-DD'),
+      };
+      handleChangeField('schedules', [...state.schedules, newSchedule]);
+    } else {
+      const indexToDelete = state.schedules.findIndex(
+        (item) =>
+          item.date === schedule.date &&
+          item.endTime === schedule.endTime &&
+          item.startTime === schedule.startTime
+      );
+      if (indexToDelete > -1) {
+        const newSchedule = [...state.schedules];
+        newSchedule.slice(indexToDelete, 1);
+        handleChangeField('schedules', newSchedule);
+      }
+    }
   };
   //TODO: react-query사용, 에러처리
   const handleSubmit = async (e: React.FormEvent) => {
@@ -138,16 +146,7 @@ export default function Page() {
         bannerImageUrl: bannerImageUrl[0],
         subImageUrls,
       };
-      console.log(state);
       await postActivity(requestData);
-    } catch (error) {
-      if (error instanceof Error) {
-        setError(error);
-      } else {
-        setError(new Error('알 수 없는 오류가 발생했습니다.'));
-      }
-    } finally {
-      setIsLoading(false);
       openModal({
         component: BasicModal,
         props: {
@@ -164,6 +163,14 @@ export default function Page() {
           },
         },
       });
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error);
+      } else {
+        setError(new Error('알 수 없는 오류가 발생했습니다.'));
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -218,8 +225,9 @@ export default function Page() {
               onAdd={(schedule) => handleSchedule('add', schedule)}
               // 체험 등록일 때만 고려한 로직
               onDelete={(schedule) => {
-                const defaultSchedule = schedule as ScheduleBase;
-                handleSchedule('delete', defaultSchedule);
+                if (typeof schedule !== 'number') {
+                  handleSchedule('delete', schedule);
+                }
               }}
             />
           </div>

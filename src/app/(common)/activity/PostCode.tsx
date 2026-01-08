@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
 
 import Button from '@/components/Button';
@@ -21,7 +21,7 @@ export default function PostCode({ handleChangeField }: PostCodeProps) {
 
   const handleChange = (value: string) => {
     setSubAddress(value);
-    const full = value ? baseAddress + ' ' + value : '';
+    const full = value ? `${baseAddress} ${value}` : baseAddress;
     handleChangeField('address', full);
   };
 

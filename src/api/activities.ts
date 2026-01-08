@@ -16,14 +16,14 @@ export async function getActivities(params: RequestGetActivities) {
 export const postActivityImage = async (data: File) => {
   const formdata = new FormData();
   formdata.append('image', data);
-  return apiFetch<ActivityImageResponse, File>('/activities/image', {
+  return apiFetch<ActivityImageResponse>('/activities/image', {
     method: 'POST',
     body: formdata,
   });
 };
 
 export const postActivity = async (req: PostActivityRequest) => {
-  return apiFetch<ResponsePostActivities, PostActivityRequest>('/activities', {
+  return apiFetch<ResponsePostActivities>('/activities', {
     method: 'POST',
     body: req,
   });
