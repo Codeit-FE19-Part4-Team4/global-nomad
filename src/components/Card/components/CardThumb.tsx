@@ -8,7 +8,7 @@ import ImgEmpty from '@/assets/images/common/img-empty-thum.svg';
 import { cn } from '@/util/cn';
 
 export const cardThumVariants = cva(
-  'relative bg-gray-50 shrink-0 flex-none overflow-hidden',
+  'relative bg-[#F6F6F6] shrink-0 flex-none overflow-hidden aspect-[16/9]',
   {
     variants: {
       type: {
@@ -38,7 +38,8 @@ export default function CardThumb({
         onError={() => setImg(ImgEmpty)}
         alt={title}
         fill
-        className="object-cover object-center transition-transform duration-300 ease-out group-hover:scale-110"
+        className="left-1/2! -translate-x-1/2 object-cover object-center transition-transform duration-300 ease-out group-hover:scale-110"
+        sizes="(max-width: 767px) 100%, (max-width: 1023px) 50%, 25%"
       />
     </div>
   );

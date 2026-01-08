@@ -1,3 +1,12 @@
+import { SortType } from '@/types/activities';
+
+export const SORT_OPTIONS: Record<string, SortType> = {
+  최신순: 'latest',
+  '가격 낮은순': 'price_asc',
+  '가격 높은순': 'price_desc',
+  인기순: 'most_reviewed',
+};
+
 // 예약 시간
 export const TIME_OPTIONS = [
   '0:00',

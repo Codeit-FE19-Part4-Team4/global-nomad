@@ -41,6 +41,7 @@ const Filter = forwardRef<HTMLButtonElement, FilterProps>(
             alt=""
             width={24}
             height={24}
+            className="h-4 w-4 md:h-6 md:w-6"
           />
         )}
         {children}

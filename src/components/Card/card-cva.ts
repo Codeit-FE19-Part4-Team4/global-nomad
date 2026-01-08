@@ -3,25 +3,22 @@ import { cva } from 'class-variance-authority';
 import { cn } from '@/util/cn';
 
 // 카드 card,list 타입별 형태
-export const cardVariants = cva(
-  'flex overflow-hidden cursor-pointer shadow-[0px_4px_24px_0px_#9CB4CA33] group',
-  {
-    variants: {
-      type: {
-        card: [
-          'flex-col',
-          'min-h-[242px] md:min-h-[423px] lg:min-h-[366px]',
-          'rounded-[18px] lg:rounded-[32px]',
-        ],
-        list: [
-          'flex-row',
-          'min-h-[136px] md:min-h-[151px] lg:min-h-[181px]',
-          'rounded-[24px] lg:rounded-[32px]',
-        ],
-      },
+export const cardVariants = cva('flex overflow-hidden cursor-pointer group', {
+  variants: {
+    type: {
+      card: [
+        'flex-col shadow-[0px_4px_14px_0px_#9CB4CA33]',
+        'min-h-[242px] md:min-h-[423px] lg:min-h-[366px]',
+        'rounded-[18px] lg:rounded-[32px]',
+      ],
+      list: [
+        'flex-row shadow-[0px_4px_24px_0px_#9CB4CA33]',
+        'min-h-[136px] md:min-h-[151px] lg:min-h-[181px]',
+        'rounded-[24px] lg:rounded-[32px]',
+      ],
     },
-  }
-);
+  },
+});
 
 // 카드 상세 영역 스타일
 export const cardDetailVariants = cva(

@@ -1,5 +1,7 @@
 /* 페이지 전체 공통 레이아웃 */
-
+body {
+  position: relative;
+}
 body.modal-open {
   overflow: hidden;
 }
