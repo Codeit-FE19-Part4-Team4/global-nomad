@@ -2,6 +2,9 @@
 
 import { useMemo, useState } from 'react';
 
+import { useCancelModal } from '../hooks/useCancelModal';
+import { useReviewModal } from '../hooks/useReviewModal';
+
 import ReservationFilters from './ReservationFilters';
 
 import ReservationCard from '@/components/Card/ReservationCard';
@@ -21,17 +24,36 @@ interface Props {
  *
  * - 예약 상태 필터 제공
  * - 예약 없음 상태 처리
- * - 카드 UI 렌더링만 담당 (모달 / API 로직 없음)
  */
 export default function ReservationList({ reservationList }: Props) {
   const [selectedStatus, setSelectedStatus] = useState<StatusFilter>('all');
 
+  const { openReviewModal } = useReviewModal();
+  const { openCancelModal } = useCancelModal();
+
   // 선택된 상태에 따른 예약 목록 필터링 (메모이제이션)
   const filteredReservations = useMemo(() => {
+    if (!reservationList) return [];
+
     return selectedStatus === 'all'
       ? reservationList
       : reservationList.filter((r) => r.status === selectedStatus);
   }, [reservationList, selectedStatus]);
+
+  const isEmpty = filteredReservations.length === 0;
+
+  // 예약 취소 핸들러
+  const handleReserveCancel = (reservationId: number) => {
+    const reservation = filteredReservations.find(
+      (r) => r.id === reservationId
+    );
+    if (!reservation) return;
+
+    openCancelModal(reservation.activity.title, async () => {
+      // TODO: 예약 취소 API 호출 예정
+      console.log('예약 취소:', reservationId);
+    });
+  };
 
   return (
     <>
@@ -42,7 +64,7 @@ export default function ReservationList({ reservationList }: Props) {
       />
 
       {/* 필터링 결과가 없을 경우 */}
-      {filteredReservations.length === 0 ? (
+      {isEmpty ? (
         <EmptyState
           description="아직 예약 내역이 없어요"
           buttonText="체험 둘러보기"
@@ -57,7 +79,11 @@ export default function ReservationList({ reservationList }: Props) {
               <div className="body-lg bold lg:hidden">{item.date}</div>
 
               {/* 예약 카드 (UI만) */}
-              <ReservationCard item={item} />
+              <ReservationCard
+                item={item}
+                onReviewSubmit={() => openReviewModal(item)}
+                onReserveCancel={handleReserveCancel}
+              />
             </div>
           ))}
         </div>
