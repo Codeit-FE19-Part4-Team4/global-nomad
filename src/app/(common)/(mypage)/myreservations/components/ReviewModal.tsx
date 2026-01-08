@@ -1,79 +1,77 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
-import { TextArea } from '@/components/Input';
-import FormModalFrame from '@/components/modal/FormModalFrame';
-import Rating from '@/components/Rating';
+import ReservationFilters from './ReservationFilters';
 
-interface ReviewModalProps {
-  reservationId: number;
-  title: string;
-  date: string;
-  startTime: string;
-  endTime: string;
-  headCount: number;
-  onCloseModal: () => void;
-  onSubmit?: (
-    reservationId: number,
-    rating: number,
-    content: string
-  ) => Promise<void>;
+import ReservationCard from '@/components/Card/ReservationCard';
+import EmptyState from '@/components/EmptyState';
+import { MyReservation, ReservationStatusType } from '@/types/myreservations';
+
+// UI 필터 상태 타입 (API 상태 + 전체)
+type StatusFilter = ReservationStatusType | 'all';
+
+// 예약 목록 props (필터링 전 원본 데이터)
+interface Props {
+  reservationList: MyReservation[];
 }
 
-export default function ReviewModal({
-  reservationId,
-  title,
-  date,
-  startTime,
-  endTime,
-  headCount,
-  onCloseModal,
-  onSubmit,
-}: ReviewModalProps) {
-  const [rating, setRating] = useState(0);
-  const [content, setContent] = useState('');
+/**
+ * 예약 리스트 컴포넌트 (UI 전용)
+ *
+ * 역할:
+ * - 예약 상태 필터 UI 제공
+ * - 필터링된 예약 목록 렌더링
+ * - 예약이 없을 경우 Empty State 표시
+ *
+ * 책임 범위:
+ * - UI 렌더링만 담당
+ * - 모달 제어, API 호출, 데이터 패칭 로직은 상위 컴포넌트에서 처리
+ */
+export default function ReservationList({ reservationList }: Props) {
+  // 선택된 예약 상태 (UI 필터 상태)
+  const [selectedStatus, setSelectedStatus] = useState<StatusFilter>('all');
 
-  const handleSubmit = async () => {
-    if (onSubmit) {
-      await onSubmit(reservationId, rating, content);
-    }
-    onCloseModal();
-  };
+  // 선택된 상태에 따라 예약 목록 필터링 (메모이제이션)
+  const filteredReservations = useMemo(
+    () =>
+      selectedStatus === 'all'
+        ? reservationList
+        : reservationList.filter((r) => r.status === selectedStatus),
+    [reservationList, selectedStatus]
+  );
 
-  const isDisabled = rating === 0 || content.length === 0;
+  const isEmpty = filteredReservations.length === 0;
 
   return (
-    <FormModalFrame
-      submitBtnText="작성완료"
-      disabled={isDisabled}
-      onCloseModal={onCloseModal}
-      onSubmit={handleSubmit}>
-      {/* 제목 & 정보 */}
-      <div className="text-center">
-        <h2 className="body-lg bold">{title}</h2>
-        <p className="body-sm medium text-gray-500">
-          {date} / {startTime} - {endTime} ({headCount}명)
-        </p>
-      </div>
+    <>
+      {/* 예약 상태 필터 UI */}
+      <ReservationFilters
+        selectedStatus={selectedStatus}
+        onStatusChange={setSelectedStatus}
+      />
 
-      {/* 별점 */}
-      <div className="mt-3.5 flex justify-center">
-        <Rating value={rating} onChange={setRating} />
-      </div>
-
-      {/* 후기 입력 */}
-      <div className="mt-7.5">
-        <TextArea
-          label="소중한 경험을 들려주세요"
-          rows={4}
-          value={content}
-          onChange={setContent}
-          placeholder="체험에서 느낀 경험을 자유롭게 남겨주세요"
-          maxLength={100}
-          showCount
+      {/* 필터링 결과가 없을 경우 Empty State 표시 */}
+      {isEmpty ? (
+        <EmptyState
+          description="아직 예약 내역이 없어요"
+          buttonText="체험 둘러보기"
+          buttonHref="/"
         />
-      </div>
-    </FormModalFrame>
+      ) : (
+        /* 예약 카드 리스트 영역 */
+        <div className="mt-7.5 max-w-160 space-y-6 md:w-full">
+          {filteredReservations.map((item) => (
+            <div key={item.id} className="space-y-2">
+              {/* 모바일 전용 날짜 표시 */}
+              <div className="body-lg bold lg:hidden">{item.date}</div>
+
+              {/* 예약 카드 (UI 컴포넌트) */}
+              <ReservationCard item={item} />
+            </div>
+          ))}
+        </div>
+      )}
+    </>
   );
 }

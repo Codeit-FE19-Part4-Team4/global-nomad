@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import ReservationFilters from './ReservationFilters';
 
@@ -26,11 +26,12 @@ interface Props {
 export default function ReservationList({ reservationList }: Props) {
   const [selectedStatus, setSelectedStatus] = useState<StatusFilter>('all');
 
-  // 선택된 상태에 따른 예약 목록 필터링
-  const filteredReservations =
-    selectedStatus === 'all'
+  // 선택된 상태에 따른 예약 목록 필터링 (메모이제이션)
+  const filteredReservations = useMemo(() => {
+    return selectedStatus === 'all'
       ? reservationList
       : reservationList.filter((r) => r.status === selectedStatus);
+  }, [reservationList, selectedStatus]);
 
   return (
     <>
