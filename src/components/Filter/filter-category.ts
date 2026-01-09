@@ -16,7 +16,7 @@ import IcTour from '@/assets/icons/main/ic-tour.svg';
 import IcWellbeing from '@/assets/icons/main/ic-wellbeing.svg';
 
 export const FILTER_CATEGORIES = [
-  '문화·예술',
+  '문화 · 예술',
   '식음료',
   '투어',
   '관광',
@@ -30,7 +30,7 @@ export const CATEGORY_ICON: Record<
     active: string;
   }
 > = {
-  '문화·예술': {
+  '문화 · 예술': {
     default: IcArt,
     active: IcArtActive,
   },
