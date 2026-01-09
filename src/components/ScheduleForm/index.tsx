@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { useToastContext } from '../toast/ToastProvider';
 
@@ -54,6 +54,7 @@ export default function ScheduleForm({
   onAdd,
   onDelete,
 }: ScheduleFormProps) {
+  const countRef = useRef(0);
   const { showToast } = useToastContext();
   const [draftData, setDraftData] = useState<ScheduleBase>(INITIAL_SCHEDULE);
   const [scheduleData, setScheduleData] = useState<ScheduleUI[]>([]);
@@ -89,7 +90,7 @@ export default function ScheduleForm({
     setScheduleData((prev) => [
       ...prev,
       {
-        id: Date.now(),
+        id: countRef.current++,
         ...newSchedule,
         isDeleted: false,
       },

@@ -30,12 +30,8 @@ export default function LandingPageClient() {
   );
   const [value, setValue] = useState(searchParams.get('search') ?? '');
   const [keyword, setKeyword] = useState<string | null>(initialKeyword);
-  const [allLength, setAllLength] = useState<number>(() => {
-    if (!width) return 8;
-    if (width < 768) return 6;
-    if (width < 1024) return 4;
-    return 8;
-  });
+  const [mounted, setMounted] = useState(false);
+  const [allLength, setAllLength] = useState<number>(8);
 
   // 검색
   const handleSearch = () => {
@@ -97,8 +93,12 @@ export default function LandingPageClient() {
   const handleClickPage = (page: number) => {
     setPage(page);
   };
-
   useEffect(() => {
+    setMounted(true);
+  }, []);
+  useEffect(() => {
+    if (!mounted || width === undefined) return;
+
     if (!width) return;
     if (width < 768) {
       setAllLength(6);
@@ -107,7 +107,7 @@ export default function LandingPageClient() {
     } else {
       setAllLength(8);
     }
-  }, [width]);
+  }, [mounted, width]);
 
   useEffect(() => {
     const search = searchParams.get('search');
