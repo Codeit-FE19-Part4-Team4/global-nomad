@@ -1,11 +1,14 @@
 import { apiFetch } from '@/config/client';
-import type { UpdateActivityRequest } from '@/types/activities';
+import type {
+  UpdateActivityRequest,
+  ResponseActivitiesDetail,
+} from '@/types/activities';
 
 export const updateActivity = async (
   req: UpdateActivityRequest,
   id: number
 ) => {
-  return apiFetch<UpdateActivityRequest>(`/my-activities/${id}`, {
+  return apiFetch<ResponseActivitiesDetail>(`/my-activities/${id}`, {
     method: 'PATCH',
     body: req,
   });
