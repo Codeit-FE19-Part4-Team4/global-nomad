@@ -104,7 +104,18 @@ export default function Page({ params }: PageProps) {
     if (activityDetailData && !isInitialized) {
       dispatch({
         type: 'INIT',
-        payload: PAYLOAD,
+        payload: {
+          title: activityDetailData.title,
+          category: activityDetailData.category,
+          description: activityDetailData.description,
+          price: activityDetailData.price,
+          address: activityDetailData.address,
+          bannerImageUrl: activityDetailData.bannerImageUrl,
+          subImageIdsToRemove: [],
+          subImageUrlsToAdd: [],
+          scheduleIdsToRemove: [],
+          schedulesToAdd: [],
+        },
       });
       setBaseAddress(activityDetailData.address);
       setIsInitialized(true);
@@ -129,19 +140,6 @@ export default function Page({ params }: PageProps) {
   if (!activityDetailData) {
     throw new Error('데이터를 불러오지 못했습니다.');
   }
-
-  const PAYLOAD: UpdateActivityRequest = {
-    title: activityDetailData.title,
-    category: activityDetailData.category,
-    description: activityDetailData.description,
-    price: activityDetailData.price,
-    address: activityDetailData.address,
-    bannerImageUrl: activityDetailData.bannerImageUrl,
-    subImageIdsToRemove: [],
-    subImageUrlsToAdd: [],
-    scheduleIdsToRemove: [],
-    schedulesToAdd: [],
-  };
 
   const handleChangeField = <K extends keyof UpdateActivityRequest>(
     field: K,
