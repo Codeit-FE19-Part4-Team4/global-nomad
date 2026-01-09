@@ -1,5 +1,6 @@
 'use client';
 
+import { format } from 'date-fns';
 import Image from 'next/image';
 import * as React from 'react';
 
@@ -20,10 +21,15 @@ import { formatDateYYMMDD, parseDate } from '@/util/format';
 
 export function ScheduleDate({ isDraft, onChange, value }: ScheduleDateProps) {
   const [open, setOpen] = React.useState(false);
-  const [month, setMonth] = React.useState<Date>(new Date());
+  const [today, setToday] = React.useState<Date | null>(null);
+  const [month, setMonth] = React.useState<Date | null>(null);
+  React.useEffect(() => {
+    setToday(new Date());
+    setMonth(new Date());
+  }, []);
+  if (!month) return null;
 
   const selectedDate = value ? new Date(value) : undefined;
-
   const isIsoDate = (value: string) => {
     return /^\d{4}-\d{2}-\d{2}$/.test(value);
   };
@@ -65,9 +71,10 @@ export function ScheduleDate({ isDraft, onChange, value }: ScheduleDateProps) {
                 month={month}
                 onMonthChange={setMonth}
                 disabled={(day) => {
-                  const today = new Date();
-                  today.setHours(0, 0, 0, 0);
-                  const isPast = day < today;
+                  if (!today) return true;
+                  const todayStr = format(today, 'yyyy-MM-dd');
+                  const dayStr = format(day, 'yyyy-MM-dd');
+                  const isPast = dayStr < todayStr;
                   const isSameMonth =
                     day.getMonth() === month.getMonth() &&
                     day.getFullYear() === month.getFullYear();

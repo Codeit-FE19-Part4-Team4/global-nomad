@@ -49,9 +49,14 @@ export default function ReservationForm({
   activityPrice,
   activityId,
 }: ReservationFormProps) {
+  const width = useWindowSize();
+  const [today, setToday] = React.useState<Date | null>(null);
+  const [mounted, setMounted] = React.useState(false);
   const [date, setDate] = React.useState<Date | undefined>(undefined);
   const [count, setCount] = React.useState<number>(0);
-  const [currentMonth, setCurrentMonth] = React.useState<Date>(new Date());
+  const [currentMonth, setCurrentMonth] = React.useState<Date | undefined>(
+    undefined
+  );
   const [selectedDate, setSelectedDate] = React.useState<ReservationSchedule[]>(
     []
   );
@@ -61,7 +66,11 @@ export default function ReservationForm({
   );
   // 이용가능한 날짜
   const availableDates = React.useMemo(
-    () => schedules.map((schedule) => new Date(schedule.date)),
+    () => schedules.map((s) => new Date(s.date)), // Date[]
+    [schedules]
+  );
+  const availableDateList = React.useMemo(
+    () => new Set(schedules.map((s) => s.date)), // 'yyyy-MM-dd'
     [schedules]
   );
   const isReservation = React.useMemo(
@@ -70,7 +79,6 @@ export default function ReservationForm({
   );
   const [isScheduleVisible, setIsScheduleVisible] =
     React.useState<boolean>(false);
-  const width = useWindowSize();
 
   // TODO: POST 예약하기 API연결
   const handleReservation = ({ scheduleId, count }: ReservationProps) => {};
@@ -92,10 +100,14 @@ export default function ReservationForm({
     setCurrentMonth(month);
     // TODO: GET 체험 예약 가능일 조회 API연결 (month, activityId)
   };
-
+  useEffect(() => {
+    setToday(new Date());
+    setMounted(true);
+    setCurrentMonth(new Date());
+  }, []);
   // 해상도 1024 이하일때 배경 스크롤 제어
   useEffect(() => {
-    if (width === undefined) return;
+    if (!mounted || width === undefined) return;
     if (width < PC_WIDTH) {
       if (!isScheduleVisible) {
         document.body.classList.remove('modal-open');
@@ -105,8 +117,8 @@ export default function ReservationForm({
     } else {
       document.body.classList.remove('modal-open');
     }
-  }, [width, isScheduleVisible]);
-  if (width === undefined) return null;
+  }, [mounted, width, isScheduleVisible]);
+  if (!mounted) return null;
   return (
     <ReservationLayout isScheduleVisible={isScheduleVisible}>
       <div
@@ -124,38 +136,41 @@ export default function ReservationForm({
         <div className={cn(reservationArea)}>
           {/* 캘린더 */}
           <div className={cn(scheduleId !== undefined && 'hidden md:block')}>
-            <Calendar
-              mode="single"
-              selected={date}
-              onSelect={handleSelectDate}
-              month={currentMonth}
-              onMonthChange={handleMonthChange}
-              disabled={(day) => {
-                const today = new Date();
-                today.setHours(0, 0, 0, 0);
-                const isPast = day < today;
-                const isSameMonth =
-                  day.getMonth() === currentMonth.getMonth() &&
-                  day.getFullYear() === currentMonth.getFullYear();
-                const isAvailable = availableDates.some(
-                  (available) => available.toDateString() === day.toDateString()
-                );
-                return !isSameMonth || !isAvailable || isPast;
-              }}
-              modifiers={{
-                available: availableDates,
-              }}
-              modifiersClassNames={{
-                available:
-                  'bg-primary-100 text-primary-500 rounded-[50%] [&>button]:cursor-pointer',
-                disabled: 'opacity-100',
-              }}
-              className={cn(calendar)}
-              buttonVariant="ghost"
-              typeVariant="page"
-              classNames={calendarClasses}
-              style={calendarStyle}
-            />
+            {currentMonth && (
+              <Calendar
+                mode="single"
+                selected={date}
+                onSelect={handleSelectDate}
+                month={currentMonth}
+                onMonthChange={handleMonthChange}
+                disabled={(day) => {
+                  if (!today) return true;
+                  const todayStr = format(today, 'yyyy-MM-dd');
+                  const dayStr = format(day, 'yyyy-MM-dd');
+                  const isPast = dayStr < todayStr;
+                  const isSameMonth =
+                    day.getMonth() === currentMonth?.getMonth() &&
+                    day.getFullYear() === currentMonth?.getFullYear();
+                  const isAvailable = availableDateList.has(
+                    format(day, 'yyyy-MM-dd')
+                  );
+                  return !isSameMonth || !isAvailable || isPast;
+                }}
+                modifiers={{
+                  available: availableDates,
+                }}
+                modifiersClassNames={{
+                  available:
+                    'bg-primary-100 text-primary-500 rounded-[50%] [&>button]:cursor-pointer',
+                  disabled: 'opacity-100',
+                }}
+                className={cn(calendar)}
+                buttonVariant="ghost"
+                typeVariant="page"
+                classNames={calendarClasses}
+                style={calendarStyle}
+              />
+            )}
           </div>
 
           {/* 예약가능한 시간 & 인원 */}
