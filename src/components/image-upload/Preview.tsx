@@ -56,7 +56,6 @@ export default function Preview({
             onDelete(file);
           } else if (initImages) {
             onDelete(initImages.id);
-            console.log(initImages.id);
           }
         }}
         className="absolute top-[-4px] right-[-4px] cursor-pointer">
