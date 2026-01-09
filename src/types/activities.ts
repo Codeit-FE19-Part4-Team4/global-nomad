@@ -57,7 +57,7 @@ export type UpdateActivityRequest = {
 /** ======================
  * Response Types
  ======================= */
-export type ActivityDetailType = {
+export type ActivityType = {
   id: number;
   userId: number;
   title: string;
@@ -73,7 +73,7 @@ export type ActivityDetailType = {
 };
 
 export interface ResponseGetActivities {
-  activities: ActivityDetailType[];
+  activities: ActivityType[];
   totalCount: number;
 }
 
@@ -89,7 +89,7 @@ export interface Schedule {
   endTime: string; // HH:mm
 }
 
-export interface ResponseActivitiesDetail extends ActivityDetailType {
+export interface ResponseActivitiesDetail extends ActivityType {
   subImages: SubImage[];
   schedules: Schedule[];
 }
