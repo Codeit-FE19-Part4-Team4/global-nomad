@@ -10,7 +10,8 @@ const itemVariants = cva(
     variants: {
       type: {
         menu: 'h-[44px] rounded-[8px] text-center',
-        filter: 'h-[48px] rounded-[16px] text-left px-[20px]',
+        filter:
+          'h-[40px] rounded-[8px] text-center px-[8px] md:h-[48px] md:rounded-[16px] md:px-[20px]',
         select: 'h-[48px] rounded-[16px] text-left px-[20px]',
       },
     },

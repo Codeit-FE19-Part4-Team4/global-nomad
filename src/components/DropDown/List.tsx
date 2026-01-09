@@ -8,7 +8,8 @@ const listVariants = cva(
     variants: {
       type: {
         menu: 'p-[6px] top-0 right-5 rounded-[8px] w-[95px]',
-        filter: 'p-[12px] top-[64px] left-0 rounded-[16px] w-full',
+        filter:
+          'p-[12px] top-[44px] right-0 rounded-[16px] w-full min-w-[130px] md:top-[54px] ',
         select: 'p-[12px] top-[64px] left-0 rounded-[16px] w-full',
       },
     },

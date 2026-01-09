@@ -34,7 +34,7 @@ export interface PostActivityRequest {
 export interface RequestGetActivities {
   method: MethodType;
   cursorId?: number;
-  category?: CategoryType;
+  category?: CategoryType | null;
   keyword?: string;
   sort?: SortType;
   page?: number;

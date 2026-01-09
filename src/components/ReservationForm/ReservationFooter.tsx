@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 import Button from '../Button';
 
 import {
@@ -31,7 +33,11 @@ export default function ReservationFooter({
   setCount,
 }: ReservationFooterProps) {
   const width = useWindowSize();
-  if (width === undefined) return null;
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  if (!mounted || width === undefined) return null;
   const isMobile = width < 767;
   const isNotPC = width < 1024;
 
