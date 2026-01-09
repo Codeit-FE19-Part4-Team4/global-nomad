@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import BasicModal from '../modal/BasicModal';
 import Text from '../Text';
@@ -14,12 +14,19 @@ interface ImageItem {
   id: string;
 }
 
+export interface InitialImages {
+  imageUrl: string;
+  id: string | number;
+}
+
 interface UploadImageListProps {
   children: string;
   maxImages: number;
   onUploadImage?: (newFiles: File[]) => void;
   onDeleteImage?: (file: File) => void;
   multiple?: boolean;
+  initImages: InitialImages[];
+  handleDeleteInitImage?: (id: number | string) => void;
 }
 
 /**
@@ -48,9 +55,16 @@ export default function UploadImageList({
   onUploadImage,
   onDeleteImage,
   multiple = true,
+  initImages,
+  handleDeleteInitImage,
 }: UploadImageListProps) {
   const { openModal, closeModal } = useModal();
   const [images, setImages] = useState<ImageItem[]>([]);
+  const [initPreview, setInitPreview] = useState<InitialImages[]>([]);
+
+  useEffect(() => {
+    setInitPreview(initImages);
+  }, []);
 
   const handleAddImages = (newfiles: FileList) => {
     const filesArray = [...newfiles];
@@ -92,11 +106,30 @@ export default function UploadImageList({
       </Text>
       <div className="flex gap-3 md:gap-[14px]">
         <ImageForm
-          imgCount={images.length}
+          imgCount={images.length + initPreview.length}
           onSelectFiles={handleAddImages}
           maxImages={maxImages}
           multiple={multiple}
         />
+        {initPreview.length > 0 &&
+          handleDeleteInitImage &&
+          initPreview.map((image) => {
+            return (
+              <Preview
+                key={image.id}
+                label={label}
+                onDelete={(file) => {
+                  if (typeof file === 'number' || typeof file === 'string') {
+                    setInitPreview((prev) => {
+                      return prev.filter((item) => item.id !== file);
+                    });
+                    handleDeleteInitImage(file);
+                  }
+                }}
+                initImages={image}
+              />
+            );
+          })}
         {images.length > 0 &&
           images.map((image) => {
             return (
@@ -104,7 +137,7 @@ export default function UploadImageList({
                 key={image.id}
                 file={image.file}
                 label={label}
-                onDelete={handleDeleteImage}
+                onDelete={() => handleDeleteImage(image.file)}
               />
             );
           })}

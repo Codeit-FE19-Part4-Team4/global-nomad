@@ -4,7 +4,7 @@ import type {
   RequestGetActivities,
   ActivityImageResponse,
   PostActivityRequest,
-  ResponsePostActivities,
+  ResponseActivitiesDetail,
 } from '@/types/activities';
 
 export async function getActivities(params: RequestGetActivities) {
@@ -23,8 +23,12 @@ export const postActivityImage = async (data: File) => {
 };
 
 export const postActivity = async (req: PostActivityRequest) => {
-  return apiFetch<ResponsePostActivities>('/activities', {
+  return apiFetch<ResponseActivitiesDetail>('/activities', {
     method: 'POST',
     body: req,
   });
+};
+
+export const getActivityDetail = async (id: number) => {
+  return apiFetch<ResponseActivitiesDetail>(`/activities/${id}`);
 };
