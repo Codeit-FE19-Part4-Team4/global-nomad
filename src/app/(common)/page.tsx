@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 
 import LandingPageClient from './components/LandingPageClient';
 
-import LoadingSpinner from '@/components/Loading';
+import LoadingSpinner from '@/components/LoadingSpinner';
 import { cn } from '@/util/cn';
 
 export default function LandingPage() {
