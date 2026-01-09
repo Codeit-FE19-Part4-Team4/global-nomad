@@ -180,7 +180,7 @@ export default function Page({ params }: PageProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const bannerImageUrl = await Promise.all(
+      const bannerImageUploadUrl = await Promise.all(
         bannerImage.map(async (image: File) => {
           const res = await postActivityImage(image);
           return res.activityImageUrl;
@@ -197,7 +197,9 @@ export default function Page({ params }: PageProps) {
           : [];
       const requestData = {
         ...state,
-        bannerImageUrl: bannerImageUrl[0],
+        bannerImageUrl: bannerImage.length
+          ? bannerImageUploadUrl[0]
+          : bannerImageUrl,
         subImageUrlsToAdd: subImageUrls,
       };
       await updateActivity(requestData, activityId);
