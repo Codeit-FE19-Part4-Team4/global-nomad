@@ -1,12 +1,15 @@
+import { useRouter } from 'next/navigation';
+
 import SideMenuNavItem from './SideMenuNavItem';
 
 import { MY_PAGE_MENU_ITEMS, LOGOUT_ITEM } from '@/constants/navigation';
 import { logout } from '@/features/auth/logout';
 
 export default function SideMenuNav({ onClose }: { onClose?: () => void }) {
+  const router = useRouter();
   const handleLogout = () => {
     logout();
-    window.location.href = '/login';
+    router.push('/login');
   };
   return (
     <nav className="flex flex-col gap-2">

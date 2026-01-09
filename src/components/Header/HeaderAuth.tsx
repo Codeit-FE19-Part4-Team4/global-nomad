@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import ProfileButton from './ProfileButton';
@@ -12,10 +13,10 @@ import useClickOutside from '@/hooks/useClickOutside';
 export default function HeaderAuth() {
   const [isOpen, setIsOpen] = useState(false);
   const profileRef = useClickOutside(() => setIsOpen(false));
-
+  const router = useRouter();
   const handleLogout = () => {
     logout();
-    window.location.href = '/login';
+    router.push('/login');
   };
 
   return (
