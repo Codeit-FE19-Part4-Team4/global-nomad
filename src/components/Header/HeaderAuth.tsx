@@ -1,13 +1,12 @@
 'use client';
 
-import Image from 'next/image';
 import { useState } from 'react';
 
 import ProfileButton from './ProfileButton';
 import ProfileMenu from './ProfileMenu';
 
-import imgBell from '@/assets/icons/common/ic-bell.svg';
 import Notification from '@/components/Notification';
+import { logout } from '@/features/auth/logout';
 import useClickOutside from '@/hooks/useClickOutside';
 
 export default function HeaderAuth() {
@@ -15,8 +14,8 @@ export default function HeaderAuth() {
   const profileRef = useClickOutside(() => setIsOpen(false));
 
   const handleLogout = () => {
-    // TODO: 실제 로그아웃 로직 구현
-    console.log('logout');
+    logout();
+    window.location.href = '/login';
   };
 
   return (

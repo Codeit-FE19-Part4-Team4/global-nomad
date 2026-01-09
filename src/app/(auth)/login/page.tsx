@@ -9,8 +9,11 @@ import Button from '@/components/Button';
 import { TextInput, PasswordInput } from '@/components/Input';
 import { login } from '@/features/auth/apis/login';
 import { validateEmail, validatePassword } from '@/features/auth/validations';
+import { useGuestOnly } from '@/hooks/useGuestOnly';
 
 export default function LoginPage() {
+  useGuestOnly();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 

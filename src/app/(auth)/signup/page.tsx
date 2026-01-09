@@ -15,8 +15,11 @@ import {
   validateNickname,
   validatePasswordConfirm,
 } from '@/features/auth/validations';
+import { useGuestOnly } from '@/hooks/useGuestOnly';
 
 export default function SignupPage() {
+  useGuestOnly();
+
   const [form, setForm] = useState({
     email: '',
     nickname: '',
