@@ -21,8 +21,10 @@ import { formatDateYYMMDD, parseDate } from '@/util/format';
 
 export function ScheduleDate({ isDraft, onChange, value }: ScheduleDateProps) {
   const [open, setOpen] = React.useState(false);
+  const [today, setToday] = React.useState<Date | null>(null);
   const [month, setMonth] = React.useState<Date | null>(null);
   React.useEffect(() => {
+    setToday(new Date());
     setMonth(new Date());
   }, []);
   if (!month) return null;
@@ -69,7 +71,8 @@ export function ScheduleDate({ isDraft, onChange, value }: ScheduleDateProps) {
                 month={month}
                 onMonthChange={setMonth}
                 disabled={(day) => {
-                  const todayStr = format(new Date(), 'yyyy-MM-dd');
+                  if (!today) return true;
+                  const todayStr = format(today, 'yyyy-MM-dd');
                   const dayStr = format(day, 'yyyy-MM-dd');
                   const isPast = dayStr < todayStr;
                   const isSameMonth =

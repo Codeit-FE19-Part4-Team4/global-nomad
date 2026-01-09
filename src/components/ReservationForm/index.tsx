@@ -50,6 +50,7 @@ export default function ReservationForm({
   activityId,
 }: ReservationFormProps) {
   const width = useWindowSize();
+  const [today, setToday] = React.useState<Date | null>(null);
   const [mounted, setMounted] = React.useState(false);
   const [date, setDate] = React.useState<Date | undefined>(undefined);
   const [count, setCount] = React.useState<number>(0);
@@ -100,6 +101,7 @@ export default function ReservationForm({
     // TODO: GET 체험 예약 가능일 조회 API연결 (month, activityId)
   };
   useEffect(() => {
+    setToday(new Date());
     setMounted(true);
     setCurrentMonth(new Date());
   }, []);
@@ -142,7 +144,8 @@ export default function ReservationForm({
                 month={currentMonth}
                 onMonthChange={handleMonthChange}
                 disabled={(day) => {
-                  const todayStr = format(new Date(), 'yyyy-MM-dd');
+                  if (!today) return true;
+                  const todayStr = format(today, 'yyyy-MM-dd');
                   const dayStr = format(day, 'yyyy-MM-dd');
                   const isPast = dayStr < todayStr;
                   const isSameMonth =

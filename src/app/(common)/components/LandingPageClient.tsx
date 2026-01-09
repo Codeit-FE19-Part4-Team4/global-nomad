@@ -98,8 +98,6 @@ export default function LandingPageClient() {
   }, []);
   useEffect(() => {
     if (!mounted || width === undefined) return;
-
-    if (!width) return;
     if (width < 768) {
       setAllLength(6);
     } else if (width < 1024) {
