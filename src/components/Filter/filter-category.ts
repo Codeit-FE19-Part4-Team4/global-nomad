@@ -7,17 +7,20 @@
 import IcArtActive from '@/assets/icons/activities/ic-art-active.svg';
 import IcBusActive from '@/assets/icons/activities/ic-bus-active.svg';
 import IcFoodActive from '@/assets/icons/activities/ic-food-active.svg';
+import IcSportActive from '@/assets/icons/activities/ic-sport-active.svg';
 import IcTourActive from '@/assets/icons/activities/ic-tour-active.svg';
 import IcWellbeingActive from '@/assets/icons/activities/ic-wellbeing-active.svg';
 import IcArt from '@/assets/icons/main/ic-art.svg';
 import IcBus from '@/assets/icons/main/ic-bus.svg';
 import IcFood from '@/assets/icons/main/ic-food.svg';
+import IcSport from '@/assets/icons/main/ic-sport.svg';
 import IcTour from '@/assets/icons/main/ic-tour.svg';
 import IcWellbeing from '@/assets/icons/main/ic-wellbeing.svg';
 
 export const FILTER_CATEGORIES = [
-  '문화·예술',
+  '문화 · 예술',
   '식음료',
+  '스포츠',
   '투어',
   '관광',
   '웰빙',
@@ -30,13 +33,17 @@ export const CATEGORY_ICON: Record<
     active: string;
   }
 > = {
-  '문화·예술': {
+  '문화 · 예술': {
     default: IcArt,
     active: IcArtActive,
   },
   식음료: {
     default: IcFood,
     active: IcFoodActive,
+  },
+  스포츠: {
+    default: IcSport,
+    active: IcSportActive,
   },
   투어: {
     default: IcTour,
