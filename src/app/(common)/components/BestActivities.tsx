@@ -31,7 +31,7 @@ export default function BestActivities({
       <h2 className="title-sm lg:title-lg font-[var(--weight-title-lg)]">
         🔥 인기 체험
       </h2>
-      <div className="relative">
+      <div className="swipper-wrap relative">
         <button
           ref={prevRef}
           className={cn(

@@ -2,7 +2,13 @@
  * Request Types
  ======================= */
 export type MethodType = 'offset' | 'cursor';
-export type CategoryType = '문화·예술' | '식음료' | '투어' | '관광' | '웰빙';
+export type CategoryType =
+  | '문화 · 예술'
+  | '식음료'
+  | '스포츠'
+  | '투어'
+  | '관광'
+  | '웰빙';
 export type SortType = 'most_reviewed' | 'price_asc' | 'price_desc' | 'latest';
 export type ActivityImageResponse = {
   activityImageUrl: string;
