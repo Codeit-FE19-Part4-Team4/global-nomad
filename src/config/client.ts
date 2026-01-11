@@ -24,7 +24,7 @@ export async function apiFetch<T, P = Params>(
   // query string 생성
   if (params) {
     Object.entries(params).forEach(([key, value]) => {
-      if (value != null) {
+      if (value !== undefined && value !== null) {
         searchParams.set(key, String(value));
       }
     });
@@ -35,23 +35,31 @@ export async function apiFetch<T, P = Params>(
     searchParams.toString() ? `?${searchParams.toString()}` : ''
   }`;
 
-  const token =
+  const accessToken =
     typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
   // 공통 헤더, body JSON 설정
   const isFormData = body instanceof FormData;
   const res = await fetch(url, {
+    ...options,
     headers: {
       ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
-      ...(token ? { Authorization: `Bearer ${token}` } : {}), // 토큰 추가
+      ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}), // 토큰 추가
       ...headers,
     },
     body: isFormData ? body : body ? JSON.stringify(body) : undefined,
-    ...options,
   });
 
   // 공통 에러 처리
   if (!res.ok) {
     const errorBody = await res.json().catch(() => null);
+
+    if (res.status === 401) {
+      console.error('[apiFetch] Unauthorized', {
+        url,
+        accessToken,
+      });
+    }
+
     throw new ApiError(
       errorBody?.message ?? `API Error ${res.status}`,
       res.status,
@@ -59,7 +67,7 @@ export async function apiFetch<T, P = Params>(
     );
   }
 
-  // 204 No Content 처리
+  // 204 No Content
   if (res.status === 204) {
     return undefined as T;
   }
