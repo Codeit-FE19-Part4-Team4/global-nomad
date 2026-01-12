@@ -90,9 +90,7 @@ export default function Page({ params }: PageProps) {
   const [isValidSchedule, setIsValidSchedule] = useState(true);
   const router = useRouter();
   const { openModal, closeModal } = useModal();
-  usePreventNavigation(!isSaved, () => {
-    setIsSaved(true);
-  });
+  usePreventNavigation(!isSaved);
   const {
     title,
     description,

@@ -73,9 +73,7 @@ export default function Page() {
   const [subImages, setSubImages] = useState<File[]>([]);
   const router = useRouter();
   const { openModal, closeModal } = useModal();
-  usePreventNavigation(!isSaved, () => {
-    setIsSaved(true);
-  });
+  usePreventNavigation(!isSaved);
   const handleChangeField = <K extends keyof PostActivityRequest>(
     field: K,
     value: PostActivityRequest[K]
