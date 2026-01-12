@@ -1,5 +1,8 @@
 import ReviewModal from '../components/ReviewModal';
 
+import { useSubmitReview } from './useReservations';
+
+import { useToast } from '@/components/toast/useToast';
 import { useModal } from '@/hooks/useModal';
 import { MyReservation } from '@/types/myreservations';
 
@@ -12,6 +15,8 @@ import { MyReservation } from '@/types/myreservations';
  */
 export function useReviewModal() {
   const { openModal, closeModal } = useModal();
+  const submitReviewMutation = useSubmitReview();
+  const { show } = useToast();
 
   const openReviewModal = (item: MyReservation) => {
     openModal({
@@ -23,9 +28,29 @@ export function useReviewModal() {
         startTime: item.startTime,
         endTime: item.endTime,
         headCount: item.headCount,
+        isSubmitting: submitReviewMutation.isPending,
 
-        onSubmit: () => {
-          closeModal(ReviewModal);
+        onClose: () => closeModal(ReviewModal),
+
+        onSubmit: async (rating: number, content: string) => {
+          try {
+            await submitReviewMutation.mutateAsync({
+              reservationId: item.id,
+              rating,
+              content,
+            });
+            closeModal(ReviewModal);
+
+            show('후기가 작성되었습니다', 'success', 3000);
+          } catch (error) {
+            const errorMessage =
+              error instanceof Error
+                ? error.message
+                : '후기 작성에 실패했습니다';
+
+            console.error('리뷰 작성 실패:', error);
+            show(errorMessage, 'error', 3000);
+          }
         },
       },
     });

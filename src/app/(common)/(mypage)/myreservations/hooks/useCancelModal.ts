@@ -1,4 +1,7 @@
+import { useCancelReservation } from './useReservations';
+
 import CancelModal from '@/components/modal/CancelModal';
+import { useToast } from '@/components/toast/useToast';
 import { useModal } from '@/hooks/useModal';
 
 /**
@@ -7,14 +10,14 @@ import { useModal } from '@/hooks/useModal';
  * 역할:
  * - 취소 확인 모달 오픈
  * - 확인 시 모달 닫기
+ * - 예약 취소 API 호출 및 토스트 표시
  */
 export function useCancelModal() {
   const { openModal, closeModal } = useModal();
+  const cancelMutation = useCancelReservation();
+  const { show } = useToast();
 
-  const openCancelModal = (
-    activityTitle: string,
-    onConfirm: () => Promise<void>
-  ) => {
+  const openCancelModal = (reservationId: number) => {
     openModal({
       component: CancelModal,
       props: {
@@ -22,8 +25,20 @@ export function useCancelModal() {
         rightBtnText: '취소하기',
 
         onConfirmDelete: async () => {
-          await onConfirm();
-          closeModal(CancelModal);
+          try {
+            await cancelMutation.mutateAsync(reservationId);
+            closeModal(CancelModal);
+
+            show('예약이 취소되었습니다', 'success', 3000);
+          } catch (error) {
+            const errorMessage =
+              error instanceof Error
+                ? error.message
+                : '예약 취소에 실패했습니다';
+
+            console.error('예약 취소 실패:', error);
+            show(errorMessage, 'error', 3000);
+          }
         },
       },
     });
