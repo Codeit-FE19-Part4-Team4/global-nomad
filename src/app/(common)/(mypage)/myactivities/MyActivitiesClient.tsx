@@ -6,7 +6,7 @@ import EmptyState from '@/components/EmptyState';
 import { ActivityType } from '@/types/activities';
 import { cn } from '@/util/cn';
 
-interface MyActivitiesClientPorps {
+interface MyActivitiesClientProps {
   data: ActivityType[];
   onDelete: (id: number) => void;
   onCreate: () => void;
@@ -20,7 +20,7 @@ export default function MyActivitiesClient({
   onCreate,
   onEdit,
   loadMoreRef,
-}: MyActivitiesClientPorps) {
+}: MyActivitiesClientProps) {
   return (
     <>
       {/* 내 체험 목록 있을 경우 */}
