@@ -32,7 +32,7 @@ export function useReviewModal() {
 
         onClose: () => closeModal(ReviewModal),
 
-        onSubmit: async (rating: number, content: string) => {
+        onSubmit: async (rating: number, content: string): Promise<void> => {
           try {
             await submitReviewMutation.mutateAsync({
               reservationId: item.id,
