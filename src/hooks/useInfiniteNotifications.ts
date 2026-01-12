@@ -14,14 +14,16 @@ export const useInfiniteNotifications = () => {
   //무한 루프 방지
   const cursorIdRef = useRef(cursorId);
   const hasMoreRef = useRef(hasMore);
+  const isLoadingRef = useRef(false);
   useEffect(() => {
     cursorIdRef.current = cursorId;
     hasMoreRef.current = hasMore;
   }, [cursorId, hasMore]);
 
   const loadMore = useCallback(async () => {
-    if (isLoading || !hasMoreRef.current) return;
+    if (isLoadingRef.current || !hasMoreRef.current) return;
 
+    isLoadingRef.current = true;
     setIsLoading(true);
     setError(null);
 
@@ -43,9 +45,10 @@ export const useInfiniteNotifications = () => {
         err instanceof Error ? err.message : '알림을 불러오는데 실패했습니다.'
       );
     } finally {
+      isLoadingRef.current = false;
       setIsLoading(false);
     }
-  }, [isLoading]);
+  }, []);
 
   //개별 삭제
   const removeNotification = useCallback(async (id: number) => {

@@ -10,11 +10,13 @@ import ic_close from '@/assets/icons/common/ic-close.svg';
 import useClickOutside from '@/hooks/useClickOutside';
 import { useInfiniteNotifications } from '@/hooks/useInfiniteNotifications';
 import { type Notification } from '@/types/notification';
+import { getTimeAgo } from '@/util/timeAgo';
 
 export default function Notification() {
   const [isOpen, setIsOpen] = useState(false);
   const notificationRef = useClickOutside(() => setIsOpen(false));
   const bottomRef = useRef<HTMLLIElement | null>(null);
+  const hasInitialLoaded = useRef(false);
 
   const {
     notifications,
@@ -28,10 +30,15 @@ export default function Notification() {
 
   // 최초 로딩
   useEffect(() => {
-    if (isOpen && notifications.length === 0 && !isLoading) {
+    if (isOpen && !hasInitialLoaded.current && !isLoading) {
+      hasInitialLoaded.current = true;
       loadMore();
     }
-  }, [isOpen]);
+
+    if (!isOpen) {
+      hasInitialLoaded.current = false;
+    }
+  }, [isOpen, isLoading, loadMore]);
 
   // 무한 스크롤
   useEffect(() => {
@@ -113,7 +120,7 @@ export default function Notification() {
                 <NotificationCard
                   key={notification.id}
                   content={notification.content}
-                  timeAgo="5분"
+                  timeAgo={getTimeAgo(notification.createdAt)}
                   onDelete={() => handleDelete(notification.id)}
                 />
               ))}
