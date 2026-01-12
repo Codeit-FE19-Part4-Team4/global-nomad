@@ -1,3 +1,5 @@
+'use client';
+
 import { cva } from 'class-variance-authority';
 
 import { cardVariants, cardDetailVariants } from '@/components/Card/card-cva';

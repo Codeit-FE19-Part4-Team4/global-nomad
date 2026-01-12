@@ -10,23 +10,29 @@ export interface ReservationSchedule {
 }
 
 export interface ReservationFormProps {
-  schedules: readonly ReservationSchedule[];
+  headCount: number;
+  setHeadCount: React.Dispatch<React.SetStateAction<number>>;
+  scheduleId: number | undefined;
+  setScheduleId: React.Dispatch<React.SetStateAction<number | undefined>>;
+  schedules: ReservationSchedule[] | undefined;
   activityPrice: number;
-  activityId: number;
+  handleReservation: (params: ReservationProps) => void;
+  currentMonth: Date;
+  setCurrentMonth: React.Dispatch<React.SetStateAction<Date>>;
 }
 
 export interface ReservationProps {
   scheduleId: number;
-  count: number;
+  headCount: number;
 }
 
 export interface ReservationOptionProps {
-  count: number;
-  setCount: React.Dispatch<React.SetStateAction<number>>;
-  date: Date | undefined;
-  selectedDate: ReservationSchedule[];
+  headCount: number;
+  setHeadCount: React.Dispatch<React.SetStateAction<number>>;
   scheduleId: number | undefined;
   setScheduleId: React.Dispatch<React.SetStateAction<number | undefined>>;
+  date: Date | undefined;
+  selectedDate: ReservationSchedule[] | undefined;
   selectedTime: string;
   setSelectedTime: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -35,7 +41,7 @@ export interface ReservationFooterProps {
   disabled: boolean;
   onClick: (params: ReservationProps) => void;
   activityPrice: number;
-  count: number;
+  headCount: number;
   date: Date | undefined;
   scheduleId: number | undefined;
   setScheduleId: React.Dispatch<React.SetStateAction<number | undefined>>;
@@ -44,7 +50,7 @@ export interface ReservationFooterProps {
   setIsScheduleVisible: React.Dispatch<React.SetStateAction<boolean>>;
   selectedTime: string;
   setDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
-  setCount: React.Dispatch<React.SetStateAction<number>>;
+  setHeadCount: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export interface ReservationLayoutProps {

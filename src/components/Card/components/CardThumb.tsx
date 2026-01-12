@@ -1,5 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
 import { cva } from 'class-variance-authority';
-import Image from 'next/image';
 import { useState } from 'react';
 
 import { cardType } from '../card-type';
@@ -31,15 +31,24 @@ export default function CardThumb({
   title,
 }: CardThumbProps) {
   const [img, setImg] = useState<string>(bannerImageUrl);
+  const [isError, setIsError] = useState(false);
+
+  const handleError = () => {
+    if (!isError) {
+      setImg(ImgEmpty.src);
+      setIsError(true);
+    }
+  };
   return (
     <div className={cn(cardThumVariants({ type }))}>
-      <Image
+      <img
         src={img}
-        onError={() => setImg(ImgEmpty)}
+        onError={handleError}
         alt={title}
-        fill
-        className="left-1/2! -translate-x-1/2 object-cover object-center transition-transform duration-300 ease-out group-hover:scale-110"
-        sizes="(max-width: 767px) 100%, (max-width: 1023px) 50%, 25%"
+        className={cn(
+          'h-full w-full object-cover object-center transition-transform duration-300 ease-out group-hover:scale-110',
+          isError && 'object-contain'
+        )}
       />
     </div>
   );

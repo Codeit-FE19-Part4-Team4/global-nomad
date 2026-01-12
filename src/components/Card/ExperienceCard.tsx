@@ -31,7 +31,7 @@ export default function ExperienceCard({
   const { id, title, bannerImageUrl, price, rating, reviewCount } = item;
   return (
     <Link
-      href={`/activities/${id}`}
+      href={`/activity/${id}`}
       className={cn(cardVariants({ type }), className)}>
       <CardThumb type={type} bannerImageUrl={bannerImageUrl} title={title} />
       <div className={cardDetailVariants({ type })}>

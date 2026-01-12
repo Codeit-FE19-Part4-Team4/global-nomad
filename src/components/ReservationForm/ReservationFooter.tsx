@@ -21,7 +21,7 @@ export default function ReservationFooter({
   disabled,
   onClick,
   activityPrice,
-  count,
+  headCount,
   scheduleId,
   setScheduleId,
   setSelectedTime,
@@ -30,7 +30,7 @@ export default function ReservationFooter({
   selectedTime,
   date,
   setDate,
-  setCount,
+  setHeadCount,
 }: ReservationFooterProps) {
   const width = useWindowSize();
   const [mounted, setMounted] = useState(false);
@@ -51,7 +51,7 @@ export default function ReservationFooter({
     setScheduleId(undefined);
     setIsScheduleVisible(false);
     setDate(undefined);
-    setCount(0);
+    setHeadCount(0);
   };
   // 뒤로
   const handleBackSchedule = () => {
@@ -60,7 +60,7 @@ export default function ReservationFooter({
   };
   const shouldShowInfo = isScheduleVisible && isMobile;
   const shouldShowPrice =
-    !isNotPC || (isNotPC && count > 0) || (isMobile && isScheduleVisible);
+    !isNotPC || (isNotPC && headCount > 0) || (isMobile && isScheduleVisible);
   return (
     <div
       className={cn(footerBox, !isScheduleVisible && 'border-t border-[#ddd]')}>
@@ -91,9 +91,9 @@ export default function ReservationFooter({
           {shouldShowPrice && (
             <>
               <strong className={cn(txtPrice)}>
-                ₩ {formatPrice(activityPrice * count)}
+                ₩ {formatPrice(activityPrice * headCount)}
               </strong>
-              <span className={cn(txtPerson)}>/ {count}명</span>
+              <span className={cn(txtPerson)}>/ {headCount}명</span>
             </>
           )}
         </div>
@@ -120,8 +120,8 @@ export default function ReservationFooter({
         size="lg"
         disabled={disabled}
         onClick={() => {
-          if (scheduleId == null || count == null) return;
-          onClick({ scheduleId, count });
+          if (scheduleId == null || headCount == null) return;
+          onClick({ scheduleId, headCount });
         }}
         className={cn(
           isScheduleVisible && 'hidden lg:flex',

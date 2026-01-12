@@ -13,3 +13,8 @@ export const updateActivity = async (
     body: req,
   });
 };
+
+// 내 체험 삭제 - DELETE /{teamId}/my-activities/{activityId}
+export const deleteMyActivities = async (activityId: number) => {
+  return apiFetch(`/my-activities/${activityId}`);
+};
