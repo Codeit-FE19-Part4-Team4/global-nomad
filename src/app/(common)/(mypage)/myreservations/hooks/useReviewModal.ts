@@ -5,6 +5,7 @@ import { useSubmitReview } from './useReservations';
 import { useToast } from '@/components/toast/useToast';
 import { useModal } from '@/hooks/useModal';
 import { MyReservation } from '@/types/myreservations';
+import { getApiErrorMessage } from '@/util/error';
 
 /**
  * 리뷰 작성 모달 UI 흐름만 담당하는 커스텀 훅
@@ -43,10 +44,10 @@ export function useReviewModal() {
 
             show('후기가 작성되었습니다', 'success', 3000);
           } catch (error) {
-            const errorMessage =
-              error instanceof Error
-                ? error.message
-                : '후기 작성에 실패했습니다';
+            const errorMessage = getApiErrorMessage(
+              error,
+              '후기 작성에 실패했습니다'
+            );
 
             console.error('리뷰 작성 실패:', error);
             show(errorMessage, 'error', 3000);

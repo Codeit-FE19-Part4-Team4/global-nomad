@@ -3,6 +3,7 @@ import { useCancelReservation } from './useReservations';
 import CancelModal from '@/components/modal/CancelModal';
 import { useToast } from '@/components/toast/useToast';
 import { useModal } from '@/hooks/useModal';
+import { getApiErrorMessage } from '@/util/error';
 
 /**
  * 예약 취소 확인 모달 UI 흐름만 담당하는 커스텀 훅
@@ -24,17 +25,17 @@ export function useCancelModal() {
         message: '예약을 취소하시겠어요?',
         rightBtnText: '취소하기',
 
-        onConfirmDelete: async () => {
+        onConfirmDelete: async (): Promise<void> => {
           try {
             await cancelMutation.mutateAsync(reservationId);
             closeModal(CancelModal);
 
             show('예약이 취소되었습니다', 'success', 3000);
           } catch (error) {
-            const errorMessage =
-              error instanceof Error
-                ? error.message
-                : '예약 취소에 실패했습니다';
+            const errorMessage = getApiErrorMessage(
+              error,
+              '예약 취소에 실패했습니다'
+            );
 
             console.error('예약 취소 실패:', error);
             show(errorMessage, 'error', 3000);
