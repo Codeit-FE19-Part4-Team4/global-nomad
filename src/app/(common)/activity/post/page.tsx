@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useReducer, useState } from 'react';
 
 import PostCode from '../PostCode';
-import usePrventNavigation from '../usePreventNavigation';
+import usePreventNavigation from '../usePreventNavigation';
 
 import { postActivity, postActivityImage } from '@/api/activities';
 import Button from '@/components/Button';
@@ -73,9 +73,8 @@ export default function Page() {
   const [subImages, setSubImages] = useState<File[]>([]);
   const router = useRouter();
   const { openModal, closeModal } = useModal();
-  usePrventNavigation(!isSaved, () => {
+  usePreventNavigation(!isSaved, () => {
     setIsSaved(true);
-    router.back();
   });
   const handleChangeField = <K extends keyof PostActivityRequest>(
     field: K,

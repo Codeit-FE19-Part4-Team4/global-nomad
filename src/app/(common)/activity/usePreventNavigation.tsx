@@ -9,10 +9,26 @@ export default function usePreventNavigation(
 ) {
   const { openModal, closeModal } = useModal();
   const shouldPreventRef = useRef(shouldPrevent);
+  const initUploadRef = useRef(false);
 
   useEffect(() => {
     shouldPreventRef.current = shouldPrevent;
+    if (!initUploadRef.current) {
+      window.history.pushState(null, '', window.location.href);
+      initUploadRef.current = true;
+    }
   }, []);
+
+  const handleLeavePage = () => {
+    shouldPreventRef.current = !shouldPrevent;
+    closeModal(CancelModal);
+    window.history.back();
+  };
+
+  const handleStayPage = () => {
+    window.history.pushState(null, '', window.location.href);
+    closeModal(CancelModal);
+  };
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -21,7 +37,6 @@ export default function usePreventNavigation(
       if (!shouldPreventRef.current) {
         return;
       }
-      window.history.pushState(null, '', window.location.href);
 
       openModal({
         component: CancelModal,
@@ -34,11 +49,11 @@ export default function usePreventNavigation(
           ),
           rightBtnText: '네',
           onConfirmDelete: () => {
-            closeModal(CancelModal);
-            shouldPreventRef.current = false;
+            handleLeavePage();
             onLeaveConfirm();
-            window.history.back();
-            window.history.back();
+          },
+          onCloseModal: () => {
+            handleStayPage();
           },
         },
       });
@@ -46,12 +61,8 @@ export default function usePreventNavigation(
 
     window.addEventListener('popstate', handlePopState);
 
-    if (shouldPreventRef.current) {
-      window.history.pushState(null, '', window.location.href);
-    }
-
     return () => {
       window.removeEventListener('popstate', handlePopState);
     };
-  }, []);
+  }, [shouldPrevent]);
 }

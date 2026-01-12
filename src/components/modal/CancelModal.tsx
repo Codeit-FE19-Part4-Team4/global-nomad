@@ -9,7 +9,8 @@ import { useModal } from '@/hooks/useModal';
 interface CancelModalProps {
   message: string | React.ReactNode;
   rightBtnText: string;
-  onConfirmDelete: () => Promise<void>;
+  onConfirmDelete: () => Promise<void> | void;
+  onCloseModal?: () => void;
 }
 
 const buttonStyle = 'h-[41px] w-[113px] md:h-[47px] md:w-[135px]';
@@ -18,6 +19,7 @@ export default function CancelModal({
   message,
   rightBtnText,
   onConfirmDelete,
+  onCloseModal,
 }: CancelModalProps) {
   const { closeModal } = useModal();
   return (
@@ -36,7 +38,10 @@ export default function CancelModal({
         <div className="flex w-full justify-center gap-2 md:gap-3">
           <Button
             variant={'tertiary'}
-            onClick={() => closeModal(CancelModal)}
+            onClick={() => {
+              onCloseModal?.();
+              closeModal(CancelModal);
+            }}
             className={buttonStyle}>
             아니오
           </Button>

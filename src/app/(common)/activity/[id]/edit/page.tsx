@@ -92,7 +92,6 @@ export default function Page({ params }: PageProps) {
   const { openModal, closeModal } = useModal();
   usePreventNavigation(!isSaved, () => {
     setIsSaved(true);
-    router.back();
   });
   const {
     title,
