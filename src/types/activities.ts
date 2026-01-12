@@ -2,6 +2,7 @@
  * Request Types
  ======================= */
 export type MethodType = 'offset' | 'cursor';
+
 export type CategoryType =
   | '문화 · 예술'
   | '식음료'
@@ -9,6 +10,7 @@ export type CategoryType =
   | '투어'
   | '관광'
   | '웰빙';
+
 export type SortType = 'most_reviewed' | 'price_asc' | 'price_desc' | 'latest';
 export type ActivityImageResponse = {
   activityImageUrl: string;
@@ -41,6 +43,19 @@ export interface RequestGetActivities {
   size?: number;
 }
 
+export type UpdateActivityRequest = {
+  title: string;
+  category: CategoryType;
+  description: string;
+  price: number;
+  address: string;
+  bannerImageUrl: string;
+  subImageIdsToRemove: number[];
+  subImageUrlsToAdd: string[];
+  scheduleIdsToRemove: number[];
+  schedulesToAdd: ScheduleBase[];
+};
+
 /** ======================
  * Response Types
  ======================= */
@@ -69,7 +84,14 @@ export interface SubImage {
   imageUrl: string;
 }
 
-export interface ResponsePostActivities extends ActivityType {
+export interface Schedule {
+  id: number;
+  date: string; // ISO date string (YYYY-MM-DD)
+  startTime: string; // HH:mm
+  endTime: string; // HH:mm
+}
+
+export interface ResponseActivitiesDetail extends ActivityType {
   subImages: SubImage[];
-  schedules: ScheduleBase[];
+  schedules: Schedule[];
 }

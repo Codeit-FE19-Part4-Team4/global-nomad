@@ -217,7 +217,11 @@ export default function Page() {
           onChange={(price) => handleChangeField('price', +price)}
         />
         <div className="flex flex-col gap-[30px]">
-          <PostCode handleChangeField={handleChangeField} />
+          <PostCode
+            initAddress=""
+            pageType="post"
+            onChangeAddress={(address) => handleChangeField('address', address)}
+          />
           <div className="flex flex-col gap-0">
             <span className="bold text-[16px]">예약 가능 시간대</span>
             <ScheduleForm
@@ -232,6 +236,7 @@ export default function Page() {
             />
           </div>
           <UploadImageList
+            initImages={[]}
             maxImages={1}
             multiple={false}
             onUploadImage={(file) => setBannerImage(file)}
@@ -239,6 +244,7 @@ export default function Page() {
             배너 이미지 등록
           </UploadImageList>
           <UploadImageList
+            initImages={[]}
             maxImages={4}
             multiple={true}
             onUploadImage={(files) => setSubImages(files)}

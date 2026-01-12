@@ -2,27 +2,36 @@
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 
+import type { InitialImages } from './UploadImageList';
+
 import ic_delete from '@/assets/icons/activities/ic-image-delete.svg';
 
 interface PreviewProps {
-  file: File;
+  file?: File;
   label: string;
-  onDelete: (file: File) => void;
+  onDelete: (file: File | number | string) => void;
+  initImages?: InitialImages;
 }
-export default function Preview({ file, label, onDelete }: PreviewProps) {
-  const handleDelete = (file: File) => {
-    onDelete(file);
-  };
-  const [url, setUrl] = useState<null | string>(null);
+export default function Preview({
+  file,
+  label,
+  onDelete,
+  initImages,
+}: PreviewProps) {
+  const [url, setUrl] = useState<null | string>(initImages?.imageUrl || null);
 
   useEffect(() => {
-    const objectURL = URL.createObjectURL(file);
-    setUrl(objectURL);
+    if (file) {
+      const objectURL = URL.createObjectURL(file);
+      setUrl(objectURL);
 
-    return () => {
-      URL.revokeObjectURL(objectURL);
-    };
-  }, [file]);
+      return () => {
+        URL.revokeObjectURL(objectURL);
+      };
+    } else if (initImages?.imageUrl) {
+      setUrl(initImages.imageUrl);
+    }
+  }, [file, initImages]);
 
   if (!url) {
     return null;
@@ -36,10 +45,19 @@ export default function Preview({ file, label, onDelete }: PreviewProps) {
           src={url}
           alt={`${label}`}
           className="rounded-2xl object-cover"
+          sizes="(max-width: 126px) 126px, 126px"
+          unoptimized
         />
       </div>
       <button
-        onClick={() => handleDelete(file)}
+        type="button"
+        onClick={() => {
+          if (file) {
+            onDelete(file);
+          } else if (initImages) {
+            onDelete(initImages.id);
+          }
+        }}
         className="absolute top-[-4px] right-[-4px] cursor-pointer">
         <Image src={ic_delete} alt="이미지 삭제" />
       </button>
