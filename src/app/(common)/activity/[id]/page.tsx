@@ -169,7 +169,7 @@ export default function ActivityDetailPage() {
     <div
       className={cn(
         'm-auto pt-7.5 pb-32.5 lg:max-w-300',
-        'md:pt-8.5 lg:min-h-300 lg:pt-22 lg:pb-50'
+        'md:pt-8.5 lg:min-h-300 lg:pt-22 lg:pb-45'
       )}>
       <div className="lg:grid lg:grid-cols-[1fr_410px] lg:grid-rows-[400px_1fr] lg:gap-x-10">
         {/* 체험 이미지 */}
