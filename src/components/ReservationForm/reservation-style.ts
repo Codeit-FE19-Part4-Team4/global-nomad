@@ -34,11 +34,11 @@ export const calendar = [
  * ReservationLayout 스타일
  */
 export const reservationWrap = [
-  'fixed h-[100vh] flex inset-0 items-end',
+  'fixed flex left-0 right-0 bottom-0 items-end z-1',
   'lg:static lg:w-[410px] lg:h-auto lg:min-h-[856px]',
 ];
 export const reservationDimmed = [
-  'absolute inset-0 bg-[rgba(0,0,0,0.5)] z-[-1] lg:hidden',
+  'fixed inset-0 bg-[rgba(0,0,0,0.5)] z-[-1] lg:hidden',
 ];
 export const reservationInner = ['md:h-[100%]', 'lg:block'];
 export const reservationBox = [

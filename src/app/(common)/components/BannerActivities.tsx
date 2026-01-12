@@ -44,7 +44,7 @@ export default function BannerActivities({ data }: BannerActivitiesProps) {
           return (
             <SwiperSlide key={item.id} className="relative h-full">
               <Link
-                href={`/activities/${item.id}`}
+                href={`/activity/${item.id}`}
                 className={cn(
                   'relative block h-[181px] md:h-[375px] lg:h-[500px]'
                 )}>

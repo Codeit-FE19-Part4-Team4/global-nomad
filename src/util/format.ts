@@ -36,14 +36,3 @@ export function parseDate(value?: string): Date | undefined {
 
   return new Date(y, m - 1, d);
 }
-
-/**
- * 26/01/15 형식의 날짜를 서버에 보내기 위해 서버형식으로 변환
- * @param date 날짜 문자열
- * @returns  예: 26/01/15 → 2026-01-15
- */
-export const formatToServerDate = (date: string) => {
-  const [yy, mm, dd] = date.split('/');
-  const year = Number(yy) < 50 ? `20${yy}` : `19${yy}`;
-  return `${year}-${mm}-${dd}`;
-};

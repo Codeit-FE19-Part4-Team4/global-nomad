@@ -25,8 +25,8 @@ import { cn } from '@/util/cn';
  * 인원수 카운트, 예약 가능한 시간을 입력하는 컴포넌트 입니다.
  */
 export default function ReservationOption({
-  count,
-  setCount,
+  headCount,
+  setHeadCount,
   date,
   selectedDate,
   scheduleId,
@@ -35,11 +35,11 @@ export default function ReservationOption({
   setSelectedTime,
 }: ReservationOptionProps) {
   const handleIncrease = () => {
-    setCount((prev) => prev + 1);
+    setHeadCount((prev) => prev + 1);
   };
   const handleDecrease = () => {
-    if (count < 1) return;
-    setCount((prev) => prev - 1);
+    if (headCount < 1) return;
+    setHeadCount((prev) => prev - 1);
   };
   const handleTimeValue = ({
     id,
@@ -72,7 +72,7 @@ export default function ReservationOption({
             <Image src={IcoMinus} width={20} height={20} alt="감소" />
           </button>
           <span className="text-[16px] font-[var(--weight-title-xl)] text-[#4B4B4B]">
-            {count}
+            {headCount}
           </span>
           <button onClick={handleIncrease} className={cn(countBtn)}>
             <Image src={IcoPlus} width={20} height={20} alt="증가" />
@@ -87,7 +87,7 @@ export default function ReservationOption({
         </Text>
         <div className={cn(timeBox)}>
           {date ? (
-            selectedDate.map((item) =>
+            selectedDate?.map((item) =>
               item.times.map((time) => {
                 const { startTime, endTime, id } = time;
                 return (

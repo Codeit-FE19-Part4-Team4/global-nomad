@@ -1,3 +1,5 @@
+import { ReservationStatusType } from './myreservations';
+
 /** ======================
  * Request Types
  ======================= */
@@ -42,6 +44,14 @@ export interface RequestGetActivities {
   page?: number;
   size?: number;
 }
+export interface RequestGetActivitySchedule {
+  year: string | undefined;
+  month: string | undefined;
+}
+export interface RequestGetActivityReviews {
+  page: number;
+  size: number;
+}
 
 export type UpdateActivityRequest = {
   title: string;
@@ -77,6 +87,46 @@ export type ActivityType = {
 export interface ResponseGetActivities {
   activities: ActivityType[];
   totalCount: number;
+}
+
+export interface ScheduleIdType extends Schedule {
+  id: number;
+}
+
+export interface ResponsePostActivityReservations extends ActivityType {
+  id: number;
+  teamId: string;
+  userId: number;
+  activityId: number;
+  scheduleId: number;
+  status: ReservationStatusType;
+  reviewSubmitted: boolean;
+  totalPrice: number;
+  headCount: number;
+  date: string;
+  startTime: string;
+  endTime: string;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface ResponseGetActivityReviews {
+  averageRating: number;
+  reviews: Review[];
+  totalCount: number;
+}
+export interface userType {
+  profileImageUrl: string;
+  nickname: string;
+  id: number;
+}
+export interface Review {
+  id?: number;
+  user: userType;
+  activityId?: number;
+  rating: number;
+  content: string;
+  createdAt: string;
+  updatedAt?: string;
 }
 
 export interface SubImage {

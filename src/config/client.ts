@@ -53,7 +53,7 @@ export async function apiFetch<T, P = Params>(
   if (!res.ok) {
     const errorBody = await res.json().catch(() => null);
     throw new ApiError(
-      errorBody?.message ?? `API Error ${res.status}`,
+      errorBody?.message ?? `${res.status}`,
       res.status,
       errorBody
     );
@@ -74,6 +74,6 @@ export class ApiError extends Error {
     public readonly body: any
   ) {
     super(message);
-    this.name = 'ApiError';
+    this.name = '';
   }
 }
