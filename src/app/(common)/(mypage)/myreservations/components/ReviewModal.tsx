@@ -13,15 +13,10 @@ interface ReviewModalProps {
   startTime: string;
   endTime: string;
   headCount: number;
+  isSubmitting?: boolean;
 
-  onCloseModal: () => void;
-
-  // 리뷰 제출 액션 (API 호출은 상위에서 처리)
-  onSubmit: (
-    reservationId: number,
-    rating: number,
-    content: string
-  ) => Promise<void>;
+  onSubmit: (rating: number, content: string) => void;
+  onClose: () => void;
 }
 
 /**
@@ -31,7 +26,6 @@ interface ReviewModalProps {
  * - 별점 및 후기 내용 입력 UI 제공
  * - 입력값 검증(버튼 비활성화) 처리
  * - 제출 시 상위에서 전달받은 onSubmit 호출
- * - 제출 완료 후 모달 닫기
  *
  * 책임 범위:
  * - 입력 상태 및 UI 인터랙션만 관리
@@ -44,8 +38,9 @@ export default function ReviewModal({
   startTime,
   endTime,
   headCount,
-  onCloseModal,
+  isSubmitting = false,
   onSubmit,
+  onClose,
 }: ReviewModalProps) {
   // 현재 선택된 별점 (UI 입력 상태)
   const [rating, setRating] = useState(0);
@@ -55,18 +50,17 @@ export default function ReviewModal({
 
   // 리뷰 제출 핸들러
   const handleSubmit = async () => {
-    await onSubmit(reservationId, rating, content);
-    onCloseModal();
+    onSubmit(rating, content);
   };
 
   // 필수 입력값이 없을 경우 제출 버튼 비활성화
-  const isDisabled = rating === 0 || content.length === 0;
+  const isDisabled = rating === 0 || content.length === 0 || isSubmitting;
 
   return (
     <FormModalFrame
-      submitBtnText="작성완료"
+      submitBtnText={isSubmitting ? '작성 중...' : '작성완료'}
       disabled={isDisabled}
-      onCloseModal={onCloseModal}
+      onCloseModal={onClose}
       onSubmit={handleSubmit}>
       {/* 체험 정보 영역 */}
       <div className="text-center">

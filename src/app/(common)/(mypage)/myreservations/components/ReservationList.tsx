@@ -14,9 +14,11 @@ import { MyReservation, ReservationStatusType } from '@/types/myreservations';
 // 필터 타입: 실제 예약 상태 + 전체
 type StatusFilter = ReservationStatusType | 'all';
 
-// 전체 예약 목록 (필터링 전 원본 데이터)
+// 화면 상태 타입 상수화
+type ViewState = 'TOTAL_EMPTY' | 'FILTER_EMPTY' | 'HAS_DATA';
+
 interface Props {
-  reservationList: MyReservation[] | null;
+  reservationList: MyReservation[];
 }
 
 /**
@@ -31,16 +33,24 @@ export default function ReservationList({ reservationList }: Props) {
   const { openReviewModal } = useReviewModal();
   const { openCancelModal } = useCancelModal();
 
-  // 선택된 상태에 따른 예약 목록 필터링 (메모이제이션)
-  const filteredReservations = useMemo(() => {
-    if (!reservationList) return [];
+  /** 전체 예약 자체가 없는지 */
+  const isTotalEmpty = reservationList.length === 0;
 
+  /** 상태 필터링 */
+  const filteredReservations = useMemo(() => {
     return selectedStatus === 'all'
       ? reservationList
       : reservationList.filter((r) => r.status === selectedStatus);
   }, [reservationList, selectedStatus]);
 
   const isEmpty = filteredReservations.length === 0;
+
+  /** 화면 상태 결정 */
+  const viewState: ViewState = isTotalEmpty
+    ? 'TOTAL_EMPTY'
+    : isEmpty
+      ? 'FILTER_EMPTY'
+      : 'HAS_DATA';
 
   // 리뷰 작성 핸들러
   const handleReviewSubmit = (reservationId: number) => {
@@ -59,36 +69,40 @@ export default function ReservationList({ reservationList }: Props) {
     );
     if (!reservation) return;
 
-    openCancelModal(reservation.activity.title, async () => {
-      // TODO: 예약 취소 API 호출 예정
-      console.log('예약 취소:', reservationId);
-    });
+    openCancelModal(reservationId);
   };
 
   return (
     <>
-      {/* 예약 상태 필터 영역 */}
-      <ReservationFilters
-        selectedStatus={selectedStatus}
-        onStatusChange={setSelectedStatus}
-      />
+      {/* 예약이 있을 때만 필터 노출 */}
+      {!isTotalEmpty && (
+        <ReservationFilters
+          selectedStatus={selectedStatus}
+          onStatusChange={setSelectedStatus}
+        />
+      )}
 
-      {/* 필터링 결과가 없을 경우 */}
-      {isEmpty ? (
+      {/* 전체 예약 없음 */}
+      {viewState === 'TOTAL_EMPTY' && (
         <EmptyState
           description="아직 예약 내역이 없어요"
           buttonText="체험 둘러보기"
           buttonHref="/"
         />
-      ) : (
-        /* 예약 목록 영역 */
+      )}
+
+      {/* 필터 결과만 없음 */}
+      {viewState === 'FILTER_EMPTY' && (
+        <EmptyState description="선택한 조건에 맞는 예약이 없어요" />
+      )}
+
+      {/* 예약 목록 */}
+      {viewState === 'HAS_DATA' && (
         <div className="mt-7.5 max-w-160 space-y-6 md:w-full">
           {filteredReservations.map((item) => (
             <div key={item.id} className="space-y-2">
-              {/* 모바일 날짜 표시 */}
               <div className="body-lg bold lg:hidden">{item.date}</div>
 
-              {/* 예약 카드 (UI만) */}
               <ReservationCard
                 item={item}
                 onReviewSubmit={handleReviewSubmit}
