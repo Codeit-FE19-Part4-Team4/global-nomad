@@ -7,7 +7,7 @@ import imgWarning from '@/assets/images/common/img-warning.svg';
 import { useModal } from '@/hooks/useModal';
 
 interface CancelModalProps {
-  message: string;
+  message: string | React.ReactNode;
   rightBtnText: string;
   onConfirmDelete: () => Promise<void>;
 }
@@ -29,9 +29,9 @@ export default function CancelModal({
             alt="경고"
             className="h-[49px] w-[49px] md:h-[88px] md:w-[88px]"
           />
-          <span className="text-[16px] font-bold md:text-[18px]">
+          <div className="text-center text-[16px] font-bold **:text-center **:text-[18px] **:font-bold md:text-[18px]">
             {message}
-          </span>
+          </div>
         </div>
         <div className="flex w-full justify-center gap-2 md:gap-3">
           <Button
