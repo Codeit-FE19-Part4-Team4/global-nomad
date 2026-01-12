@@ -8,6 +8,7 @@ import PageHeader from '../components/PageHeader';
 import MyActivitiesClient from './MyActivitiesClient';
 
 import { getMyActivities } from '@/api/myActivities';
+import LoadingSpinner from '@/components/LoadingSpinner';
 import { RequestMyActivities } from '@/types/myactivities';
 
 export default function MyActivities() {
@@ -17,13 +18,12 @@ export default function MyActivities() {
     cursorId: null,
     size: 5,
   };
-  const { data: myactivitiesData } = useQuery({
+  const { data: myactivitiesData, isLoading } = useQuery({
     queryKey: ['myactivities'],
     queryFn: () => getMyActivities(params),
   });
+  if (isLoading) return <LoadingSpinner />;
   if (!myactivitiesData) return null;
-
-  console.log(myactivitiesData);
 
   // 수정하기
   const handleEdit = (id: number) => {
@@ -31,7 +31,7 @@ export default function MyActivities() {
   };
   // 삭제하기
   const handleDelete = (id: number) => {
-    console.log(id + ' : Delete');
+    // TODO: 삭제 API 연결 및 useMutation 사용
   };
 
   return (
