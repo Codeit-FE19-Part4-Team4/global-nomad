@@ -132,7 +132,7 @@ export default function ActivityDetailPage() {
       let message = '오류가 발생했습니다.';
       if (error instanceof ApiError) {
         if (error.status === 404) {
-          message = '존재하지 않는 체험입니다.';
+          message = '신청 예약이 있는 체험은 삭제할 수 없습니다.';
         } else {
           message = error.message;
         }
