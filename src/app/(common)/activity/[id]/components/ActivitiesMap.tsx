@@ -51,18 +51,8 @@ export default function ActivitiesMap({ address }: ActivitiesMapProp) {
         }
       });
     };
-    if (window.kakao.maps && window.kakao.maps.load) {
-      window.kakao.maps.load(initMap);
-    } else {
-      // SDK가 로드 안 됐으면 동적 로드 후 실행
-      const script = document.createElement('script');
-      script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_KEY}&autoload=false&libraries=services`;
-      script.onload = () => {
-        setLoaded(true);
-        window.kakao.maps.load(initMap);
-      };
-      document.head.appendChild(script);
-    }
+    window.kakao.maps.load(initMap);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loaded]);
 
   return (
