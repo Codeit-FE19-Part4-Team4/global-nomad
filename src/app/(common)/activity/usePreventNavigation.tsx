@@ -3,16 +3,16 @@ import { useEffect, useRef } from 'react';
 import CancelModal from '@/components/modal/CancelModal';
 import { useModal } from '@/hooks/useModal';
 
-export default function usePreventNavigation(
-  shouldPrevent: boolean,
-  onLeaveConfirm: () => void
-) {
+export default function usePreventNavigation(shouldPrevent: boolean) {
   const { openModal, closeModal } = useModal();
   const shouldPreventRef = useRef(shouldPrevent);
   const initUploadRef = useRef(false);
 
   useEffect(() => {
     shouldPreventRef.current = shouldPrevent;
+  }, [shouldPrevent]);
+
+  useEffect(() => {
     if (!initUploadRef.current) {
       window.history.pushState(null, '', window.location.href);
       initUploadRef.current = true;
@@ -20,7 +20,7 @@ export default function usePreventNavigation(
   }, []);
 
   const handleLeavePage = () => {
-    shouldPreventRef.current = !shouldPrevent;
+    shouldPreventRef.current = false;
     closeModal(CancelModal);
     window.history.back();
   };
@@ -50,7 +50,6 @@ export default function usePreventNavigation(
           rightBtnText: '네',
           onConfirmDelete: () => {
             handleLeavePage();
-            onLeaveConfirm();
           },
           onCloseModal: () => {
             handleStayPage();
