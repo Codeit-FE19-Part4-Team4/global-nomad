@@ -2,13 +2,14 @@ import { Suspense } from 'react';
 
 import LandingPageClient from './components/LandingPageClient';
 
+import LoadingSpinner from '@/components/LoadingSpinner';
 import { cn } from '@/util/cn';
 
 export default function LandingPage() {
   return (
     <div className={cn('overflow-hidden', '-mx-6 px-6', 'md:-mx-8 md:px-8')}>
       <div className="m-auto max-w-300">
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<LoadingSpinner />}>
           <LandingPageClient />
         </Suspense>
 

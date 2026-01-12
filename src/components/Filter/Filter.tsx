@@ -23,7 +23,7 @@ interface FilterProps {
  * @example
  * <Filter>전체</Filter> 👉🏻 기본
  * <Filter selected> 선택됨 </Filter> 👉🏻 선택 상태
- * <Filter category="문화·예술"> 문화·예술 </Filter> 👉🏻 아이콘 포함
+ * <Filter category="문화 · 예술"> 문화 · 예술 </Filter> 👉🏻 아이콘 포함
  */
 const Filter = forwardRef<HTMLButtonElement, FilterProps>(
   ({ children, selected = false, category, onClick }, ref) => {
