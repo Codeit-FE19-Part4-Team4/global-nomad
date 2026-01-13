@@ -1,4 +1,4 @@
-import { SignupRequest, SignupResponse } from '../features/auth/types';
+import { SignupRequest, SignupResponse } from '../types/auth';
 
 import { apiFetch } from '@/config/client';
 
