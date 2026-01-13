@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-import { signup } from '@/api/signup';
+import { signup } from '@/api/users';
 import kakaoLogo from '@/assets/icons/auth/ic-kakao.svg';
 import Button from '@/components/Button';
 import { TextInput, PasswordInput } from '@/components/Input';
