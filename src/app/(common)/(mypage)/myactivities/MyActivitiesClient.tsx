@@ -51,7 +51,7 @@ export default function MyActivitiesClient({
           </Button>
 
           {/* 내 체험 목록 */}
-          <div className="mb-10 md:mb-20">
+          <div>
             {data.map((item) => {
               return (
                 <ExperienceManageCard

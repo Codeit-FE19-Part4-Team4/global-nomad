@@ -4,8 +4,8 @@ import { FOOTER_LINKS } from './footerLinks';
 
 export default function Footer() {
   return (
-    <footer className="border-t border-gray-100 px-6 py-7.5 md:px-10 md:py-15 lg:px-0">
-      <div className="flex max-w-380 items-center justify-between">
+    <footer className="border-t border-gray-100 px-6 py-7.5 md:px-10 md:py-15">
+      <div className="mx-auto flex max-w-380 items-center justify-between">
         <div className="text-sm text-gray-500">© 2025 Global Nomad</div>
 
         <nav>
