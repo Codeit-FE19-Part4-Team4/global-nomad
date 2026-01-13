@@ -55,7 +55,7 @@ export const MyDateHeader = ({ date, isOffRange }: DateHeaderProps) => {
         {day}
       </div>
       {hasEvent && (
-        <div className="absolute top-4 right-3 h-1.5 w-1.5 rounded-full bg-red-500 sm:right-6 md:right-8 lg:right-12" />
+        <div className="absolute top-4 right-3 h-1.5 w-1.5 rounded-full bg-red-500 sm:right-6 md:right-7 xl:right-8" />
       )}
     </div>
   );
