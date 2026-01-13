@@ -42,6 +42,6 @@ export function useUser() {
   return {
     user: query.data ?? null,
     isLoading: query.isLoading,
-    error: query.error ?? null,
+    error: query.error,
   };
 }
