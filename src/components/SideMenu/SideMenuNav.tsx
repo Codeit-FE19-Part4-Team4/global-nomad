@@ -24,15 +24,12 @@ export default function SideMenuNav({ onClose }: { onClose?: () => void }) {
         />
       ))}
       {/* 로그아웃 버튼 */}
-      <button
-        key={LOGOUT_ITEM.id}
+      <SideMenuNavItem
+        label={LOGOUT_ITEM.label}
+        icon={LOGOUT_ITEM.icon}
+        activeIcon={LOGOUT_ITEM.activeIcon}
         onClick={handleLogout}
-        className="group hover:bg-primary-100 flex items-center gap-2 rounded-lg px-4 py-3 text-gray-600">
-        <div className="relative h-6 w-6">
-          <img src={LOGOUT_ITEM.icon.src} alt="" className="object-contain" />
-        </div>
-        <span className="text-[16px]">{LOGOUT_ITEM.label}</span>
-      </button>
+      />
     </nav>
   );
 }
