@@ -28,5 +28,7 @@ export async function getMyActivities(params?: RequestMyActivities) {
 
 // 내 체험 삭제 - DELETE /{teamId}/my-activities/{activityId}
 export const deleteMyActivities = async (activityId: number) => {
-  return apiFetch(`/my-activities/${activityId}`);
+  return apiFetch(`/my-activities/${activityId}`, {
+    method: 'DELETE',
+  });
 };

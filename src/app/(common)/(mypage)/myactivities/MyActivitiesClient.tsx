@@ -1,8 +1,7 @@
-import { RefObject } from 'react';
-
 import Button from '@/components/Button';
 import ExperienceManageCard from '@/components/Card/ExperienceManageCard';
 import EmptyState from '@/components/EmptyState';
+import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import { ActivityType } from '@/types/activities';
 import { cn } from '@/util/cn';
 
@@ -11,7 +10,10 @@ interface MyActivitiesClientProps {
   onDelete: (id: number) => void;
   onCreate: () => void;
   onEdit: (id: number) => void;
-  loadMoreRef: RefObject<HTMLDivElement | null>;
+  loadMoreRef: React.RefObject<HTMLDivElement | null>;
+  hasNextPage?: boolean;
+  isFetchingNextPage: boolean;
+  fetchNextPage: () => void;
 }
 
 export default function MyActivitiesClient({
@@ -20,7 +22,16 @@ export default function MyActivitiesClient({
   onCreate,
   onEdit,
   loadMoreRef,
+  hasNextPage,
+  isFetchingNextPage,
+  fetchNextPage,
 }: MyActivitiesClientProps) {
+  useInfiniteScroll({
+    loadMoreRef,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  });
   return (
     <>
       {/* 내 체험 목록 있을 경우 */}
@@ -51,7 +62,7 @@ export default function MyActivitiesClient({
                 />
               );
             })}
-            <div ref={loadMoreRef} />
+            <div ref={loadMoreRef} className="h-3" />
           </div>
         </>
       ) : (
