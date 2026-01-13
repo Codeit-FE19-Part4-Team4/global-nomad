@@ -27,14 +27,16 @@ export default function Page() {
           내 체험에 에약된 내역들을 한 눈에 확인할 수 있습니다.
         </span>
       </div>
-      <DropDown type="select" className="max-md:px-6">
-        <DropDownTrigger placeholder={activities[0].title}></DropDownTrigger>
-        <DropDownList>
-          {activities.map((activity) => (
-            <DropDownItem>{activity.title}</DropDownItem>
-          ))}
-        </DropDownList>
-      </DropDown>
+      {activities.length > 0 && (
+        <DropDown type="select" className="max-md:px-6">
+          <DropDownTrigger placeholder={activities[0].title}></DropDownTrigger>
+          <DropDownList>
+            {activities.map((activity) => (
+              <DropDownItem>{activity.title}</DropDownItem>
+            ))}
+          </DropDownList>
+        </DropDown>
+      )}
       <ReservationManagementCalendar
         onSelectSlot={() => console.log('onselectslot')}
       />
