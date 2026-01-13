@@ -9,13 +9,13 @@ import { signup } from '@/api/signup';
 import kakaoLogo from '@/assets/icons/auth/ic-kakao.svg';
 import Button from '@/components/Button';
 import { TextInput, PasswordInput } from '@/components/Input';
+import { useGuestOnly } from '@/hooks/useGuestOnly';
 import {
   validateEmail,
   validatePassword,
   validateNickname,
   validatePasswordConfirm,
-} from '@/features/auth/validations';
-import { useGuestOnly } from '@/hooks/useGuestOnly';
+} from '@/util/validations';
 
 export default function SignupPage() {
   useGuestOnly();

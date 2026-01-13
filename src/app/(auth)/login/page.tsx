@@ -8,8 +8,8 @@ import { login } from '@/api/login';
 import kakaoLogo from '@/assets/icons/auth/ic-kakao.svg';
 import Button from '@/components/Button';
 import { TextInput, PasswordInput } from '@/components/Input';
-import { validateEmail, validatePassword } from '@/features/auth/validations';
 import { useGuestOnly } from '@/hooks/useGuestOnly';
+import { validateEmail, validatePassword } from '@/util/validations';
 
 export default function LoginPage() {
   useGuestOnly();
