@@ -15,6 +15,7 @@ export default function Page() {
     queryKey: ['activities-reservation'],
     queryFn: () => getMyActivities(),
   });
+  //TODO:로딩 에러처리
   if (!myActivitiesData) {
     return null;
   }
