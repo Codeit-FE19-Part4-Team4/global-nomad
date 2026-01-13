@@ -6,12 +6,12 @@ import { useMyPageForm } from './hooks/useMyPageForm';
 
 import Button from '@/components/Button';
 import { TextInput, PasswordInput } from '@/components/Input';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 /**
  * 사용자 정보 수정 페이지
  * - 닉네임, 비밀번호 수정 기능 제공
  * - 이메일은 수정 불가 (조회만 가능)
- * - 기존 비밀번호가 있는 경우 ••••••••로 표시
  */
 export default function MyPage() {
   const {
@@ -19,7 +19,6 @@ export default function MyPage() {
     errors,
     isLoading,
     isInitialLoading,
-    hasPassword,
     handleChange,
     handleSubmit,
   } = useMyPageForm();
@@ -35,9 +34,7 @@ export default function MyPage() {
   if (isInitialLoading) {
     return (
       <section className="mx-auto max-w-2xl px-4 py-8">
-        <div className="flex items-center justify-center py-20">
-          <p className="text-gray-500">로딩 중...</p>
-        </div>
+        <LoadingSpinner />
       </section>
     );
   }
@@ -75,14 +72,10 @@ export default function MyPage() {
           disabled={true}
         />
 
-        {/* 비밀번호 입력 (기존 비밀번호 있으면 ••••••••로 표시) */}
+        {/* 비밀번호 입력 */}
         <PasswordInput
           label="비밀번호"
-          placeholder={
-            hasPassword && !formData.password
-              ? '••••••••'
-              : '8자 이상 입력해 주세요'
-          }
+          placeholder="8자 이상 입력해 주세요"
           value={formData.password}
           onChange={handleChange('password')}
           errorMessage={errors.password}
@@ -92,11 +85,7 @@ export default function MyPage() {
         {/* 비밀번호 확인 입력 */}
         <PasswordInput
           label="비밀번호 확인"
-          placeholder={
-            hasPassword && !formData.passwordConfirm
-              ? '••••••••'
-              : '비밀번호를 한 번 더 입력해 주세요'
-          }
+          placeholder="비밀번호를 한 번 더 입력해 주세요"
           value={formData.passwordConfirm}
           onChange={handleChange('passwordConfirm')}
           errorMessage={errors.passwordConfirm}
