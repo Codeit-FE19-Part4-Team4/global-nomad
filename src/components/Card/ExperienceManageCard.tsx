@@ -1,4 +1,4 @@
-import React from 'react';
+import Link from 'next/link';
 
 import Button from '../Button';
 import RatingSummary from '../RatingSummary';
@@ -39,7 +39,7 @@ export default function ExperienceManageCard({
   const { id, title, bannerImageUrl, price, rating, reviewCount } = item;
   return (
     <div className={cardListWrap}>
-      <div className={cardVariants({ type })}>
+      <Link href={`/activity/${id}`} className={cardVariants({ type })}>
         <CardThumb type={type} bannerImageUrl={bannerImageUrl} title={title} />
         <div className={cardDetailVariants({ type })}>
           <div>
@@ -54,7 +54,7 @@ export default function ExperienceManageCard({
             <CardPrice price={price} />
           </div>
         </div>
-      </div>
+      </Link>
       <div className={btnPosition}>
         <Button size="xs" variant="secondary" onClick={() => onEdit?.(id)}>
           수정하기
