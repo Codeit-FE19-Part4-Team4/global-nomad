@@ -22,7 +22,7 @@ interface BestActivitiesProp {
   isFetchingNextPage: boolean;
   fetchNextPage: () => void;
 }
-
+const PRELOAD_SLIDE_COUNT = 3;
 export default function BestActivities({
   data = [],
   isLoading,
@@ -41,7 +41,7 @@ export default function BestActivities({
     setIsSwiperEnd(swiper.isEnd);
 
     const { activeIndex, slides } = swiper;
-    const threshold = slides.length - 3; // 마지막 3개 슬라이드 전에 다음 페이지 로드
+    const threshold = slides.length - PRELOAD_SLIDE_COUNT; // 마지막 3개 슬라이드 전에 다음 페이지 로드
 
     // 마지막 근처에 도달하고, 다음 페이지가 있으며, 현재 로딩 중이 아닐 때 다음 페이지 요청
     if (activeIndex >= threshold && hasNextPage && !isFetchingNextPage) {
