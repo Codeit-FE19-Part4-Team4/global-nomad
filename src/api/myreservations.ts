@@ -29,6 +29,9 @@ export async function getMyReservationList(
 export async function cancelReservation(reservationId: number): Promise<void> {
   return apiFetch(`/my-reservations/${reservationId}`, {
     method: 'PATCH',
+    body: {
+      status: 'canceled',
+    },
   });
 }
 
