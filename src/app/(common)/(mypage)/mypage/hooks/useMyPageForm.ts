@@ -1,4 +1,3 @@
-// hooks/useMyPageForm.ts
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -31,7 +30,6 @@ export function useMyPageForm() {
     passwordConfirm: '',
   });
   const [isInitialLoading, setIsInitialLoading] = useState(true);
-  const [hasPassword, setHasPassword] = useState(false);
   const [errors, setErrors] = useState<FormErrors>({
     nickname: '',
     email: '',
@@ -49,7 +47,6 @@ export function useMyPageForm() {
           nickname: user.nickname,
           email: user.email,
         }));
-        setHasPassword(true);
       } catch (error: unknown) {
         console.error('사용자 정보 로딩 실패:', error);
 
@@ -74,13 +71,6 @@ export function useMyPageForm() {
         ...prev,
         [field]: value,
       }));
-
-      // 비밀번호 필드 수정 시 기존 비밀번호 상태 해제
-      if (field === 'password' || field === 'passwordConfirm') {
-        if (hasPassword) {
-          setHasPassword(false);
-        }
-      }
 
       // 입력 시 해당 필드 에러 초기화
       if (errors[field]) {
@@ -113,11 +103,6 @@ export function useMyPageForm() {
 
       alert('저장되었습니다.');
 
-      // 비밀번호 업데이트 시 hasPassword 상태 갱신
-      if (formData.password) {
-        setHasPassword(true);
-      }
-
       // 비밀번호 필드 초기화
       setFormData((prev) => ({
         ...prev,
@@ -143,7 +128,6 @@ export function useMyPageForm() {
     errors,
     isLoading,
     isInitialLoading,
-    hasPassword,
     handleChange,
     handleSubmit,
   };
