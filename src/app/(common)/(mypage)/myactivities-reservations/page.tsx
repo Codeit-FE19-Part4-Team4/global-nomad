@@ -25,7 +25,7 @@ export default function Page() {
       <div className="max-md:px-6">
         <h2 className="bold text-[18px] text-gray-950">예약 현황</h2>
         <span className="text-[14px] font-normal text-gray-500">
-          내 체험에 에약된 내역들을 한 눈에 확인할 수 있습니다.
+          내 체험에 예약된 내역들을 한 눈에 확인할 수 있습니다.
         </span>
       </div>
       {activities.length > 0 && (
