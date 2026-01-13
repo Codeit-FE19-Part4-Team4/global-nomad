@@ -48,7 +48,7 @@ export const LOGOUT_ITEM = {
   label: '로그아웃',
   icon: logoutIcon,
   activeIcon: logoutActiveIcon,
-  href: '/logout',
+  href: '#',
 } as const;
 
 // 통합 배열
