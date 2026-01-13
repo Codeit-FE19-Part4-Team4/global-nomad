@@ -1,16 +1,6 @@
 import { apiFetch } from '@/config/client';
 import { ResponseGetUsersMe } from '@/types/users';
 
-// 사용자 정보 타입
-export interface User {
-  id: number;
-  email: string;
-  nickname: string;
-  profileImageUrl: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
 // 사용자 정보 수정 요청 타입
 export interface UpdateUserRequest {
   nickname?: string;
@@ -24,8 +14,10 @@ export const getUsersMe = async () => {
 };
 
 // 내 정보 수정
-export async function updateMe(body: UpdateUserRequest): Promise<User> {
-  return apiFetch<User>('/users/me', {
+export async function updateMe(
+  body: UpdateUserRequest
+): Promise<ResponseGetUsersMe> {
+  return apiFetch<ResponseGetUsersMe>('/users/me', {
     method: 'PATCH',
     body,
   });
