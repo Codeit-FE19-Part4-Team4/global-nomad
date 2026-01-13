@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useReducer, useState } from 'react';
 
 import PostCode from '../PostCode';
+import usePreventNavigation from '../usePreventNavigation';
 
 import { postActivity, postActivityImage } from '@/api/activities';
 import Button from '@/components/Button';
@@ -64,6 +65,7 @@ const reducer = (
 };
 
 export default function Page() {
+  const [isSaved, setIsSaved] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
   const [state, dispatch] = useReducer(reducer, INITIAL_FORM);
@@ -71,6 +73,7 @@ export default function Page() {
   const [subImages, setSubImages] = useState<File[]>([]);
   const router = useRouter();
   const { openModal, closeModal } = useModal();
+  usePreventNavigation(!isSaved);
   const handleChangeField = <K extends keyof PostActivityRequest>(
     field: K,
     value: PostActivityRequest[K]
@@ -146,6 +149,7 @@ export default function Page() {
         bannerImageUrl: bannerImageUrl[0],
         subImageUrls,
       };
+      setIsSaved(true);
       await postActivity(requestData);
       openModal({
         component: BasicModal,

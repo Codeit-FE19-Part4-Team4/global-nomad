@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useReducer, useState, use, useEffect } from 'react';
 
 import PostCode from '../../PostCode';
+import usePreventNavigation from '../../usePreventNavigation';
 
 import { getActivityDetail, postActivityImage } from '@/api/activities';
 import { updateActivity } from '@/api/myActivities';
@@ -79,6 +80,7 @@ export default function Page({ params }: PageProps) {
     scheduleIdsToRemove: [],
     schedulesToAdd: [],
   };
+  const [isSaved, setIsSaved] = useState(false);
   const [state, dispatch] = useReducer(reducer, INITIAL_FORM);
   const [isInitialized, setIsInitialized] = useState(false);
   const [bannerImage, setBannerImage] = useState<File[]>([]);
@@ -88,7 +90,7 @@ export default function Page({ params }: PageProps) {
   const [isValidSchedule, setIsValidSchedule] = useState(true);
   const router = useRouter();
   const { openModal, closeModal } = useModal();
-
+  usePreventNavigation(!isSaved);
   const {
     title,
     description,
@@ -202,6 +204,7 @@ export default function Page({ params }: PageProps) {
           : bannerImageUrl,
         subImageUrlsToAdd: subImageUrls,
       };
+      setIsSaved(true);
       await updateActivity(requestData, activityId);
       openModal({
         component: BasicModal,
