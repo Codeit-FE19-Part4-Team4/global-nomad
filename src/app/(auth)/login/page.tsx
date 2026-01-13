@@ -4,10 +4,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+import { login } from '@/api/login';
 import kakaoLogo from '@/assets/icons/auth/ic-kakao.svg';
 import Button from '@/components/Button';
 import { TextInput, PasswordInput } from '@/components/Input';
-import { login } from '@/features/auth/apis/login';
 import { validateEmail, validatePassword } from '@/features/auth/validations';
 import { useGuestOnly } from '@/hooks/useGuestOnly';
 
