@@ -24,8 +24,10 @@ export const getUsersMe = async () => {
 };
 
 // 내 정보 수정
-export async function updateMe(body: UpdateUserRequest): Promise<User> {
-  return apiFetch<User>('/users/me', {
+export async function updateMe(
+  body: UpdateUserRequest
+): Promise<ResponseGetUsersMe> {
+  return apiFetch<ResponseGetUsersMe>('/users/me', {
     method: 'PATCH',
     body,
   });
