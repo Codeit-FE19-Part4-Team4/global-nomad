@@ -7,8 +7,8 @@ import ProfileButton from './ProfileButton';
 import ProfileMenu from './ProfileMenu';
 
 import Notification from '@/components/Notification';
-import { logout } from '@/features/auth/logout';
 import useClickOutside from '@/hooks/useClickOutside';
+import { logout } from '@/util/logout';
 
 export default function HeaderAuth() {
   const [isOpen, setIsOpen] = useState(false);
