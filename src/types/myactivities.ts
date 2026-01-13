@@ -4,8 +4,8 @@ import { ActivityType } from './activities';
  * Request Types
  ======================= */
 export interface RequestMyActivities {
-  cursorId: number | null;
-  size: number;
+  cursorId?: number | null;
+  size?: number;
 }
 
 /** ======================

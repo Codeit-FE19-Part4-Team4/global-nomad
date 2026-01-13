@@ -8,6 +8,7 @@ import {
   ResponseMyActivities,
 } from '@/types/myactivities';
 
+//내 체험 수정
 export const updateActivity = async (
   req: UpdateActivityRequest,
   id: number
@@ -19,7 +20,7 @@ export const updateActivity = async (
 };
 
 // 내 체험 리스트 조회 - GET /{teamId}/my-activities
-export async function getMyActivities(params: RequestMyActivities) {
+export async function getMyActivities(params?: RequestMyActivities) {
   return apiFetch<ResponseMyActivities>('/my-activities', {
     params,
   });
