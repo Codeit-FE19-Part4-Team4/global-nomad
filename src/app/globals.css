@@ -32,6 +32,6 @@
 /* ================== swiper ================== */
 .swiper-button-prev,
 .swiper-button-next,
-.swipper-wrap .swiper-button-disabled {
+.swipper-wrap .swipper-left.swiper-button-disabled {
   display: none !important;
 }

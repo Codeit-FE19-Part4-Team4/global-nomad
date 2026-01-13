@@ -1,7 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+import type { Swiper as SwiperType } from 'swiper';
 import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -17,15 +18,43 @@ import { cn } from '@/util/cn';
 interface BestActivitiesProp {
   data: ActivityType[] | undefined;
   isLoading: boolean;
+  hasNextPage?: boolean;
+  isFetchingNextPage: boolean;
+  fetchNextPage: () => void;
 }
 
 export default function BestActivities({
   data = [],
   isLoading,
+  hasNextPage,
+  isFetchingNextPage,
+  fetchNextPage,
 }: BestActivitiesProp) {
+  const [isSwiperEnd, setIsSwiperEnd] = useState(false);
   const prevRef = useRef<HTMLButtonElement>(null);
   const nextRef = useRef<HTMLButtonElement>(null);
+  const swiperRef = useRef<SwiperType | null>(null);
   const skeletonCount = 4;
+
+  // Swiper의 슬라이드 변경 시 무한 스크롤 처리
+  const handleSlideChange = (swiper: SwiperType) => {
+    setIsSwiperEnd(swiper.isEnd);
+
+    const { activeIndex, slides } = swiper;
+    const threshold = slides.length - 3; // 마지막 3개 슬라이드 전에 다음 페이지 로드
+
+    // 마지막 근처에 도달하고, 다음 페이지가 있으며, 현재 로딩 중이 아닐 때 다음 페이지 요청
+    if (activeIndex >= threshold && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  };
+  // 슬라이드가 끝에 도달했는지 확인 (PC 버튼 클릭 시)
+  const handleReachEnd = () => {
+    if (hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  };
+
   return (
     <div className={cn('mt-10', 'md:mt-15')}>
       <h2 className="title-sm lg:title-lg font-[var(--weight-title-lg)]">
@@ -38,7 +67,9 @@ export default function BestActivities({
             'absolute z-5 cursor-pointer items-center justify-center',
             'rounded-full border border-[rgba(0,0,0,0.3)] bg-white',
             'top-[156px] hidden h-13.5 w-13.5',
-            'md:-left-[15px] md:flex lg:-left-7'
+            'md:-left-[15px] md:flex lg:-left-7',
+            'swipper-left',
+            isLoading && 'lg:hidden'
           )}>
           <Image
             src={icSwiperNext}
@@ -54,7 +85,9 @@ export default function BestActivities({
             'absolute z-5 cursor-pointer items-center justify-center',
             'rounded-full border border-[rgba(0,0,0,0.3)] bg-white',
             'top-[156px] hidden h-13.5 w-13.5',
-            'md:-right-[15px] md:flex lg:-right-7'
+            'md:-right-[15px] md:flex lg:-right-7',
+            'swipper-right',
+            isSwiperEnd && !hasNextPage && 'lg:hidden'
           )}>
           <Image
             src={icSwiperNext}
@@ -112,9 +145,13 @@ export default function BestActivities({
                 nextEl: nextRef.current,
               }}
               onSwiper={(swiper) => {
+                swiperRef.current = swiper;
                 swiper.navigation.init();
                 swiper.navigation.update();
+                setIsSwiperEnd(swiper.isEnd);
               }}
+              onSlideChange={handleSlideChange}
+              onReachEnd={handleReachEnd}
               touchStartPreventDefault={false}
               resistanceRatio={0}
               watchSlidesProgress={false}>

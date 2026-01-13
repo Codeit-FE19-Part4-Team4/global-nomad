@@ -35,7 +35,7 @@ export default function MyActivities() {
     queryFn: ({ pageParam }) =>
       getMyActivities({ cursorId: pageParam, size: 5 }),
     initialPageParam: null,
-    getNextPageParam: (lastPage) => lastPage.cursorId, // 안전
+    getNextPageParam: (lastPage) => lastPage.cursorId,
   });
   const activities =
     infiniteQuery.data?.pages.flatMap((page) => page.activities) ?? [];
@@ -83,9 +83,6 @@ export default function MyActivities() {
     return <LoadingSpinner />;
   }
 
-  // if (!myactivitiesData) return null;
-
-  // console.log(myactivitiesData);
   return (
     <div className="relative">
       <PageHeader

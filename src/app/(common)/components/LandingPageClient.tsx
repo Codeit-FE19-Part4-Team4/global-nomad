@@ -1,8 +1,12 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
+import {
+  InfiniteData,
+  useInfiniteQuery,
+  useQuery,
+} from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { getActivities } from '../../../api/activities';
 
@@ -16,6 +20,7 @@ import useWindowSize from '@/hooks/useWindowSize';
 import {
   CategoryType,
   RequestGetActivities,
+  ResponseGetActivities,
   SortType,
 } from '@/types/activities';
 
@@ -55,16 +60,26 @@ export default function LandingPageClient() {
   });
 
   // 인기 체험
-  const bestParams: RequestGetActivities = {
-    method: 'offset',
-    sort: 'most_reviewed',
-    page: 1,
-    size: 8,
-  };
-  const { data: bestData, isLoading: isBestLoading } = useQuery({
+  const infiniteQuery = useInfiniteQuery<
+    ResponseGetActivities, // API 응답 타입
+    Error, // 에러 타입
+    InfiniteData<ResponseGetActivities>, // 반환 데이터 타입
+    [string, string], // queryKey 타입
+    number | undefined // pageParam 타입
+  >({
     queryKey: ['activities', 'best'],
-    queryFn: () => getActivities(bestParams),
+    queryFn: ({ pageParam }) =>
+      getActivities({
+        method: 'cursor',
+        cursorId: pageParam,
+        sort: 'most_reviewed',
+        size: 5,
+      }),
+    initialPageParam: undefined,
+    getNextPageParam: (lastPage) => lastPage.cursorId,
   });
+  const bestActivities =
+    infiniteQuery.data?.pages.flatMap((page) => page.activities) ?? [];
 
   // 모든 체험
   const allParams: RequestGetActivities = {
@@ -131,7 +146,13 @@ export default function LandingPageClient() {
 
       {/* 인기 체험 */}
       {!keyword && (
-        <BestActivities data={bestData?.activities} isLoading={isBestLoading} />
+        <BestActivities
+          data={bestActivities}
+          isLoading={infiniteQuery.isLoading}
+          hasNextPage={infiniteQuery.hasNextPage}
+          isFetchingNextPage={infiniteQuery.isFetchingNextPage}
+          fetchNextPage={infiniteQuery.fetchNextPage}
+        />
       )}
 
       {/* 모든 체험 */}

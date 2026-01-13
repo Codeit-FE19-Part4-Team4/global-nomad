@@ -87,6 +87,7 @@ export type ActivityType = {
 export interface ResponseGetActivities {
   activities: ActivityType[];
   totalCount: number;
+  cursorId?: number | null;
 }
 
 export interface ScheduleIdType extends Schedule {
