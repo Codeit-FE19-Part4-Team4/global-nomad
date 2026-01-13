@@ -32,7 +32,7 @@ export default function Page() {
           <DropDownTrigger placeholder={activities[0].title}></DropDownTrigger>
           <DropDownList>
             {activities.map((activity) => (
-              <DropDownItem>{activity.title}</DropDownItem>
+              <DropDownItem key={activity.id}>{activity.title}</DropDownItem>
             ))}
           </DropDownList>
         </DropDown>
