@@ -14,26 +14,26 @@ import type { UserResponse } from '@/features/auth/types';
  *   error: ApiError | null
  */
 export function useUser() {
-  // 클라이언트 환경에서만 localStorage 접근
-  const token =
-    typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
-
   const query = useQuery<UserResponse | null, ApiError>({
     queryKey: ['user'],
     queryFn: async () => {
-      if (!token) return null; // 비로그인 상태
+      // 쿼리 실행 시점마다 최신 토큰 확인
+      const token =
+        typeof window !== 'undefined'
+          ? localStorage.getItem('accessToken')
+          : null;
+
+      if (!token) return null;
+
       try {
-        return await apiFetch<UserResponse>('/users/me', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        return await apiFetch<UserResponse>('/users/me');
       } catch (error) {
         if (error instanceof ApiError) {
           if (error.status === 401 || error.status === 404) {
-            // 토큰 만료 또는 유저 존재하지 않으면 비로그인 처리
             return null;
           }
         }
-        throw error; // 그 외 에러
+        throw error;
       }
     },
     staleTime: 1000 * 60 * 5,
