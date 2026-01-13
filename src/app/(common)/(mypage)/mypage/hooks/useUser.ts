@@ -1,0 +1,18 @@
+// hooks/useUser.ts
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+import { updateMe, UpdateUserRequest } from '@/api/users';
+
+/**
+ * 내 정보 수정
+ */
+export function useUpdateMyInfo() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: UpdateUserRequest) => updateMe(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['user', 'me'] });
+    },
+  });
+}
