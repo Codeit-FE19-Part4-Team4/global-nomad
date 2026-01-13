@@ -62,6 +62,7 @@ export const getActivityReviews = async (
   );
 };
 
+//체험 이미지 url 생성
 export const postActivityImage = async (data: File) => {
   const formdata = new FormData();
   formdata.append('image', data);
@@ -71,12 +72,15 @@ export const postActivityImage = async (data: File) => {
   });
 };
 
+//내 체험 등록
 export const postActivity = async (req: PostActivityRequest) => {
   return apiFetch<ResponseActivitiesDetail>('/activities', {
     method: 'POST',
     body: req,
   });
 };
+
+//체험 상세 조회
 export const getActivityDetail = async (id: number) => {
   return apiFetch<ResponseActivitiesDetail>(`/activities/${id}`);
 };
