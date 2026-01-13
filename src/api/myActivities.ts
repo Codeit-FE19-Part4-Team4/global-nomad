@@ -3,7 +3,12 @@ import type {
   UpdateActivityRequest,
   ResponseActivitiesDetail,
 } from '@/types/activities';
+import {
+  RequestMyActivities,
+  ResponseMyActivities,
+} from '@/types/myactivities';
 
+//내 체험 수정
 export const updateActivity = async (
   req: UpdateActivityRequest,
   id: number
@@ -14,7 +19,16 @@ export const updateActivity = async (
   });
 };
 
+// 내 체험 리스트 조회 - GET /{teamId}/my-activities
+export async function getMyActivities(params?: RequestMyActivities) {
+  return apiFetch<ResponseMyActivities>('/my-activities', {
+    params,
+  });
+}
+
 // 내 체험 삭제 - DELETE /{teamId}/my-activities/{activityId}
 export const deleteMyActivities = async (activityId: number) => {
-  return apiFetch(`/my-activities/${activityId}`);
+  return apiFetch(`/my-activities/${activityId}`, {
+    method: 'DELETE',
+  });
 };

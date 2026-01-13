@@ -1,4 +1,5 @@
 import { Noto_Sans_KR } from 'next/font/google';
+import Script from 'next/script';
 
 import './globals.css';
 
@@ -28,6 +29,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko" className={notoSansKR.variable}>
+      <head>
+        {/* Kakao Maps SDK를 전역으로 로드 */}
+        <Script
+          src={`https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_KEY}&autoload=false&libraries=services`}
+          strategy="beforeInteractive"
+        />
+      </head>
       <body className={notoSansKR.className}>
         <QueryProvider>
           <ModalProvider>

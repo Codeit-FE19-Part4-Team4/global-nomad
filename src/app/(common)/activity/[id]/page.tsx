@@ -1,8 +1,8 @@
 'use client';
 
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { format } from 'date-fns';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import ActivitiesDescription from './components/ActivitiesDescription';
@@ -21,6 +21,7 @@ import { deleteMyActivities } from '@/api/myActivities';
 import { getUsersMe } from '@/api/users';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import BasicModal from '@/components/modal/BasicModal';
+import CancelModal from '@/components/modal/CancelModal';
 import ReservationForm from '@/components/ReservationForm';
 import { ReservationProps } from '@/components/ReservationForm/reservation-type';
 import { ApiError } from '@/config/client';
@@ -33,6 +34,7 @@ import { cn } from '@/util/cn';
 
 export default function ActivityDetailPage() {
   const params = useParams();
+  const router = useRouter();
   const activityId = Number(params.id);
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
   const [headCount, setHeadCount] = useState<number>(0);
@@ -124,23 +126,32 @@ export default function ActivityDetailPage() {
 
   // 삭제하기
   const onDelete = () => {
-    mutationDelete.mutate(activityId);
+    openModal({
+      component: CancelModal,
+      props: {
+        message: '체험을 삭제하시겠습니까?',
+        rightBtnText: '네',
+        onConfirmDelete: () => {
+          closeModal(CancelModal);
+          mutationDelete.mutate(activityId);
+        },
+      },
+    });
   };
+  const queryClient = useQueryClient();
   const mutationDelete = useMutation({
     mutationFn: (activityId: number) => deleteMyActivities(activityId),
+    onSuccess: () => {
+      queryClient.removeQueries({
+        queryKey: ['activity', activityId],
+      });
+      router.push('/');
+    },
     onError: (error) => {
-      let message = '오류가 발생했습니다.';
-      if (error instanceof ApiError) {
-        if (error.status === 404) {
-          message = '신청 예약이 있는 체험은 삭제할 수 없습니다.';
-        } else {
-          message = error.message;
-        }
-      }
       openModal({
         component: BasicModal,
         props: {
-          message: message,
+          message: error,
           buttonText: '확인',
           onClick: () => closeModal(BasicModal),
         },

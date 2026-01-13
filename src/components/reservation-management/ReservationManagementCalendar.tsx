@@ -99,7 +99,7 @@ export const mockEvents: CalendarEventData[] = [
   },
 ];
 interface ReservationManagementCalendarProps {
-  data: ReservationDashboardRes;
+  data?: ReservationDashboardRes;
   onSelectSlot: (slotInfo: SlotInfo) => void;
 }
 export default function ReservationManagementCalendar({
@@ -113,7 +113,7 @@ export default function ReservationManagementCalendar({
     onSelectSlot(slotInfo);
   };
   return (
-    <div className="shadow-calendar bg-background h-fit w-full rounded-3xl pt-5 pb-2.5">
+    <div className="md:shadow-calendar bg-background h-fit w-full rounded-3xl pt-5 pb-2.5">
       <Calendar
         formats={{
           weekdayFormat: 'dd',

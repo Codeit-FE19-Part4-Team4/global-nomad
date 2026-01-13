@@ -20,8 +20,8 @@ export default function MyPageLayout({
   const closeMenu = () => setIsOpen(false);
   return (
     <MenuProvider value={{ openMenu, closeMenu }}>
-      <div className="flex min-h-[calc(100vh-225px)] w-full justify-center">
-        <div className="mypage-layout flex w-full max-w-245">
+      <div className="flex min-h-[calc(100vh-(48px+85px))] w-full justify-center md:min-h-[calc(100vh-(80px+145px))]">
+        <div className="mypage-layout flex w-full max-w-245 pt-7.5 pb-10 md:pt-10 md:pb-15">
           {/* PC / 태블릿 */}
           <div className="hidden md:block">
             <SideMenu />
