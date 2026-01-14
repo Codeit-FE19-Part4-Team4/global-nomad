@@ -36,7 +36,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
       disabled,
       value,
       className,
-      autoComplete = 'off',
+      autoComplete = 'new-password',
       ...props
     },
     ref
