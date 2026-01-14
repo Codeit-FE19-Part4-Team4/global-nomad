@@ -1,3 +1,5 @@
+import { SignupRequest, SignupResponse } from '../types/auth';
+
 import { apiFetch } from '@/config/client';
 import { ResponseGetUsersMe } from '@/types/users';
 
@@ -5,3 +7,11 @@ import { ResponseGetUsersMe } from '@/types/users';
 export const getUsersMe = async () => {
   return apiFetch<ResponseGetUsersMe>(`/users/me`);
 };
+
+// 회원가입 - POST /{teamId}/users
+export function signup(payload: SignupRequest) {
+  return apiFetch<SignupResponse>('/users', {
+    method: 'POST',
+    body: payload,
+  });
+}

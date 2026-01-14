@@ -10,7 +10,7 @@ interface SideMenuNavItemProps {
   label: string;
   icon: StaticImageData;
   activeIcon: StaticImageData;
-  href: string;
+  href?: string;
   className?: string;
   onClick?: () => void;
 }
@@ -24,26 +24,15 @@ export default function SideMenuNavItem({
   className,
 }: SideMenuNavItemProps) {
   const pathname = usePathname();
-  const isActive =
-    !onClick && (pathname === href || pathname.startsWith(href + '/'));
+  const isActive = href ? pathname === href : false;
 
   const handleClick = () => {
     onClick?.();
   };
 
-  return (
-    <Link
-      href={href}
-      onClick={handleClick}
-      className={cn(
-        'group flex items-center gap-2 rounded-lg px-4 py-3 text-gray-600 transition-colors md:px-3',
-        isActive
-          ? 'bg-primary-100 text-gray-950'
-          : 'hover:bg-primary-100 hover:text-gray-950',
-        className
-      )}>
+  const content = (
+    <>
       <div className="relative h-6 w-6">
-        {/* 기본 아이콘 */}
         <Image
           src={icon}
           alt=""
@@ -54,8 +43,6 @@ export default function SideMenuNavItem({
             !isActive && 'group-hover:hidden'
           )}
         />
-
-        {/* active / hover 아이콘 */}
         <Image
           src={activeIcon}
           alt=""
@@ -69,6 +56,30 @@ export default function SideMenuNavItem({
       </div>
 
       <span className="text-[16px]">{label}</span>
+    </>
+  );
+
+  // 공통 스타일
+  const commonClassName = cn(
+    'group flex items-center gap-2 rounded-lg px-4 py-3 text-gray-600 transition-colors md:px-3',
+    isActive
+      ? 'bg-primary-100 text-gray-950'
+      : 'hover:bg-primary-100 hover:text-gray-950',
+    className
+  );
+
+  // href가 없으면 button, 있으면 Link
+  if (!href) {
+    return (
+      <button onClick={handleClick} className={commonClassName}>
+        {content}
+      </button>
+    );
+  }
+
+  return (
+    <Link href={href} onClick={handleClick} className={commonClassName}>
+      {content}
     </Link>
   );
 }
