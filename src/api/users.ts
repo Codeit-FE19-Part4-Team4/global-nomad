@@ -22,12 +22,21 @@ export interface UpdateUserRequest {
 
 // 내 정보 조회 - GET /{teamId}/users/me
 export const getUsersMe = async () => {
-  return apiFetch<ResponseGetUsersMe>(`/users/me`);
+  return apiFetch<ResponseGetUsersMe>('/users/me');
 };
 
-// 내 정보 수정
-export async function updateMe(body: UpdateUserRequest): Promise<User> {
-  return apiFetch<User>('/users/me', {
+// 회원가입 - POST /{teamId}/users
+export function signup(payload: SignupRequest) {
+  return apiFetch<SignupResponse>('/users', {
+    method: 'POST',
+    body: payload,
+  });
+}
+
+export async function updateMe(
+  body: UpdateUserRequest
+): Promise<ResponseGetUsersMe> {
+  return apiFetch<ResponseGetUsersMe>('/users/me', {
     method: 'PATCH',
     body,
   });
