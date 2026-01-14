@@ -5,25 +5,21 @@ export function getTimeAgo(dateString: string): string {
 
   if (diffInSeconds < 60) return '방금';
 
-  // 분 계산
-  if (diffInSeconds < 3600) {
-    const minutes = Math.floor(diffInSeconds / 60);
-    return `${minutes}분`;
-  }
+  const minutes = Math.floor(diffInSeconds / 60);
+  if (minutes < 60) return `${minutes}분`;
 
-  // 시간 계산
-  if (diffInSeconds < 86400) {
-    const hours = Math.floor(diffInSeconds / 3600);
-    return `${hours}시간`;
-  }
+  const hours = Math.floor(diffInSeconds / 3600);
+  if (hours < 24) return `${hours}시간`;
 
-  // 일 계산
-  if (diffInSeconds < 604800) {
-    const days = Math.floor(diffInSeconds / 86400);
-    return `${days}일`;
-  }
+  const days = Math.floor(diffInSeconds / 86400);
+  if (days < 7) return `${days}일`;
 
-  // 주 계산
-  const weeks = Math.floor(diffInSeconds / 604800);
-  return `${weeks}주`;
+  const weeks = Math.floor(days / 7);
+  if (weeks < 4) return `${weeks}주`;
+
+  const months = Math.floor(days / 30);
+  if (months < 12) return `${months}개월`;
+
+  const years = Math.floor(days / 365);
+  return `${years}년`;
 }
