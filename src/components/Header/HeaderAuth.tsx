@@ -8,12 +8,15 @@ import ProfileMenu from './ProfileMenu';
 
 import Notification from '@/components/Notification';
 import useClickOutside from '@/hooks/useClickOutside';
+import { useUser } from '@/hooks/useUser';
 import { logout } from '@/util/logout';
 
 export default function HeaderAuth() {
   const [isOpen, setIsOpen] = useState(false);
   const profileRef = useClickOutside(() => setIsOpen(false));
   const router = useRouter();
+  const { user } = useUser();
+
   const handleLogout = () => {
     logout();
     router.push('/login');
@@ -25,7 +28,8 @@ export default function HeaderAuth() {
       <span className="text-[17px] leading-[30px] text-gray-100">|</span>
       <div className="relative" ref={profileRef}>
         <ProfileButton
-          name="홍길동"
+          name={user?.nickname}
+          url={user?.profileImageUrl}
           onClick={() => setIsOpen((prev) => !prev)}
         />
 

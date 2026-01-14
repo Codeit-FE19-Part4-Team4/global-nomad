@@ -1,4 +1,5 @@
 'use client';
+import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -14,6 +15,7 @@ import { validateEmail, validatePassword } from '@/util/validations';
 export default function LoginPage() {
   useGuestOnly();
 
+  const queryClient = useQueryClient();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -56,6 +58,9 @@ export default function LoginPage() {
       // 토큰 저장
       localStorage.setItem('accessToken', result.accessToken);
       localStorage.setItem('refreshToken', result.refreshToken);
+
+      // user 캐시 갱신
+      await queryClient.invalidateQueries({ queryKey: ['user'] });
 
       router.push('/');
     } catch (err) {

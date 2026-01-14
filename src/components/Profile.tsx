@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import { cva } from 'class-variance-authority';
@@ -34,11 +35,10 @@ export default function Profile({
 }: ProfileProps) {
   return (
     <div className={cn(profileVariants({ size }), className, 'relative')}>
-      <Image
-        src={src || defaultProfile}
+      <img
+        src={src || defaultProfile.src}
         alt={alt}
-        fill
-        className="rounded-full object-cover"
+        className="h-full w-full rounded-full object-cover object-center"
       />
     </div>
   );
