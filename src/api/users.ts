@@ -1,3 +1,5 @@
+import { SignupRequest, SignupResponse } from '../types/auth';
+
 import { apiFetch } from '@/config/client';
 import { ResponseGetUsersMe } from '@/types/users';
 
