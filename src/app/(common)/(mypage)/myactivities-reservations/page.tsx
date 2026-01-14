@@ -1,5 +1,10 @@
 'use client';
 import { useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
+
+import DailyReservationStatus, {
+  type BoxType,
+} from './components/DailyReservationStatus';
 
 import { getMyActivities } from '@/api/myActivities';
 import {
@@ -15,11 +20,35 @@ export default function Page() {
     queryKey: ['activities-reservation'],
     queryFn: () => getMyActivities(),
   });
+  const [activityId, setActivityId] = useState(0);
+  const [selectedDate, setSelectedDate] = useState<Date>();
+  const [location, setLocation] = useState<null | BoxType>(null);
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (myActivitiesData) {
+      setActivityId(myActivitiesData?.activities[0].id);
+      setSelectedDate(new Date('2026-01-16'));
+    }
+  }, [myActivitiesData]);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add('modal-open');
+    } else {
+      document.body.classList.remove('modal-open');
+    }
+    return () => {
+      document.body.classList.remove('modal-open');
+    };
+  }, [isOpen]);
+
   //TODO:로딩 에러처리
   if (!myActivitiesData) {
     return null;
   }
   const { activities } = myActivitiesData;
+
   return (
     <div className="mb-4 flex flex-col gap-5 max-md:mx-[-24px] max-md:mt-[10px] md:mb-21 md:gap-6 lg:gap-[30px]">
       <div className="max-md:px-6">
@@ -33,14 +62,30 @@ export default function Page() {
           <DropDownTrigger placeholder={activities[0].title}></DropDownTrigger>
           <DropDownList>
             {activities.map((activity) => (
-              <DropDownItem key={activity.id}>{activity.title}</DropDownItem>
+              <DropDownItem
+                key={activity.id}
+                onSelect={() => setActivityId(activity.id)}>
+                {activity.title}
+              </DropDownItem>
             ))}
           </DropDownList>
         </DropDown>
       )}
       <ReservationManagementCalendar
-        onSelectSlot={() => console.log('onselectslot')}
+        onSelectSlot={(slotInfo) => {
+          setLocation(slotInfo.box || null);
+          setSelectedDate(slotInfo.start);
+          setIsOpen(true);
+        }}
       />
+      {isOpen && (
+        <DailyReservationStatus
+          activityId={activityId}
+          date={selectedDate}
+          onClose={() => setIsOpen(false)}
+          box={location ?? undefined}
+        />
+      )}
     </div>
   );
 }

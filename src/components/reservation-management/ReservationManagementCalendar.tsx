@@ -2,6 +2,7 @@
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './calendar.css';
 import moment from 'moment';
+import { useEffect, useState } from 'react';
 import { Calendar, momentLocalizer, type SlotInfo } from 'react-big-calendar';
 
 import {
@@ -14,7 +15,7 @@ import {
 } from './CalendarComponents';
 import type { CalendarEventData } from './CalendarComponents';
 
-import type { ReservationDashboardRes } from '@/types/reservation-manage';
+import type { ReservationDashboardRes } from '@/types/reserved-schedule';
 moment.locale('ko');
 
 const localizer = momentLocalizer(moment);
@@ -109,7 +110,6 @@ export default function ReservationManagementCalendar({
   //TODO: 날짜 클릭시 팝업(콘솔, alert 삭제)
   const handleSelectSlot = (slotInfo: SlotInfo) => {
     console.log('클릭한 날짜:', slotInfo);
-    alert(`날짜 클릭: ${moment(slotInfo.start).format('YYYY-MM-DD')}`);
     onSelectSlot(slotInfo);
   };
   return (
@@ -123,7 +123,7 @@ export default function ReservationManagementCalendar({
         startAccessor="start"
         endAccessor="end"
         onSelectSlot={handleSelectSlot}
-        selectable
+        selectable={true}
         views={['month']}
         defaultView="month"
         messages={{
