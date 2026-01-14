@@ -1,14 +1,9 @@
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-
 import { FormData, FormErrors } from './useMyPageFormTypes';
 import { createUpdatePayload, isUnauthorizedError } from './useMypageFormUtils';
 import { validateForm } from './useMyPageFormValidators';
-import { useUpdateMyInfo } from './useUser';
-
-import { getUsersMe } from '@/api/users';
 import { useGetMyInfo, useUpdateMyInfo } from './useUser';
-
 import { getApiErrorMessage } from '@/util/error';
 
 /**
@@ -19,18 +14,17 @@ import { getApiErrorMessage } from '@/util/error';
  */
 export function useMyPageForm() {
   const router = useRouter();
-
+  
   // React Query: 사용자 정보 조회
   const {
     data: userData,
     isLoading: isInitialLoading,
     error: fetchError,
   } = useGetMyInfo();
-
+  
   // React Query: 사용자 정보 수정
-  const { mutateAsync: updateProfile, isPending: isLoading } =
-    useUpdateMyInfo();
-
+  const { mutateAsync: updateProfile, isPending: isLoading } = useUpdateMyInfo();
+  
   // 폼 상태 관리
   const [formData, setFormData] = useState<FormData>({
     nickname: '',
@@ -38,42 +32,14 @@ export function useMyPageForm() {
     password: '',
     passwordConfirm: '',
   });
-  const [isInitialLoading, setIsInitialLoading] = useState(true);
+  
   const [errors, setErrors] = useState<FormErrors>({
     nickname: '',
     email: '',
     password: '',
     passwordConfirm: '',
   });
-
-  // 초기 사용자 정보 로딩
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const user = await getUsersMe();
-        setFormData((prev) => ({
-          ...prev,
-          nickname: user.nickname,
-          email: user.email,
-        }));
-      } catch (error: unknown) {
-        console.error('사용자 정보 로딩 실패:', error);
-
-        if (isUnauthorizedError(error)) {
-          alert('로그인이 필요합니다.');
-          router.push('/signin');
-        }
-      } finally {
-        setIsInitialLoading(false);
-      }
-    };
-
-    fetchUserInfo();
-  }, [router]);
-
-  /**
-   * 입력 필드 변경 핸들러
-   */
+  
   // 사용자 정보 동기화
   useEffect(() => {
     if (userData) {
@@ -84,26 +50,27 @@ export function useMyPageForm() {
       }));
     }
   }, [userData]);
-
+  
   // 에러 처리
   useEffect(() => {
     if (fetchError) {
       console.error('사용자 정보 로딩 실패:', fetchError);
-
       if (isUnauthorizedError(fetchError)) {
         alert('로그인이 필요합니다.');
         router.push('/signin');
       }
     }
   }, [fetchError, router]);
-
+  
+  /**
+   * 입력 필드 변경 핸들러
+   */
   const handleChange = (field: keyof FormData) => {
     return (value: string) => {
       setFormData((prev) => ({
         ...prev,
         [field]: value,
       }));
-
       // 입력 시 해당 필드 에러 초기화
       if (errors[field]) {
         setErrors((prev) => ({
@@ -113,30 +80,27 @@ export function useMyPageForm() {
       }
     };
   };
-
+  
   /**
    * 폼 유효성 검사
    */
-  // 폼 유효성 검사
   const validate = () => {
     const { errors: newErrors, isValid } = validateForm(formData);
     setErrors(newErrors);
     return isValid;
   };
-
+  
   /**
    * 폼 제출 핸들러
    */
-  // 폼 제출 처리
   const handleSubmit = async () => {
     if (!validate()) return;
-
+    
     try {
       const payload = createUpdatePayload(formData);
       await updateProfile(payload);
-
       alert('저장되었습니다.');
-
+      
       // 비밀번호 필드 초기화
       setFormData((prev) => ({
         ...prev,
@@ -145,18 +109,16 @@ export function useMyPageForm() {
       }));
     } catch (error: unknown) {
       console.error('저장 실패:', error);
-
       if (isUnauthorizedError(error)) {
         alert('로그인이 필요합니다.');
         router.push('/signin');
         return;
       }
-
       const errorMessage = getApiErrorMessage(error, '저장에 실패했습니다.');
       alert(errorMessage);
     }
   };
-
+  
   return {
     formData,
     errors,
