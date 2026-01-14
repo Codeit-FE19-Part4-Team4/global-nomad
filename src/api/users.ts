@@ -15,6 +15,14 @@ export const getUsersMe = async () => {
   return apiFetch<ResponseGetUsersMe>(`/users/me`);
 };
 
+// 회원가입 - POST /{teamId}/users
+export function signup(payload: SignupRequest) {
+  return apiFetch<SignupResponse>('/users', {
+    method: 'POST',
+    body: payload,
+  });
+}
+
 // 내 정보 수정
 export async function updateMe(
   body: UpdateUserRequest
