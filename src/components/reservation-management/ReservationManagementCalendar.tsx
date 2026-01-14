@@ -107,11 +107,6 @@ export default function ReservationManagementCalendar({
   data,
   onSelectSlot,
 }: ReservationManagementCalendarProps) {
-  //TODO: 날짜 클릭시 팝업(콘솔, alert 삭제)
-  const handleSelectSlot = (slotInfo: SlotInfo) => {
-    console.log('클릭한 날짜:', slotInfo);
-    onSelectSlot(slotInfo);
-  };
   return (
     <div className="md:shadow-calendar bg-background h-fit w-full rounded-3xl pt-5 pb-2.5">
       <Calendar
@@ -122,7 +117,7 @@ export default function ReservationManagementCalendar({
         events={mockEvents}
         startAccessor="start"
         endAccessor="end"
-        onSelectSlot={handleSelectSlot}
+        onSelectSlot={onSelectSlot}
         selectable={true}
         views={['month']}
         defaultView="month"
