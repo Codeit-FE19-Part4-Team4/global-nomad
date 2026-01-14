@@ -12,6 +12,8 @@ import TotalActivities from './TotalActivities';
 
 import Searchbar from '@/components/Searchbar';
 import { SORT_OPTIONS } from '@/constants/activities';
+import { useAuthStatus } from '@/hooks/useAuthStatus';
+import { useNotificationsCount } from '@/hooks/useNotificationsCount';
 import useWindowSize from '@/hooks/useWindowSize';
 import {
   CategoryType,
@@ -20,6 +22,8 @@ import {
 } from '@/types/activities';
 
 export default function LandingPageClient() {
+  const { isAuthenticated } = useAuthStatus();
+  const { refetch } = useNotificationsCount();
   const searchParams = useSearchParams();
   const initialKeyword = searchParams.get('search');
   const width = useWindowSize();
@@ -32,6 +36,12 @@ export default function LandingPageClient() {
   const [keyword, setKeyword] = useState<string | null>(initialKeyword);
   const [mounted, setMounted] = useState(false);
   const [allLength, setAllLength] = useState<number>(8);
+  // 로그인 시 알림 개수 조회
+  useEffect(() => {
+    if (isAuthenticated) {
+      refetch();
+    }
+  }, [isAuthenticated, refetch]);
 
   // 검색
   const handleSearch = () => {

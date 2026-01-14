@@ -8,7 +8,7 @@ export interface Notification {
   deletedAt: string | null;
 }
 
-export interface NotificationResponse {
+export interface NotificationListResponse {
   cursorId: number;
   notifications: Notification[];
   totalCount: number;
