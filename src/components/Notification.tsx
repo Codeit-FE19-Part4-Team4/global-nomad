@@ -9,10 +9,12 @@ import ic_bell from '@/assets/icons/common/ic-bell.svg';
 import ic_close from '@/assets/icons/common/ic-close.svg';
 import useClickOutside from '@/hooks/useClickOutside';
 import { useInfiniteNotifications } from '@/hooks/useInfiniteNotifications';
+import { useNotificationsCount } from '@/hooks/useNotificationsCount';
 import { type Notification } from '@/types/notification';
 import { getTimeAgo } from '@/util/timeAgo';
 
 export default function Notification() {
+  const { data: hasNotifications, refetch } = useNotificationsCount();
   const [isOpen, setIsOpen] = useState(false);
   const notificationRef = useClickOutside(() => setIsOpen(false));
   const bottomRef = useRef<HTMLLIElement | null>(null);
@@ -27,6 +29,9 @@ export default function Notification() {
     hasMore,
     error,
   } = useInfiniteNotifications();
+
+  const hasNotification =
+    notifications.length > 0 || (hasNotifications ?? false);
 
   // 최초 로딩
   useEffect(() => {
@@ -60,11 +65,10 @@ export default function Notification() {
     return () => observer.disconnect();
   }, [isOpen, hasMore, isLoading, loadMore]);
 
-  const hasNotification = notifications.length > 0;
-
   const handleClearAll = async () => {
     try {
       await clearNotifications();
+      await refetch();
     } catch (err) {
       console.error('전체 삭제 실패:', err);
     }
@@ -72,6 +76,7 @@ export default function Notification() {
   const handleDelete = async (id: number) => {
     try {
       await removeNotification(id);
+      await refetch();
     } catch (err) {
       console.error('삭제 실패:', err);
       // 필요시 토스트 메시지 표시
