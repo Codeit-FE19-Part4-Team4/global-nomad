@@ -100,12 +100,12 @@ export default function Notification() {
             </span>
             {/* 모두읽음 처리 */}
             <button
-              className="text-[12px]"
+              className="cursor-pointer text-[12px]"
               onClick={handleClearAll}
               disabled={isLoading}>
               모두 읽음
             </button>
-            <button onClick={() => setIsOpen(false)}>
+            <button onClick={() => setIsOpen(false)} className="cursor-pointer">
               <Image src={ic_close} alt="알림 닫기" />
             </button>
           </div>

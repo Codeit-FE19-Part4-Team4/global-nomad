@@ -1,11 +1,7 @@
 import { apiFetch } from '@/config/client';
-import { Notification } from '@/types/notification';
+import { GetMyNotificationsResponse } from '@/types/mynotifications';
 
-export type GetMyNotificationsResponse = {
-  cursorId: number | null;
-  notifications: Notification[];
-};
-//내 알림리스트 조회
+//내 알림리스트 조회 /{teamId}/my-notifications
 export function getMyNotifications(params: {
   size: number;
   cursorId?: number;
@@ -15,7 +11,7 @@ export function getMyNotifications(params: {
     method: 'GET',
   });
 }
-//내 알림 삭제
+//내 알림 삭제 /{teamId}/my-notifications/{notificationId}
 export function deleteNotification(notificationId: number) {
   return apiFetch<void>(`/my-notifications/${notificationId}`, {
     method: 'DELETE',

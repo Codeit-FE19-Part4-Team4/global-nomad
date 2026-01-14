@@ -2,7 +2,7 @@
 
 import { useCallback, useState, useRef, useEffect } from 'react';
 
-import { getMyNotifications, deleteNotification } from '@/api/notification';
+import { getMyNotifications, deleteNotification } from '@/api/mynotification';
 import { Notification } from '@/types/notification';
 
 export const useInfiniteNotifications = () => {

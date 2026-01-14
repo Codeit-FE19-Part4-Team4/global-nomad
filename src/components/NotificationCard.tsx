@@ -51,7 +51,7 @@ export default function NotificationCard({
           <span className="text-[12px] text-gray-400">{timeAgo} 전</span>
         )}
         {onDelete && (
-          <button onClick={onDelete}>
+          <button onClick={onDelete} className="cursor-pointer">
             <Image src={ic_trash} alt="알림 삭제" />
           </button>
         )}
