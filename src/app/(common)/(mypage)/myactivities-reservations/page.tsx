@@ -48,7 +48,6 @@ export default function Page() {
     return null;
   }
   const { activities } = myActivitiesData;
-
   return (
     <div className="mb-4 flex flex-col gap-5 max-md:mx-[-24px] max-md:mt-[10px] md:mb-21 md:gap-6 lg:gap-[30px]">
       <div className="max-md:px-6">

@@ -7,9 +7,10 @@ import imgWarning from '@/assets/images/common/img-warning.svg';
 import { useModal } from '@/hooks/useModal';
 
 interface CancelModalProps {
-  message: string;
+  message: string | React.ReactNode;
   rightBtnText: string;
-  onConfirmDelete: () => Promise<void>;
+  onConfirmDelete: () => Promise<void> | void;
+  onCloseModal?: () => void;
 }
 
 const buttonStyle = 'h-[41px] w-[113px] md:h-[47px] md:w-[135px]';
@@ -18,6 +19,7 @@ export default function CancelModal({
   message,
   rightBtnText,
   onConfirmDelete,
+  onCloseModal,
 }: CancelModalProps) {
   const { closeModal } = useModal();
   return (
@@ -29,14 +31,17 @@ export default function CancelModal({
             alt="경고"
             className="h-[49px] w-[49px] md:h-[88px] md:w-[88px]"
           />
-          <span className="text-[16px] font-bold md:text-[18px]">
+          <div className="text-center text-[16px] font-bold **:text-center **:text-[18px] **:font-bold md:text-[18px]">
             {message}
-          </span>
+          </div>
         </div>
         <div className="flex w-full justify-center gap-2 md:gap-3">
           <Button
             variant={'tertiary'}
-            onClick={() => closeModal(CancelModal)}
+            onClick={() => {
+              onCloseModal?.();
+              closeModal(CancelModal);
+            }}
             className={buttonStyle}>
             아니오
           </Button>
