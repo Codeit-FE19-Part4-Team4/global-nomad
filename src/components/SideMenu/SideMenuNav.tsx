@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import SideMenuNavItem from './SideMenuNavItem';
 
 import { MY_PAGE_MENU_ITEMS, LOGOUT_ITEM } from '@/constants/navigation';
-import { logout } from '@/features/auth/logout';
+import { logout } from '@/util/logout';
 
 export default function SideMenuNav({ onClose }: { onClose?: () => void }) {
   const router = useRouter();
@@ -23,13 +23,11 @@ export default function SideMenuNav({ onClose }: { onClose?: () => void }) {
           onClick={onClose}
         />
       ))}
-      {/* 로그아웃 */}
+      {/* 로그아웃 버튼 */}
       <SideMenuNavItem
-        key={LOGOUT_ITEM.id}
         label={LOGOUT_ITEM.label}
         icon={LOGOUT_ITEM.icon}
         activeIcon={LOGOUT_ITEM.activeIcon}
-        href={LOGOUT_ITEM.href}
         onClick={handleLogout}
       />
     </nav>

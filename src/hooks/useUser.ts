@@ -3,7 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { apiFetch, ApiError } from '@/config/client';
-import type { UserResponse } from '@/features/auth/types';
+import type { UserResponse } from '@/types/auth';
 
 /**
  * 로그인 상태 확인 + 사용자 정보 조회 훅
