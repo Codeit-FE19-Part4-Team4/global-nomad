@@ -7,6 +7,8 @@ import { validateForm } from './useMyPageFormValidators';
 import { useUpdateMyInfo } from './useUser';
 
 import { getUsersMe } from '@/api/users';
+import { useGetMyInfo, useUpdateMyInfo } from './useUser';
+
 import { getApiErrorMessage } from '@/util/error';
 
 /**
@@ -17,6 +19,13 @@ import { getApiErrorMessage } from '@/util/error';
  */
 export function useMyPageForm() {
   const router = useRouter();
+
+  // React Query: 사용자 정보 조회
+  const {
+    data: userData,
+    isLoading: isInitialLoading,
+    error: fetchError,
+  } = useGetMyInfo();
 
   // React Query: 사용자 정보 수정
   const { mutateAsync: updateProfile, isPending: isLoading } =
@@ -65,6 +74,29 @@ export function useMyPageForm() {
   /**
    * 입력 필드 변경 핸들러
    */
+  // 사용자 정보 동기화
+  useEffect(() => {
+    if (userData) {
+      setFormData((prev) => ({
+        ...prev,
+        nickname: userData.nickname,
+        email: userData.email,
+      }));
+    }
+  }, [userData]);
+
+  // 에러 처리
+  useEffect(() => {
+    if (fetchError) {
+      console.error('사용자 정보 로딩 실패:', fetchError);
+
+      if (isUnauthorizedError(fetchError)) {
+        alert('로그인이 필요합니다.');
+        router.push('/signin');
+      }
+    }
+  }, [fetchError, router]);
+
   const handleChange = (field: keyof FormData) => {
     return (value: string) => {
       setFormData((prev) => ({
@@ -85,6 +117,7 @@ export function useMyPageForm() {
   /**
    * 폼 유효성 검사
    */
+  // 폼 유효성 검사
   const validate = () => {
     const { errors: newErrors, isValid } = validateForm(formData);
     setErrors(newErrors);
@@ -94,6 +127,7 @@ export function useMyPageForm() {
   /**
    * 폼 제출 핸들러
    */
+  // 폼 제출 처리
   const handleSubmit = async () => {
     if (!validate()) return;
 
