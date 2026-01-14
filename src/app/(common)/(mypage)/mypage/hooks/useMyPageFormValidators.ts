@@ -5,7 +5,7 @@ import {
   validateNickname,
   validatePassword,
   validatePasswordConfirm,
-} from '@/features/auth/validations';
+} from '@/util/validations';
 
 /**
  * 마이페이지 폼 유효성 검사
