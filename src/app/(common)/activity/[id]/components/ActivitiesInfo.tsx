@@ -53,7 +53,7 @@ export default function ActivitiesInfo({
   };
 
   return (
-    <div className={cn('mt-5 flex gap-5', 'md:mt-6', 'lg:mt-0 lg:mb-17')}>
+    <div className={cn('mt-5 flex gap-5', 'md:mt-6', 'lg:mt-0 lg:mb-15')}>
       <div className="flex-1">
         <Text
           as="span"

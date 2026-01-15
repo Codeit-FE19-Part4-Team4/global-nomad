@@ -204,20 +204,22 @@ export default function ActivityDetailPage() {
             onDelete={onDelete}
           />
           {/* 예약하기 영역 */}
-          <ReservationForm
-            id={id}
-            isUser={isUser}
-            isOwner={isOwner}
-            schedules={scheduleData}
-            activityPrice={price}
-            scheduleId={scheduleId}
-            setScheduleId={setScheduleId}
-            setHeadCount={setHeadCount}
-            headCount={headCount}
-            handleReservation={handleReservation}
-            currentMonth={currentMonth}
-            setCurrentMonth={setCurrentMonth}
-          />
+          <div className="lg:h-[calc(100%-150px)]">
+            <ReservationForm
+              id={id}
+              isUser={isUser}
+              isOwner={isOwner}
+              schedules={scheduleData}
+              activityPrice={price}
+              scheduleId={scheduleId}
+              setScheduleId={setScheduleId}
+              setHeadCount={setHeadCount}
+              headCount={headCount}
+              handleReservation={handleReservation}
+              currentMonth={currentMonth}
+              setCurrentMonth={setCurrentMonth}
+            />
+          </div>
         </div>
         <div className="flex flex-col gap-5 md:gap-7.5 lg:gap-10">
           {/* 체험 설명 */}
