@@ -86,7 +86,7 @@ export default function MyActivities() {
   return (
     <div className="relative">
       <PageHeader
-        title="내 체험 관리"
+        title="체험 관리"
         description="체험을 등록하거나 수정 및 삭제가 가능합니다."
       />
       <MyActivitiesClient

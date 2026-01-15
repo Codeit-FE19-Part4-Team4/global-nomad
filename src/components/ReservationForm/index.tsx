@@ -39,6 +39,9 @@ const PC_WIDTH = 1024;
   />
  */
 export default function ReservationForm({
+  id,
+  isUser,
+  isOwner,
   headCount,
   setHeadCount,
   scheduleId,
@@ -175,6 +178,9 @@ export default function ReservationForm({
 
       {/* 총합계 & 예약하기 */}
       <ReservationFooter
+        id={id}
+        isUser={isUser}
+        isOwner={isOwner}
         disabled={!isReservation}
         onClick={handleReservation}
         date={date}

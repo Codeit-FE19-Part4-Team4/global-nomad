@@ -26,6 +26,7 @@ import ReservationForm from '@/components/ReservationForm';
 import { ReservationProps } from '@/components/ReservationForm/reservation-type';
 import { ApiError } from '@/config/client';
 import { useModal } from '@/hooks/useModal';
+import { useUser } from '@/hooks/useUser';
 import {
   RequestGetActivityReviews,
   RequestGetActivitySchedule,
@@ -33,9 +34,11 @@ import {
 import { cn } from '@/util/cn';
 
 export default function ActivityDetailPage() {
+  const { user } = useUser();
   const params = useParams();
   const router = useRouter();
   const activityId = Number(params.id);
+  const [page, setPage] = useState(1);
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
   const [headCount, setHeadCount] = useState<number>(0);
   const [scheduleId, setScheduleId] = useState<number | undefined>(undefined);
@@ -64,22 +67,20 @@ export default function ActivityDetailPage() {
 
   // 체험 리뷰 조회
   const reviewParams: RequestGetActivityReviews = {
-    page: 1,
+    page: page,
     size: 3,
   };
   const { data: reviewData } = useQuery({
-    queryKey: ['activityReview', activityId],
+    queryKey: ['activityReview', activityId, page],
     queryFn: () => getActivityReviews(activityId, reviewParams),
     enabled: !!reviewParams,
     placeholderData: (previousData) => previousData,
   });
-
-  // 내 정보 조회
-  const { data: userData } = useQuery({
-    queryKey: ['users', 'me'],
-    queryFn: getUsersMe,
-    retry: false,
-  });
+  const totalPage = Math.ceil((reviewData?.totalCount ?? 0) / 3);
+  // 체험 리뷰 페이징
+  const handleClickPage = (page: number) => {
+    setPage(page);
+  };
 
   // 예약하기
   const handleReservation = ({ scheduleId, headCount }: ReservationProps) => {
@@ -175,7 +176,8 @@ export default function ActivityDetailPage() {
   } = data;
 
   const { averageRating = 0, reviews = [], totalCount = 0 } = reviewData ?? {};
-  const isOwner = Boolean(userData) && userId === userData?.id;
+  const isUser = Boolean(user);
+  const isOwner = isUser && userId === user?.id;
   return (
     <div
       className={cn(
@@ -203,6 +205,9 @@ export default function ActivityDetailPage() {
           />
           {/* 예약하기 영역 */}
           <ReservationForm
+            id={id}
+            isUser={isUser}
+            isOwner={isOwner}
             schedules={scheduleData}
             activityPrice={price}
             scheduleId={scheduleId}
@@ -223,7 +228,11 @@ export default function ActivityDetailPage() {
           <ActivitiesReview
             averageRating={averageRating}
             reviews={reviews}
+            currentPage={page}
             totalCount={totalCount}
+            totalPage={totalPage}
+            pagesPerGroup={3}
+            handleClickPage={handleClickPage}
           />
         </div>
       </div>
