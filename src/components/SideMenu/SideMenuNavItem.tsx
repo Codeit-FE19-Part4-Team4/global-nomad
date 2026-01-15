@@ -24,7 +24,8 @@ export default function SideMenuNavItem({
   className,
 }: SideMenuNavItemProps) {
   const pathname = usePathname();
-  const isActive = href ? pathname === href : false;
+  const isActive =
+    !onClick && (pathname === href || pathname.startsWith(href + '/'));
 
   const handleClick = () => {
     onClick?.();

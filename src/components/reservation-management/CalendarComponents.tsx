@@ -22,7 +22,11 @@ export const Toolbar = ({ date, onNavigate }: ToolbarProps) => {
   return (
     <div className="flex h-11 justify-end">
       <div className="flex h-full flex-1 items-center justify-center gap-[30px]">
-        <button onClick={() => onNavigate('PREV')} className="cursor-pointer">
+        <button
+          onClick={() => {
+            onNavigate('PREV');
+          }}
+          className="cursor-pointer">
           <Image src={ic_prev} alt="이전 달" />
         </button>
         <span className="bold text-[20px]">{customLabel}</span>

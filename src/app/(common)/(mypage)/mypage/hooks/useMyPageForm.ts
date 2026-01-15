@@ -1,9 +1,11 @@
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+
 import { FormData, FormErrors } from './useMyPageFormTypes';
 import { createUpdatePayload, isUnauthorizedError } from './useMypageFormUtils';
 import { validateForm } from './useMyPageFormValidators';
 import { useGetMyInfo, useUpdateMyInfo } from './useUser';
+
 import { getApiErrorMessage } from '@/util/error';
 
 /**
@@ -14,17 +16,18 @@ import { getApiErrorMessage } from '@/util/error';
  */
 export function useMyPageForm() {
   const router = useRouter();
-  
+
   // React Query: 사용자 정보 조회
   const {
     data: userData,
     isLoading: isInitialLoading,
     error: fetchError,
   } = useGetMyInfo();
-  
+
   // React Query: 사용자 정보 수정
-  const { mutateAsync: updateProfile, isPending: isLoading } = useUpdateMyInfo();
-  
+  const { mutateAsync: updateProfile, isPending: isLoading } =
+    useUpdateMyInfo();
+
   // 폼 상태 관리
   const [formData, setFormData] = useState<FormData>({
     nickname: '',
@@ -32,14 +35,14 @@ export function useMyPageForm() {
     password: '',
     passwordConfirm: '',
   });
-  
+
   const [errors, setErrors] = useState<FormErrors>({
     nickname: '',
     email: '',
     password: '',
     passwordConfirm: '',
   });
-  
+
   // 사용자 정보 동기화
   useEffect(() => {
     if (userData) {
@@ -50,7 +53,7 @@ export function useMyPageForm() {
       }));
     }
   }, [userData]);
-  
+
   // 에러 처리
   useEffect(() => {
     if (fetchError) {
@@ -61,7 +64,7 @@ export function useMyPageForm() {
       }
     }
   }, [fetchError, router]);
-  
+
   /**
    * 입력 필드 변경 핸들러
    */
@@ -80,7 +83,7 @@ export function useMyPageForm() {
       }
     };
   };
-  
+
   /**
    * 폼 유효성 검사
    */
@@ -89,18 +92,18 @@ export function useMyPageForm() {
     setErrors(newErrors);
     return isValid;
   };
-  
+
   /**
    * 폼 제출 핸들러
    */
   const handleSubmit = async () => {
     if (!validate()) return;
-    
+
     try {
       const payload = createUpdatePayload(formData);
       await updateProfile(payload);
       alert('저장되었습니다.');
-      
+
       // 비밀번호 필드 초기화
       setFormData((prev) => ({
         ...prev,
@@ -118,7 +121,7 @@ export function useMyPageForm() {
       alert(errorMessage);
     }
   };
-  
+
   return {
     formData,
     errors,

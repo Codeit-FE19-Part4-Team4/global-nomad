@@ -2,6 +2,7 @@
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './calendar.css';
 import moment from 'moment';
+import { useEffect, useState } from 'react';
 import { Calendar, momentLocalizer, type SlotInfo } from 'react-big-calendar';
 
 import {
@@ -14,7 +15,7 @@ import {
 } from './CalendarComponents';
 import type { CalendarEventData } from './CalendarComponents';
 
-import type { ReservationDashboardRes } from '@/types/reservation-manage';
+import type { ReservationDashboardRes } from '@/types/reserved-schedule';
 moment.locale('ko');
 
 const localizer = momentLocalizer(moment);
@@ -106,15 +107,17 @@ export default function ReservationManagementCalendar({
   data,
   onSelectSlot,
 }: ReservationManagementCalendarProps) {
-  //TODO: 날짜 클릭시 팝업(콘솔, alert 삭제)
-  const handleSelectSlot = (slotInfo: SlotInfo) => {
-    console.log('클릭한 날짜:', slotInfo);
-    alert(`날짜 클릭: ${moment(slotInfo.start).format('YYYY-MM-DD')}`);
-    onSelectSlot(slotInfo);
-  };
+  const [currentDate, setCurrentDate] = useState<Date | null>(null);
+  useEffect(() => {
+    setCurrentDate(new Date());
+  }, []);
+
+  if (!currentDate) return null;
   return (
     <div className="md:shadow-calendar bg-background h-fit w-full rounded-3xl pt-5 pb-2.5">
       <Calendar
+        date={currentDate}
+        onNavigate={setCurrentDate}
         formats={{
           weekdayFormat: 'dd',
         }}
@@ -122,8 +125,8 @@ export default function ReservationManagementCalendar({
         events={mockEvents}
         startAccessor="start"
         endAccessor="end"
-        onSelectSlot={handleSelectSlot}
-        selectable
+        onSelectSlot={onSelectSlot}
+        selectable={true}
         views={['month']}
         defaultView="month"
         messages={{

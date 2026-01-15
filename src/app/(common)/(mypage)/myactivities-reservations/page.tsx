@@ -1,5 +1,10 @@
 'use client';
 import { useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
+
+import DailyReservationStatus, {
+  type BoxType,
+} from './components/DailyReservationStatus';
 
 import { getMyActivities } from '@/api/myActivities';
 import {
@@ -15,7 +20,19 @@ export default function Page() {
     queryKey: ['activities-reservation'],
     queryFn: () => getMyActivities(),
   });
-  //TODO:로딩 에러처리
+  const [activityId, setActivityId] = useState(0);
+  const [selectedDate, setSelectedDate] = useState<Date>();
+  const [location, setLocation] = useState<null | BoxType>(null);
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (myActivitiesData?.activities.length) {
+      setActivityId(myActivitiesData.activities[0].id);
+      setSelectedDate(new Date());
+    }
+  }, [myActivitiesData]);
+
+  //TODO:로딩, 에러처리
   if (!myActivitiesData) {
     return null;
   }
@@ -33,14 +50,30 @@ export default function Page() {
           <DropDownTrigger placeholder={activities[0].title}></DropDownTrigger>
           <DropDownList>
             {activities.map((activity) => (
-              <DropDownItem key={activity.id}>{activity.title}</DropDownItem>
+              <DropDownItem
+                key={activity.id}
+                onSelect={() => setActivityId(activity.id)}>
+                {activity.title}
+              </DropDownItem>
             ))}
           </DropDownList>
         </DropDown>
       )}
       <ReservationManagementCalendar
-        onSelectSlot={() => console.log('onselectslot')}
+        onSelectSlot={(slotInfo) => {
+          setLocation(slotInfo.box || null);
+          setSelectedDate(slotInfo.start);
+          setIsOpen(true);
+        }}
       />
+      {isOpen && (
+        <DailyReservationStatus
+          activityId={activityId}
+          date={selectedDate}
+          onClose={() => setIsOpen(false)}
+          box={location ?? undefined}
+        />
+      )}
     </div>
   );
 }

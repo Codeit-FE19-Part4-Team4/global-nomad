@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+
 import { getUsersMe, updateMe, UpdateUserRequest } from '@/api/users';
 
 /**
@@ -18,7 +19,7 @@ export function useGetMyInfo() {
  */
 export function useUpdateMyInfo() {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: (data: UpdateUserRequest) => updateMe(data),
     onSuccess: () => {

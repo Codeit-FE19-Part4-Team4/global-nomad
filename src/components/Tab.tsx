@@ -25,13 +25,16 @@ const { pending, confirmed, declined } = RESERVATION_STATUS;
  * 응답을 그대로 사용합니다.
  */
 export default function Tab({ data, onClick }: TabPropsType) {
+  const [activeTab, setActiveTab] = useState(1);
+
+  if (!data) {
+    return null;
+  }
   const tabData: TabDataType[] = [
     { id: 1, status: pending, count: data.count.pending },
     { id: 2, status: confirmed, count: data.count.confirmed },
     { id: 3, status: declined, count: data.count.declined },
   ];
-  const [activeTab, setActiveTab] = useState(tabData[0].id);
-
   return (
     <div className="flex justify-start">
       {tabData.map((tab) => (
