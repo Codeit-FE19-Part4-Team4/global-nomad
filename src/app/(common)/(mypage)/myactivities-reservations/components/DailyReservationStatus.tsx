@@ -44,6 +44,7 @@ export default function DailyReservationStatus({
   box,
   onClose,
 }: DailyReservationStatusProps) {
+  const [isMounted, setIsMounted] = useState(false);
   const formatDate = date ? moment(date).format('YYYY-MM-DD') : '';
   const params = {
     date: formatDate,
@@ -53,10 +54,16 @@ export default function DailyReservationStatus({
   const [status, setStatus] = useState<ReservationStatusType>('pending');
   const popupCloseRef = useClickOutside(onClose);
   const { data: dailyReservationData } = useQuery({
-    queryKey: ['DailyReservationStatus', activityId, date],
+    queryKey: ['DailyReservationStatus', activityId, formatDate],
     queryFn: () => getDailyReservationInfo(activityId, params),
     enabled: !!date && !!activityId && !!box,
   });
+
+  useEffect(() => {
+    if (!isMounted) {
+      setIsMounted(true);
+    }
+  }, []);
 
   useEffect(() => {
     if (dailyReservationData && dailyReservationData.length > 0) {
@@ -76,6 +83,7 @@ export default function DailyReservationStatus({
   );
 
   const getDesktopPosition = () => {
+    if (!isMounted) return;
     if (!box || !screenWidth || screenWidth < 1024) return undefined;
 
     const POPUP_WIDTH = 375;
@@ -84,12 +92,21 @@ export default function DailyReservationStatus({
     let left = box.x + 20;
     let top = box.y;
 
-    if (left + POPUP_WIDTH > screenWidth) {
-      left = left - POPUP_WIDTH - 30;
+    // 오른쪽이 짤릴 때
+    if (left + POPUP_WIDTH > window.innerWidth) {
+      left = window.innerWidth - POPUP_WIDTH - 20;
     }
-
+    // 왼쪽이 짤릴 때
+    if (left < 20) {
+      left = 20;
+    }
+    // 아래가 짤릴 때
     if (top + POPUP_HEIGHT > window.innerHeight) {
-      top = top - POPUP_HEIGHT + 120;
+      top = window.innerHeight - POPUP_HEIGHT - 20;
+    }
+    // 위가 짤릴 때
+    if (top < 20) {
+      top = 20;
     }
     return {
       left,
@@ -99,7 +116,7 @@ export default function DailyReservationStatus({
 
   return (
     <>
-      {screenWidth && screenWidth < 1024 && (
+      {isMounted && screenWidth && screenWidth < 1024 && (
         <div className="fixed inset-0 z-40 bg-black/50" />
       )}
       <div
@@ -112,7 +129,7 @@ export default function DailyReservationStatus({
           //모양
           'rounded-t-[30px] px-6 py-7.5',
           //데스크탑 스타일
-          'lg:shadow-calendar lg:right-auto lg:bottom-auto lg:left-auto lg:h-fit lg:w-[375px] lg:rounded-[30px]'
+          'lg:shadow-calendar lg:absolute lg:right-auto lg:bottom-auto lg:left-auto lg:h-fit lg:w-[375px] lg:rounded-[30px]'
         )}
         style={getDesktopPosition()}>
         <div
