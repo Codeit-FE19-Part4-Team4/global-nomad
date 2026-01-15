@@ -32,6 +32,12 @@ interface DailyReservationStatusProps {
   onClose: () => void;
 }
 
+const STATUS_TO_EN: Record<string, ReservationStatusType> = {
+  신청: 'pending',
+  승인: 'confirmed',
+  거절: 'declined',
+};
+
 export default function DailyReservationStatus({
   activityId,
   date,
@@ -68,27 +74,6 @@ export default function DailyReservationStatus({
   const filteredStatus = dailyReservationData.filter(
     (data) => `${data.startTime} - ${data.endTime}` === time
   );
-  console.log(filteredStatus);
-
-  const switchStatusToEn = (status: string) => {
-    switch (status) {
-      case '신청': {
-        setStatus('pending');
-        break;
-      }
-      case '승인': {
-        setStatus('confirmed');
-        break;
-      }
-      case '거절': {
-        setStatus('declined');
-        break;
-      }
-      default: {
-        setStatus('pending');
-      }
-    }
-  };
 
   const getDesktopPosition = () => {
     if (!box || !screenWidth || screenWidth < 1024) return undefined;
@@ -161,7 +146,12 @@ export default function DailyReservationStatus({
                   </DropDownList>
                 </DropDown>
               </div>
-              <Tab data={filteredStatus[0]} onClick={switchStatusToEn} />
+              <Tab
+                data={filteredStatus[0]}
+                onClick={(status) =>
+                  setStatus(STATUS_TO_EN[status] ?? 'pending')
+                }
+              />
               <ReservationListByStatus
                 activityId={activityId}
                 scheduleId={filteredStatus[0]?.scheduleId}

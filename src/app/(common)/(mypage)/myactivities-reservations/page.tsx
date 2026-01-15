@@ -26,9 +26,9 @@ export default function Page() {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    if (myActivitiesData) {
-      setActivityId(myActivitiesData?.activities[0].id);
-      setSelectedDate(new Date('2026-01-16'));
+    if (myActivitiesData?.activities.length) {
+      setActivityId(myActivitiesData.activities[0].id);
+      setSelectedDate(new Date());
     }
   }, [myActivitiesData]);
 

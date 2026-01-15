@@ -52,7 +52,7 @@ export const getDailyReservationInfo = (
 };
 
 //체험 예약 현황 시간대별 예약 정보 조회
-interface getReservationByScheduleParams {
+interface GetReservationByScheduleParams {
   cursorId?: number | null;
   size?: number;
   scheduleId: number;
@@ -60,7 +60,7 @@ interface getReservationByScheduleParams {
 }
 export const getReservationBySchedule = (
   activityId: number,
-  params: getReservationByScheduleParams
+  params: GetReservationByScheduleParams
 ) => {
   return apiFetch<ReservationListResponse>(
     `/my-activities/${activityId}/reservations`,

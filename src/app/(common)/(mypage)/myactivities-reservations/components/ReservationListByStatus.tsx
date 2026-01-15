@@ -11,7 +11,7 @@ interface ReservationListByStatusProps {
   status: ReservationStatusType;
 }
 
-const KOREAN_STATUS = {
+const STATUS_TO_KO = {
   pending: '신청',
   confirmed: '승인',
   declined: '거절',
@@ -42,7 +42,7 @@ export default function ReservationListByStatus({
     return (
       <div className="flex h-67 items-center justify-center">
         <span className="text-[18px] font-medium">
-          {KOREAN_STATUS[status]} 내역이 존재하지 않습니다
+          {STATUS_TO_KO[status]} 내역이 존재하지 않습니다
         </span>
       </div>
     );
