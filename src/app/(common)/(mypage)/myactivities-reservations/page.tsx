@@ -32,17 +32,6 @@ export default function Page() {
     }
   }, [myActivitiesData]);
 
-  useEffect(() => {
-    if (isOpen) {
-      document.body.classList.add('modal-open');
-    } else {
-      document.body.classList.remove('modal-open');
-    }
-    return () => {
-      document.body.classList.remove('modal-open');
-    };
-  }, [isOpen]);
-
   //TODO:로딩 에러처리
   if (!myActivitiesData) {
     return null;

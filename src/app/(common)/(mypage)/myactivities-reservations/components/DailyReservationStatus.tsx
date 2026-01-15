@@ -59,6 +59,8 @@ export default function DailyReservationStatus({
     enabled: !!date && !!activityId && !!box,
   });
 
+  console.log(box?.x, box?.clientX, box?.y, box?.clientY);
+
   useEffect(() => {
     if (!isMounted) {
       setIsMounted(true);
@@ -87,27 +89,23 @@ export default function DailyReservationStatus({
     if (!box || !screenWidth || screenWidth < 1024) return undefined;
 
     const POPUP_WIDTH = 375;
-    const POPUP_HEIGHT = 580;
+    const POPUP_HEIGHT = dailyReservationData.length === 0 ? 400 : 580;
 
-    let left = box.x + 20;
-    let top = box.y;
+    let left = box.clientX + 20;
+    let top = box.clientY + 20;
 
     // 오른쪽이 짤릴 때
     if (left + POPUP_WIDTH > window.innerWidth) {
-      left = window.innerWidth - POPUP_WIDTH - 20;
+      left = left - POPUP_WIDTH - 40;
     }
-    // 왼쪽이 짤릴 때
-    if (left < 20) {
-      left = 20;
-    }
+
     // 아래가 짤릴 때
     if (top + POPUP_HEIGHT > window.innerHeight) {
-      top = window.innerHeight - POPUP_HEIGHT - 20;
+      console.log('짤림');
+      top = box.y;
+      top = top - POPUP_HEIGHT + 20;
     }
-    // 위가 짤릴 때
-    if (top < 20) {
-      top = 20;
-    }
+    console.log('left, top', left, top);
     return {
       left,
       top,
