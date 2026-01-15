@@ -32,7 +32,7 @@ export default function Page() {
     }
   }, [myActivitiesData]);
 
-  //TODO:로딩 에러처리
+  //TODO:로딩, 에러처리
   if (!myActivitiesData) {
     return null;
   }
