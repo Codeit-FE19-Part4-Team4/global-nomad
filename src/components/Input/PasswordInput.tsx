@@ -20,14 +20,25 @@ type PasswordInputProps = CommonInputProps & {
  * 비밀번호 입력 컴포넌트
  * - 보기/숨기기 토글 버튼 제공
  * - disabled 상태에서는 토글 버튼 숨김
+ * - autoComplete 속성 지원 (new-password, current-password 등)
  *
  * @example
  * <PasswordInput label='비밀번호' placeholder='비밀번호를 입력하세요' /> 👉🏻 기본
  * <PasswordInput errorMessage='8자 이상 입력하세요' /> 👉🏻 에러
+ * <PasswordInput autoComplete='new-password' /> 👉🏻 새 비밀번호
  */
 const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
   function PasswordInput(
-    { label, errorMessage, onChange, disabled, value, className, ...props },
+    {
+      label,
+      errorMessage,
+      onChange,
+      disabled,
+      value,
+      className,
+      autoComplete = 'new-password',
+      ...props
+    },
     ref
   ) {
     const [showPassword, setShowPassword] = useState(false);
@@ -46,6 +57,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
               type={showPassword ? 'text' : 'password'}
               value={value}
               disabled={disabled}
+              autoComplete={autoComplete}
               onChange={(e) => onChange?.(e.target.value)}
               className={cn(
                 'w-full bg-transparent pr-12 outline-none',
@@ -63,7 +75,8 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
                 className={cn(
                   'absolute top-1/2 right-4 -translate-y-1/2',
                   'cursor-pointer hover:opacity-80'
-                )}>
+                )}
+                aria-label={showPassword ? '비밀번호 숨기기' : '비밀번호 보기'}>
                 <Image
                   src={showPassword ? ic_password_show : ic_password_hidden}
                   alt=""

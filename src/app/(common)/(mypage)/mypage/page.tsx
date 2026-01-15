@@ -23,9 +23,10 @@ export default function MyPage() {
     handleSubmit,
   } = useMyPageForm();
 
-  // 엔터키 입력 시 폼 제출
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !isLoading) {
+  // 폼 제출 핸들러
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!isLoading) {
       handleSubmit();
     }
   };
@@ -50,7 +51,7 @@ export default function MyPage() {
       </header>
 
       {/* 폼 입력 영역 */}
-      <div className="space-y-4" onKeyDown={handleKeyDown}>
+      <form onSubmit={handleFormSubmit} className="space-y-4">
         {/* 닉네임 입력 */}
         <TextInput
           label="닉네임"
@@ -94,14 +95,14 @@ export default function MyPage() {
 
         {/* 저장 버튼 */}
         <Button
+          type="submit"
           variant="primary"
           size="lg"
           className="mt-6 w-full"
-          onClick={handleSubmit}
           disabled={isLoading}>
           {isLoading ? '저장 중...' : '저장하기'}
         </Button>
-      </div>
+      </form>
     </section>
   );
 }
