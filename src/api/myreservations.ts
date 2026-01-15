@@ -1,4 +1,3 @@
-// api/myreservations.ts
 import { apiFetch } from '@/config/client';
 import {
   RequestGetMyReservations,
@@ -7,6 +6,8 @@ import {
   CreatedReview,
   MyReservation,
 } from '@/types/myreservations';
+
+export type { MyReservation };
 
 // 예약 목록 조회
 export async function getMyReservations(
@@ -17,12 +18,13 @@ export async function getMyReservations(
   });
 }
 
-// React Query 전용 리스트
 export async function getMyReservationList(
   params?: Omit<RequestGetMyReservations, 'teamId'>
-): Promise<MyReservation[]> {
-  const res = await getMyReservations(params);
-  return res.reservations;
+): Promise<ResponseGetMyReservations> {
+  const cleanParams =
+    params?.cursorId === undefined ? { size: params?.size } : params;
+
+  return getMyReservations(cleanParams);
 }
 
 // 예약 취소
