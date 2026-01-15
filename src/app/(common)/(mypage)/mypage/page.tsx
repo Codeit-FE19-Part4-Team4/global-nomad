@@ -34,16 +34,16 @@ export default function MyPage() {
   // 초기 데이터 로딩 중
   if (isInitialLoading) {
     return (
-      <section className="mx-auto max-w-2xl px-4 py-8">
+      <section>
         <LoadingSpinner />
       </section>
     );
   }
 
   return (
-    <section className="mx-auto max-w-2xl px-4 py-8">
+    <section>
       {/* 페이지 헤더 */}
-      <header className="mb-8">
+      <header>
         <PageHeader
           title="내 정보"
           description="닉네임과 비밀번호를 수정하실 수 있습니다."
