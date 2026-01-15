@@ -8,6 +8,7 @@ import {
   ResponseMyActivities,
 } from '@/types/myactivities';
 import type {
+  ReservationDashboardRes,
   ReservationListResponse,
   ReservationStatusType,
   ReservedScheduleList,
@@ -36,6 +37,23 @@ export const deleteMyActivities = async (activityId: number) => {
   return apiFetch(`/my-activities/${activityId}`, {
     method: 'DELETE',
   });
+};
+
+//체험 예약 현황 월별 예약 조회
+interface GetMonthlyReservationsParams {
+  year: string;
+  month: string;
+}
+export const getMonthlyReservations = (
+  activityId: number,
+  params: GetMonthlyReservationsParams
+) => {
+  return apiFetch<ReservationDashboardRes[]>(
+    `/my-activities/${activityId}/reservation-dashboard`,
+    {
+      params,
+    }
+  );
 };
 
 //날짜별 예약 정보 조회

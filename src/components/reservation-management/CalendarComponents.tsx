@@ -12,12 +12,20 @@ import type {
 
 import CalendarBadge from '../Badge/CalendarBadge';
 
-import { mockEvents } from './ReservationManagementCalendar';
-
 import ic_next from '@/assets/icons/activities/ic-calender-next.svg';
 import ic_prev from '@/assets/icons/activities/ic-calender-prev.svg';
 import { cn } from '@/util/cn';
-export const Toolbar = ({ date, onNavigate }: ToolbarProps) => {
+
+interface CustomToolbarProps extends ToolbarProps<CalendarEventData> {
+  onClickNextMonth?: () => void;
+  onClickPrevMonth?: () => void;
+}
+export const Toolbar = ({
+  date,
+  onNavigate,
+  onClickNextMonth,
+  onClickPrevMonth,
+}: CustomToolbarProps) => {
   const customLabel = moment(date).format('YYYY년 M월');
   return (
     <div className="flex h-11 justify-end">
@@ -25,12 +33,18 @@ export const Toolbar = ({ date, onNavigate }: ToolbarProps) => {
         <button
           onClick={() => {
             onNavigate('PREV');
+            onClickPrevMonth?.();
           }}
           className="cursor-pointer">
           <Image src={ic_prev} alt="이전 달" />
         </button>
         <span className="bold text-[20px]">{customLabel}</span>
-        <button onClick={() => onNavigate('NEXT')} className="cursor-pointer">
+        <button
+          onClick={() => {
+            onNavigate('NEXT');
+            onClickNextMonth?.();
+          }}
+          className="cursor-pointer">
           <Image src={ic_next} alt="다음 달" />
         </button>
       </div>
@@ -44,8 +58,15 @@ export const Toolbar = ({ date, onNavigate }: ToolbarProps) => {
 };
 
 //TODO: 데이터 바꾸기
-export const MyDateHeader = ({ date, isOffRange }: DateHeaderProps) => {
-  const hasEvent = mockEvents.some(
+interface MyDateHeaderProps extends DateHeaderProps {
+  event: CalendarEventData[];
+}
+export const MyDateHeader = ({
+  date,
+  isOffRange,
+  event,
+}: MyDateHeaderProps) => {
+  const hasEvent = event.some(
     (e) => e.start?.toDateString() === date.toDateString()
   );
   const day = date.getDate();
