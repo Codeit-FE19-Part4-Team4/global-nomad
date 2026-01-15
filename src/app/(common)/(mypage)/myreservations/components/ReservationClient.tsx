@@ -29,8 +29,7 @@ export default function ReservationClient() {
   } = useReservations();
 
   const loadMoreRef = useRef<HTMLDivElement>(null);
-
-  // ✨ 무한 스크롤 설정 추가
+  
   useInfiniteScroll({
     loadMoreRef,
     hasNextPage,
@@ -53,12 +52,6 @@ export default function ReservationClient() {
       <div ref={loadMoreRef} className="py-10">
         {isFetchingNextPage && <ReservationLoadingState count={2} />}
       </div>
-
-      {!hasNextPage && data?.reservations && data.reservations.length > 0 && (
-        <div className="body-md medium pb-14 text-center text-gray-500">
-          모든 예약 내역을 확인했습니다
-        </div>
-      )}
     </>
   );
 }
