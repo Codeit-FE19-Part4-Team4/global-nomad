@@ -49,7 +49,7 @@ export default function ReservationListByStatus({
   }
 
   return (
-    <div className="flex h-67 flex-col gap-2.5 overflow-scroll">
+    <div className="scrollbar-hidden flex h-67 flex-col gap-2.5 overflow-scroll">
       <span className="bold text-[18px] text-gray-950">예약 내역</span>
       <div className="flex flex-col gap-3.5">
         {reservations.map((reservation) => (
@@ -58,7 +58,7 @@ export default function ReservationListByStatus({
             key={reservation.id}
             data={reservation}
             onConfirm={() => console.log('confirm')}
-            onDecline={() => console.log('declien')}
+            onDecline={() => console.log('decline')}
           />
         ))}
       </div>
