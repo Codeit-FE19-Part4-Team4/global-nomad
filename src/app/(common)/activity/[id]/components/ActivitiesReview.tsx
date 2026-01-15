@@ -10,7 +10,7 @@ type ActivitiesReviewProps = {
   averageRating: number;
   reviews: Review[];
   currentPage: number;
-  totalCount: number | undefined;
+  totalCount: number;
   totalPage: number;
   pagesPerGroup: number;
   handleClickPage: (page: number) => void;

@@ -18,7 +18,6 @@ import {
   postActivityReservations,
 } from '@/api/activities';
 import { deleteMyActivities } from '@/api/myActivities';
-import { getUsersMe } from '@/api/users';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import BasicModal from '@/components/modal/BasicModal';
 import CancelModal from '@/components/modal/CancelModal';
@@ -32,6 +31,8 @@ import {
   RequestGetActivitySchedule,
 } from '@/types/activities';
 import { cn } from '@/util/cn';
+
+const REVIEW_PAGE_SIZE = 3;
 
 export default function ActivityDetailPage() {
   const { user } = useUser();
@@ -68,7 +69,7 @@ export default function ActivityDetailPage() {
   // 체험 리뷰 조회
   const reviewParams: RequestGetActivityReviews = {
     page: page,
-    size: 3,
+    size: REVIEW_PAGE_SIZE,
   };
   const { data: reviewData } = useQuery({
     queryKey: ['activityReview', activityId, page],
@@ -76,7 +77,7 @@ export default function ActivityDetailPage() {
     enabled: !!reviewParams,
     placeholderData: (previousData) => previousData,
   });
-  const totalPage = Math.ceil((reviewData?.totalCount ?? 0) / 3);
+  const totalPage = Math.ceil((reviewData?.totalCount ?? 0) / REVIEW_PAGE_SIZE);
   // 체험 리뷰 페이징
   const handleClickPage = (page: number) => {
     setPage(page);
