@@ -191,7 +191,7 @@ export default function ActivityDetailPage() {
           bannerImageUrl={bannerImageUrl}
           subImages={subImages}
         />
-        <div>
+        <div className="col-start-2 col-end-3 row-start-1 row-end-3">
           {/* 체험 정보 */}
           <ActivitiesInfo
             isOwner={isOwner}
