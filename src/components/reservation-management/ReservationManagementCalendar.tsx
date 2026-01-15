@@ -107,9 +107,17 @@ export default function ReservationManagementCalendar({
   data,
   onSelectSlot,
 }: ReservationManagementCalendarProps) {
+  const [currentDate, setCurrentDate] = useState<Date | null>(null);
+  useEffect(() => {
+    setCurrentDate(new Date());
+  }, []);
+
+  if (!currentDate) return null;
   return (
     <div className="md:shadow-calendar bg-background h-fit w-full rounded-3xl pt-5 pb-2.5">
       <Calendar
+        date={currentDate}
+        onNavigate={setCurrentDate}
         formats={{
           weekdayFormat: 'dd',
         }}
