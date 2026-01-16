@@ -9,6 +9,17 @@ import kakaoLogo from '@/assets/icons/auth/ic-kakao.svg';
 import { useToast } from '@/components/toast/useToast';
 import { KAKAO_REDIRECT_URI } from '@/config/oauth';
 
+// 랜덤 5자리 문자열 생성 함수
+function generateRandomNickname(length = 5) {
+  const chars =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  for (let i = 0; i < length; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result;
+}
+
 export default function KakaoCallbackContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -35,7 +46,7 @@ export default function KakaoCallbackContent() {
         if (state === 'signup') {
           res = await oauthSignUp({
             provider: 'kakao',
-            nickname: '임시닉네임',
+            nickname: generateRandomNickname(),
             redirectUri: KAKAO_REDIRECT_URI,
             token: code,
           });

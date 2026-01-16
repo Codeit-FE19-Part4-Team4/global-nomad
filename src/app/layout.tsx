@@ -36,7 +36,10 @@ export default function RootLayout({
           strategy="beforeInteractive"
         />
         {/* kakao logout SDK */}
-        <Script src="https://developers.kakao.com/sdk/js/kakao.js" />
+        <Script
+          src="https://developers.kakao.com/sdk/js/kakao.min.js"
+          strategy="beforeInteractive"
+        />
       </head>
       <body className={notoSansKR.className}>
         <QueryProvider>
