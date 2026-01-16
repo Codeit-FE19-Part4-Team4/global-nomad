@@ -24,7 +24,6 @@ export default function LoginPage() {
 
     if (savedEmail) setEmail(savedEmail);
 
-    // 사용 후 제거
     sessionStorage.removeItem('signupEmail');
   }, []);
 
@@ -48,12 +47,9 @@ export default function LoginPage() {
     setErrors(newErrors);
 
     if (Object.values(newErrors).some(Boolean)) return;
+
     try {
       const result = await login({ email, password });
-
-      // TODO: 보안 강화를 위해
-      // refreshToken → httpOnly cookie
-      // accessToken → memory 관리 방식으로 변경 예정
 
       // 토큰 저장
       localStorage.setItem('accessToken', result.accessToken);

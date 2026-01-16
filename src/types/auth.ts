@@ -26,3 +26,13 @@ export interface LoginResponse {
 
 // 공통 사용자 정보
 export type UserResponse = SignupResponse;
+
+// 토큰 리프레시 요청/응답 타입 추가
+export interface RefreshTokenRequest {
+  refreshToken: string;
+}
+
+export interface RefreshTokenResponse {
+  accessToken: string;
+  refreshToken: string;
+}
