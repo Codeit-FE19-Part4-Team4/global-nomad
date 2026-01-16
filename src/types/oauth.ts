@@ -8,7 +8,7 @@ export interface OAuthUser {
   updatedAt: string;
 }
 
-export interface OAuthSignupResponse {
+export interface OAuthAuthResponse {
   user: OAuthUser;
   accessToken: string;
   refreshToken: string;

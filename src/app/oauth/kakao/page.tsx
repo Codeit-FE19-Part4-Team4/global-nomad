@@ -1,41 +1,80 @@
+// src/app/oauth/kakao/page.tsx
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
-import { kakaoSignUp } from '@/api/oauth';
+import { oauthSignIn, oauthSignUp } from '@/api/oauth';
 import { KAKAO_REDIRECT_URI } from '@/config/oauth';
 
-export default function KakaoSignupPage() {
+export default function KakaoCallbackPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const hasRequested = useRef(false);
 
   useEffect(() => {
+    const code = searchParams.get('code');
+    const state = searchParams.get('state');
+
+    if (!code || !state) {
+      router.replace('/login');
+      return;
+    }
+
     if (hasRequested.current) return;
     hasRequested.current = true;
 
-    const code = new URLSearchParams(window.location.search).get('code');
-    if (!code) return;
+    window.history.replaceState({}, '', '/oauth/kakao');
 
-    const signup = async () => {
+    const processOAuth = async () => {
       try {
-        const res = await kakaoSignUp({
-          nickname: '카카오유저',
-          redirectUri: KAKAO_REDIRECT_URI,
-          token: code,
-        });
+        let res;
+
+        if (state === 'signup') {
+          res = await oauthSignUp({
+            provider: 'kakao',
+            nickname: '카카오유저',
+            redirectUri: KAKAO_REDIRECT_URI,
+            token: code,
+          });
+        } else {
+          res = await oauthSignIn({
+            provider: 'kakao',
+            redirectUri: KAKAO_REDIRECT_URI,
+            token: code,
+          });
+        }
 
         localStorage.setItem('accessToken', res.accessToken);
         localStorage.setItem('refreshToken', res.refreshToken);
 
         router.replace('/');
       } catch (e) {
-        console.error('카카오 회원가입 실패', e);
+        console.error('카카오 인증 실패', e);
+
+        // 에러 처리
+        if (e instanceof Error) {
+          if (state === 'signup' && e.message.includes('이미 존재')) {
+            alert('이미 가입된 계정입니다. 로그인 페이지로 이동합니다.');
+            router.replace('/login');
+          } else if (state === 'login' && e.message.includes('존재하지 않')) {
+            alert('가입되지 않은 계정입니다. 회원가입 페이지로 이동합니다.');
+            router.replace('/signup');
+          } else {
+            alert('인증에 실패했습니다. 다시 시도해주세요.');
+            router.replace(state === 'signup' ? '/signup' : '/login');
+          }
+        }
       }
     };
 
-    signup();
-  }, [router]);
+    processOAuth();
+  }, [router, searchParams]);
 
-  return <p>카카오 회원가입 처리 중...</p>;
+  return (
+    <div className="flex min-h-screen items-center justify-center">
+      <p className="text-lg">카카오 인증 처리 중...</p>
+      <p className="mt-2 text-sm text-gray-500">잠시만 기다려주세요</p>
+    </div>
+  );
 }

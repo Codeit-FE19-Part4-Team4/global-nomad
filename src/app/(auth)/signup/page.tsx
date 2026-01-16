@@ -42,7 +42,8 @@ export default function SignupPage() {
       'https://kauth.kakao.com/oauth/authorize' +
       `?client_id=${KAKAO_REST_API_KEY}` +
       `&redirect_uri=${encodeURIComponent(KAKAO_REDIRECT_URI)}` +
-      '&response_type=code';
+      '&response_type=code' +
+      '&state=signup';
 
     window.location.href = url;
   };

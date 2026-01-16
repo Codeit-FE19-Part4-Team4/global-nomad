@@ -9,6 +9,7 @@ import { login } from '@/api/auth';
 import kakaoLogo from '@/assets/icons/auth/ic-kakao.svg';
 import Button from '@/components/Button';
 import { TextInput, PasswordInput } from '@/components/Input';
+import { KAKAO_REST_API_KEY, KAKAO_REDIRECT_URI } from '@/config/oauth';
 import { useGuestOnly } from '@/hooks/useGuestOnly';
 import { validateEmail, validatePassword } from '@/util/validations';
 
@@ -18,6 +19,17 @@ export default function LoginPage() {
   const queryClient = useQueryClient();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const handleKakaoLogin = () => {
+    const url =
+      'https://kauth.kakao.com/oauth/authorize' +
+      `?client_id=${KAKAO_REST_API_KEY}` +
+      `&redirect_uri=${encodeURIComponent(KAKAO_REDIRECT_URI)}` +
+      '&response_type=code' +
+      '&state=login';
+
+    window.location.href = url;
+  };
 
   useEffect(() => {
     const savedEmail = sessionStorage.getItem('signupEmail');
@@ -126,7 +138,12 @@ export default function LoginPage() {
         <div className="h-px flex-1 bg-gray-100" />
       </div>
 
-      <Button type="button" size="lg" variant="secondary" className="w-full">
+      <Button
+        type="button"
+        size="lg"
+        variant="secondary"
+        className="w-full"
+        onClick={handleKakaoLogin}>
         <Image src={kakaoLogo} alt="카카오로고" width={24} height={24} />
         카카오 로그인
       </Button>
