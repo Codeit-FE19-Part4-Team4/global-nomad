@@ -1,7 +1,15 @@
-/** ======================
- * Request Types
- ======================= */
+// src/types/oauth.ts
+export interface OAuthUser {
+  id: number;
+  email: string;
+  nickname: string;
+  profileImageUrl: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
-/** ======================
- * Response Types
- ======================= */
+export interface OAuthSignupResponse {
+  user: OAuthUser;
+  accessToken: string;
+  refreshToken: string;
+}

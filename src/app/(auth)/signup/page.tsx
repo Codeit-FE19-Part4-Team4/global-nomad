@@ -9,6 +9,7 @@ import { signup } from '@/api/users';
 import kakaoLogo from '@/assets/icons/auth/ic-kakao.svg';
 import Button from '@/components/Button';
 import { TextInput, PasswordInput } from '@/components/Input';
+import { KAKAO_REST_API_KEY, KAKAO_REDIRECT_URI } from '@/config/oauth';
 import { useGuestOnly } from '@/hooks/useGuestOnly';
 import {
   validateEmail,
@@ -35,6 +36,16 @@ export default function SignupPage() {
   });
 
   const router = useRouter();
+
+  const handleKakaoSignup = () => {
+    const url =
+      'https://kauth.kakao.com/oauth/authorize' +
+      `?client_id=${KAKAO_REST_API_KEY}` +
+      `&redirect_uri=${encodeURIComponent(KAKAO_REDIRECT_URI)}` +
+      '&response_type=code';
+
+    window.location.href = url;
+  };
 
   const handleChange = (key: keyof typeof form) => (value: string) => {
     setForm((prev) => ({
@@ -199,7 +210,12 @@ export default function SignupPage() {
         <div className="h-px flex-1 bg-gray-100" />
       </div>
 
-      <Button type="button" size="lg" variant="secondary" className="w-full">
+      <Button
+        type="button"
+        size="lg"
+        variant="secondary"
+        className="w-full"
+        onClick={handleKakaoSignup}>
         <Image src={kakaoLogo} alt="카카오로고" width={24} height={24} />
         카카오 회원가입
       </Button>
