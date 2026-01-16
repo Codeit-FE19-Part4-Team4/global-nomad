@@ -45,7 +45,8 @@ export default function SignupPage() {
       `?client_id=${KAKAO_REST_API_KEY}` +
       `&redirect_uri=${encodeURIComponent(KAKAO_REDIRECT_URI)}` +
       '&response_type=code' +
-      '&state=signup';
+      '&state=signup' +
+      '&prompt=login';
 
     window.location.href = url;
   };

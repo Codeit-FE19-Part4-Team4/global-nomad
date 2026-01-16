@@ -62,7 +62,7 @@ export function useMyPageForm() {
       console.error('사용자 정보 로딩 실패:', fetchError);
       if (isUnauthorizedError(fetchError)) {
         toast.warning('로그인이 필요합니다.');
-        router.push('/signin');
+        router.push('/login');
       }
     }
   }, [fetchError, router]);
@@ -116,7 +116,7 @@ export function useMyPageForm() {
       console.error('저장 실패:', error);
       if (isUnauthorizedError(error)) {
         toast.warning('로그인이 필요합니다.');
-        router.push('/signin');
+        router.push('/login');
         return;
       }
       const errorMessage = getApiErrorMessage(error, '저장에 실패했습니다.');

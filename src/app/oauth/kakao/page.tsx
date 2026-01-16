@@ -1,10 +1,12 @@
 // src/app/oauth/kakao/page.tsx
 'use client';
 
+import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
 import { oauthSignIn, oauthSignUp } from '@/api/oauth';
+import kakaoLogo from '@/assets/icons/auth/ic-kakao.svg';
 import { useToast } from '@/components/toast/useToast';
 import { KAKAO_REDIRECT_URI } from '@/config/oauth';
 
@@ -35,7 +37,7 @@ export default function KakaoCallbackPage() {
         if (state === 'signup') {
           res = await oauthSignUp({
             provider: 'kakao',
-            nickname: '카카오유저',
+            nickname: '임시닉네임',
             redirectUri: KAKAO_REDIRECT_URI,
             token: code,
           });
@@ -53,15 +55,14 @@ export default function KakaoCallbackPage() {
         router.replace('/');
       } catch (e) {
         console.error('카카오 인증 실패', e);
-
         // 에러 처리
         if (e instanceof Error) {
-          if (state === 'signup' && e.message.includes('이미 존재')) {
-            toast.error('이미 가입된 계정입니다. 로그인 페이지로 이동합니다.');
+          if (state === 'signup' && e.message.includes('이미')) {
+            toast.warning('이미 가입된 계정입니다. 로그인을 진행해 주세요.');
             router.replace('/login');
-          } else if (state === 'login' && e.message.includes('존재하지 않')) {
+          } else if (state === 'login' && e.message.includes('않은')) {
             toast.warning(
-              '가입되지 않은 계정입니다. 회원가입 페이지로 이동합니다.'
+              '가입되지 않은 계정입니다. 회원가입을 진행해 주세요.'
             );
             router.replace('/signup');
           } else {
@@ -76,9 +77,10 @@ export default function KakaoCallbackPage() {
   }, [router, searchParams]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center">
-      <p className="text-lg">카카오 인증 처리 중...</p>
-      <p className="mt-2 text-sm text-gray-500">잠시만 기다려주세요</p>
+    <div className="flex min-h-screen flex-col items-center justify-center">
+      <Image src={kakaoLogo} alt="카카오로고" width={100} height={100} />
+      <p className="mt-5 text-[22px]">카카오 인증 처리 중...</p>
+      <p className="mt-5 text-[18px]">잠시만 기다려주세요</p>
     </div>
   );
 }

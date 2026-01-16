@@ -35,6 +35,8 @@ export default function RootLayout({
           src={`https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_KEY}&autoload=false&libraries=services`}
           strategy="beforeInteractive"
         />
+        {/* kakao logout SDK */}
+        <Script src="https://developers.kakao.com/sdk/js/kakao.js" />
       </head>
       <body className={notoSansKR.className}>
         <QueryProvider>
