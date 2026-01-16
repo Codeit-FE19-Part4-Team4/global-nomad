@@ -17,6 +17,7 @@ export function refreshTokens(refreshToken: string) {
     {
       method: 'POST',
       body: { refreshToken },
+      skipAuthRefresh: true,
     }
   );
 }
