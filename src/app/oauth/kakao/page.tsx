@@ -5,12 +5,14 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
 import { oauthSignIn, oauthSignUp } from '@/api/oauth';
+import { useToast } from '@/components/toast/useToast';
 import { KAKAO_REDIRECT_URI } from '@/config/oauth';
 
 export default function KakaoCallbackPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const hasRequested = useRef(false);
+  const toast = useToast();
 
   useEffect(() => {
     const code = searchParams.get('code');
@@ -55,13 +57,15 @@ export default function KakaoCallbackPage() {
         // 에러 처리
         if (e instanceof Error) {
           if (state === 'signup' && e.message.includes('이미 존재')) {
-            alert('이미 가입된 계정입니다. 로그인 페이지로 이동합니다.');
+            toast.error('이미 가입된 계정입니다. 로그인 페이지로 이동합니다.');
             router.replace('/login');
           } else if (state === 'login' && e.message.includes('존재하지 않')) {
-            alert('가입되지 않은 계정입니다. 회원가입 페이지로 이동합니다.');
+            toast.warning(
+              '가입되지 않은 계정입니다. 회원가입 페이지로 이동합니다.'
+            );
             router.replace('/signup');
           } else {
-            alert('인증에 실패했습니다. 다시 시도해주세요.');
+            toast.error('인증에 실패했습니다. 다시 시도해주세요.');
             router.replace(state === 'signup' ? '/signup' : '/login');
           }
         }

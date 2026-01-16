@@ -6,6 +6,7 @@ import { createUpdatePayload, isUnauthorizedError } from './useMypageFormUtils';
 import { validateForm } from './useMyPageFormValidators';
 import { useGetMyInfo, useUpdateMyInfo } from './useUser';
 
+import { useToast } from '@/components/toast/useToast';
 import { getApiErrorMessage } from '@/util/error';
 
 /**
@@ -16,6 +17,7 @@ import { getApiErrorMessage } from '@/util/error';
  */
 export function useMyPageForm() {
   const router = useRouter();
+  const toast = useToast();
 
   // React Query: 사용자 정보 조회
   const {
@@ -59,7 +61,7 @@ export function useMyPageForm() {
     if (fetchError) {
       console.error('사용자 정보 로딩 실패:', fetchError);
       if (isUnauthorizedError(fetchError)) {
-        alert('로그인이 필요합니다.');
+        toast.warning('로그인이 필요합니다.');
         router.push('/signin');
       }
     }
@@ -102,7 +104,7 @@ export function useMyPageForm() {
     try {
       const payload = createUpdatePayload(formData);
       await updateProfile(payload);
-      alert('저장되었습니다.');
+      toast.success('저장되었습니다!');
 
       // 비밀번호 필드 초기화
       setFormData((prev) => ({
@@ -113,12 +115,12 @@ export function useMyPageForm() {
     } catch (error: unknown) {
       console.error('저장 실패:', error);
       if (isUnauthorizedError(error)) {
-        alert('로그인이 필요합니다.');
+        toast.warning('로그인이 필요합니다.');
         router.push('/signin');
         return;
       }
       const errorMessage = getApiErrorMessage(error, '저장에 실패했습니다.');
-      alert(errorMessage);
+      toast.error(errorMessage);
     }
   };
 
