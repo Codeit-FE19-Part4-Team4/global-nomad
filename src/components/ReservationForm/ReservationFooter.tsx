@@ -153,7 +153,7 @@ export default function ReservationFooter({
           size="lg"
           className={cn(
             isScheduleVisible && 'hidden lg:flex',
-            'w-full lg:w-[155px]'
+            'w-full lg:w-[170px]'
           )}>
           로그인 후 예약
         </Button>
