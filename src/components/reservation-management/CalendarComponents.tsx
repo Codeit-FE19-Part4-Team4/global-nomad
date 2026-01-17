@@ -57,7 +57,6 @@ export const Toolbar = ({
   );
 };
 
-//TODO: 데이터 바꾸기
 interface MyDateHeaderProps extends DateHeaderProps {
   event: CalendarEventData[];
 }
