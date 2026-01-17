@@ -10,6 +10,9 @@ export interface ReservationSchedule {
 }
 
 export interface ReservationFormProps {
+  id: number;
+  isUser: boolean;
+  isOwner: boolean;
   headCount: number;
   setHeadCount: React.Dispatch<React.SetStateAction<number>>;
   scheduleId: number | undefined;
@@ -38,6 +41,9 @@ export interface ReservationOptionProps {
 }
 
 export interface ReservationFooterProps {
+  id: number;
+  isUser: boolean;
+  isOwner: boolean;
   disabled: boolean;
   onClick: (params: ReservationProps) => void;
   activityPrice: number;

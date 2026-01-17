@@ -35,7 +35,7 @@ export const calendar = [
  */
 export const reservationWrap = [
   'fixed flex left-0 right-0 bottom-0 items-end z-1',
-  'lg:static lg:w-[410px] lg:h-auto lg:min-h-[856px]',
+  'lg:static lg:w-[410px] lg:h-auto lg:min-h-[856px] lg:sticky lg:top-3',
 ];
 export const reservationDimmed = [
   'fixed inset-0 bg-[rgba(0,0,0,0.5)] z-[-1] lg:hidden',

@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 import Button from '../Button';
@@ -18,6 +19,9 @@ import { cn } from '@/util/cn';
 import { formatDateYYMMDD, formatPrice } from '@/util/format';
 
 export default function ReservationFooter({
+  id,
+  isUser,
+  isOwner,
   disabled,
   onClick,
   activityPrice,
@@ -98,37 +102,62 @@ export default function ReservationFooter({
           )}
         </div>
         {/* 날짜시간정보 or 날짜선택하기 */}
-        <div>
-          {date ? (
-            <button
-              onClick={() => setIsScheduleVisible(true)}
-              className={cn(footerTextBtn)}>
-              {formatDateYYMMDD(date)} {selectedTime}
-            </button>
-          ) : (
-            <button
-              onClick={() => setIsScheduleVisible(true)}
-              className={cn(footerTextBtn, isScheduleVisible && 'hidden')}>
-              날짜 선택하기
-            </button>
-          )}
-        </div>
+        {!isOwner && (
+          <div>
+            {date ? (
+              <button
+                onClick={() => setIsScheduleVisible(true)}
+                className={cn(footerTextBtn)}>
+                {formatDateYYMMDD(date)} {selectedTime}
+              </button>
+            ) : (
+              <button
+                onClick={() => setIsScheduleVisible(true)}
+                className={cn(footerTextBtn, isScheduleVisible && 'hidden')}>
+                날짜 선택하기
+              </button>
+            )}
+          </div>
+        )}
       </div>
       {/* 하단 예약하기 버튼 */}
-      <Button
-        variant="primary"
-        size="lg"
-        disabled={disabled}
-        onClick={() => {
-          if (scheduleId == null || headCount == null) return;
-          onClick({ scheduleId, headCount });
-        }}
-        className={cn(
-          isScheduleVisible && 'hidden lg:flex',
-          'w-full lg:w-[135px]'
-        )}>
-        예약하기
-      </Button>
+      {isOwner ? (
+        <Button
+          as={Link}
+          href={`/activity/${id}/edit`}
+          variant="primary"
+          size="lg"
+          className="w-full lg:w-[135px]">
+          체험 편집
+        </Button>
+      ) : isUser ? (
+        <Button
+          variant="primary"
+          size="lg"
+          disabled={disabled}
+          onClick={() => {
+            if (scheduleId == null || headCount == null) return;
+            onClick({ scheduleId, headCount });
+          }}
+          className={cn(
+            isScheduleVisible && 'hidden lg:flex',
+            'w-full lg:w-[135px]'
+          )}>
+          예약하기
+        </Button>
+      ) : (
+        <Button
+          as={Link}
+          href={`/login`}
+          variant="primary"
+          size="lg"
+          className={cn(
+            isScheduleVisible && 'hidden lg:flex',
+            'w-full lg:w-[170px]'
+          )}>
+          로그인 후 예약
+        </Button>
+      )}
       {/* 하단 뒤로/닫기 + 확인 버튼 (only 모바일,탭) */}
       <div className={cn(mobileBtns, isScheduleVisible && 'grid lg:hidden')}>
         <Button

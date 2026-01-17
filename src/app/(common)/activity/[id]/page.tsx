@@ -18,7 +18,6 @@ import {
   postActivityReservations,
 } from '@/api/activities';
 import { deleteMyActivities } from '@/api/myActivities';
-import { getUsersMe } from '@/api/users';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import BasicModal from '@/components/modal/BasicModal';
 import CancelModal from '@/components/modal/CancelModal';
@@ -26,16 +25,21 @@ import ReservationForm from '@/components/ReservationForm';
 import { ReservationProps } from '@/components/ReservationForm/reservation-type';
 import { ApiError } from '@/config/client';
 import { useModal } from '@/hooks/useModal';
+import { useUser } from '@/hooks/useUser';
 import {
   RequestGetActivityReviews,
   RequestGetActivitySchedule,
 } from '@/types/activities';
 import { cn } from '@/util/cn';
 
+const REVIEW_PAGE_SIZE = 3;
+
 export default function ActivityDetailPage() {
+  const { user } = useUser();
   const params = useParams();
   const router = useRouter();
   const activityId = Number(params.id);
+  const [page, setPage] = useState(1);
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
   const [headCount, setHeadCount] = useState<number>(0);
   const [scheduleId, setScheduleId] = useState<number | undefined>(undefined);
@@ -64,22 +68,20 @@ export default function ActivityDetailPage() {
 
   // 체험 리뷰 조회
   const reviewParams: RequestGetActivityReviews = {
-    page: 1,
-    size: 3,
+    page: page,
+    size: REVIEW_PAGE_SIZE,
   };
   const { data: reviewData } = useQuery({
-    queryKey: ['activityReview', activityId],
+    queryKey: ['activityReview', activityId, page],
     queryFn: () => getActivityReviews(activityId, reviewParams),
     enabled: !!reviewParams,
     placeholderData: (previousData) => previousData,
   });
-
-  // 내 정보 조회
-  const { data: userData } = useQuery({
-    queryKey: ['users', 'me'],
-    queryFn: getUsersMe,
-    retry: false,
-  });
+  const totalPage = Math.ceil((reviewData?.totalCount ?? 0) / REVIEW_PAGE_SIZE);
+  // 체험 리뷰 페이징
+  const handleClickPage = (page: number) => {
+    setPage(page);
+  };
 
   // 예약하기
   const handleReservation = ({ scheduleId, headCount }: ReservationProps) => {
@@ -175,7 +177,8 @@ export default function ActivityDetailPage() {
   } = data;
 
   const { averageRating = 0, reviews = [], totalCount = 0 } = reviewData ?? {};
-  const isOwner = Boolean(userData) && userId === userData?.id;
+  const isUser = Boolean(user);
+  const isOwner = isUser && userId === user?.id;
   return (
     <div
       className={cn(
@@ -189,7 +192,7 @@ export default function ActivityDetailPage() {
           bannerImageUrl={bannerImageUrl}
           subImages={subImages}
         />
-        <div>
+        <div className="col-start-2 col-end-3 row-start-1 row-end-3">
           {/* 체험 정보 */}
           <ActivitiesInfo
             isOwner={isOwner}
@@ -202,17 +205,22 @@ export default function ActivityDetailPage() {
             onDelete={onDelete}
           />
           {/* 예약하기 영역 */}
-          <ReservationForm
-            schedules={scheduleData}
-            activityPrice={price}
-            scheduleId={scheduleId}
-            setScheduleId={setScheduleId}
-            setHeadCount={setHeadCount}
-            headCount={headCount}
-            handleReservation={handleReservation}
-            currentMonth={currentMonth}
-            setCurrentMonth={setCurrentMonth}
-          />
+          <div className="lg:h-[calc(100%-150px)]">
+            <ReservationForm
+              id={id}
+              isUser={isUser}
+              isOwner={isOwner}
+              schedules={scheduleData}
+              activityPrice={price}
+              scheduleId={scheduleId}
+              setScheduleId={setScheduleId}
+              setHeadCount={setHeadCount}
+              headCount={headCount}
+              handleReservation={handleReservation}
+              currentMonth={currentMonth}
+              setCurrentMonth={setCurrentMonth}
+            />
+          </div>
         </div>
         <div className="flex flex-col gap-5 md:gap-7.5 lg:gap-10">
           {/* 체험 설명 */}
@@ -223,7 +231,11 @@ export default function ActivityDetailPage() {
           <ActivitiesReview
             averageRating={averageRating}
             reviews={reviews}
+            currentPage={page}
             totalCount={totalCount}
+            totalPage={totalPage}
+            pagesPerGroup={3}
+            handleClickPage={handleClickPage}
           />
         </div>
       </div>
