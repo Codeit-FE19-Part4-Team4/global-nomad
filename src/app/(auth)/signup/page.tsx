@@ -9,9 +9,12 @@ import { signup } from '@/api/users';
 import kakaoLogo from '@/assets/icons/auth/ic-kakao.svg';
 import Button from '@/components/Button';
 import { TextInput, PasswordInput } from '@/components/Input';
+import BasicModal from '@/components/modal/BasicModal';
 import { useToast } from '@/components/toast/useToast';
 import { KAKAO_REST_API_KEY, KAKAO_REDIRECT_URI } from '@/config/oauth';
 import { useGuestOnly } from '@/hooks/useGuestOnly';
+import { useModal } from '@/hooks/useModal';
+import { getApiErrorMessage } from '@/util/error';
 import {
   validateEmail,
   validatePassword,
@@ -22,6 +25,7 @@ import {
 export default function SignupPage() {
   useGuestOnly();
 
+  const { openModal, closeModal } = useModal();
   const [form, setForm] = useState({
     email: '',
     nickname: '',
@@ -90,33 +94,41 @@ export default function SignupPage() {
       sessionStorage.setItem('signupEmail', form.email);
       router.push('/login');
     } catch (error) {
-      if (error instanceof Error) {
-        if (error.message.includes('이메일')) {
-          setErrors((prev) => ({
-            ...prev,
-            email: error.message,
-          }));
-          toast.error(error.message);
-        } else if (error.message.includes('닉네임')) {
-          setErrors((prev) => ({
-            ...prev,
-            nickname: error.message,
-          }));
-          toast.error(error.message);
-        } else {
-          setErrors((prev) => ({
-            ...prev,
-            password: error.message,
-          }));
-          toast.error(error.message);
-        }
-      } else {
-        // 예상치 못한 에러
-        setErrors((prev) => ({
-          ...prev,
-          password: '알 수 없는 오류가 발생했습니다.',
-        }));
-        toast.error('알 수 없는 오류가 발생했습니다.');
+      const errorMessage = getApiErrorMessage(
+        error,
+        '회원가입 중 오류가 발생했습니다.'
+      );
+
+      //이미 사용중인 이메일 케이스만 모달로 표시
+      if (
+        errorMessage.includes('이미 사용중인 이메일') ||
+        errorMessage.includes('중복된 이메일')
+      ) {
+        openModal({
+          component: BasicModal,
+          props: {
+            message: '이미 사용중인 이메일입니다',
+            buttonText: '확인',
+            onClick: () => closeModal(BasicModal),
+          },
+        });
+        // 에러 상태 초기화 (모달로 표시하므로 input 에러는 제거)
+        setErrors({
+          email: '',
+          nickname: '',
+          password: '',
+          passwordConfirm: '',
+        });
+      } // 닉네임 중복 toast
+      else if (
+        errorMessage.includes('이미 사용중인 닉네임') ||
+        errorMessage.includes('중복된 닉네임')
+      ) {
+        toast.error('이미 사용중인 닉네임입니다');
+      }
+      // 그 외 에러
+      else {
+        toast.error('회원가입에 실패했습니다. 다시 시도해 주세요.');
       }
     }
   };
