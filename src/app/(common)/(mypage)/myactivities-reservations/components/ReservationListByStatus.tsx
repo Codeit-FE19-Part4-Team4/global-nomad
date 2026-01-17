@@ -53,11 +53,9 @@ export default function ReservationListByStatus({
             key={reservation.id}
             data={reservation}
             onConfirm={() => {
-              console.log('onConfirm');
               handleReservation(reservation.id, 'confirmed');
             }}
             onDecline={() => {
-              console.log('onDecline');
               handleReservation(reservation.id, 'declined');
             }}
           />
