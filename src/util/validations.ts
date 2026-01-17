@@ -7,6 +7,7 @@ export const validateEmail = (email: string) => {
 export const validateNickname = (nickname: string) => {
   if (!nickname) return '';
   if (nickname.length < 2) return '닉네임은 최소 2자 이상이어야 합니다.';
+  if (nickname.length > 10) return '닉네임은 최대 10자 이하로 작성해주세요.';
   return '';
 };
 
