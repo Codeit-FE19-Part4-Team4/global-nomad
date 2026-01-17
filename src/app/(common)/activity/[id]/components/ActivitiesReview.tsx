@@ -1,6 +1,7 @@
 import Image from 'next/image';
 
 import IcoStar from '@/assets/icons/main/ic-star-on.svg';
+import Pagination from '@/components/Pagination';
 import Rating from '@/components/Rating';
 import Text from '@/components/Text';
 import { Review } from '@/types/activities';
@@ -8,13 +9,21 @@ import { Review } from '@/types/activities';
 type ActivitiesReviewProps = {
   averageRating: number;
   reviews: Review[];
+  currentPage: number;
   totalCount: number;
+  totalPage: number;
+  pagesPerGroup: number;
+  handleClickPage: (page: number) => void;
 };
 
 export default function ActivitiesReview({
   averageRating,
   reviews,
+  currentPage,
   totalCount,
+  totalPage,
+  pagesPerGroup,
+  handleClickPage,
 }: ActivitiesReviewProps) {
   return (
     <div className="border-t border-gray-100 pt-5 md:pt-7.5 lg:pt-10">
@@ -31,7 +40,7 @@ export default function ActivitiesReview({
           {averageRating}
         </strong>
         <Text as="span" className="bold text-[16px]">
-          매우 만족
+          {getRatingText(averageRating, totalCount)}
         </Text>
         <Text
           as="span"
@@ -42,7 +51,7 @@ export default function ActivitiesReview({
       </div>
       {reviews.length > 0 && (
         <>
-          <div className="mt-7.5 flex lg:gap-5">
+          <div className="mt-7.5 flex flex-col gap-10 md:gap-5">
             {reviews.map((review) => {
               const { id, user, rating, content, createdAt } = review;
               return (
@@ -55,6 +64,14 @@ export default function ActivitiesReview({
                 />
               );
             })}
+          </div>
+          <div className="mt-7.5 flex justify-center md:mt-10">
+            <Pagination
+              currentPage={currentPage}
+              totalPage={totalPage}
+              pagesPerGroup={pagesPerGroup}
+              handleClickPage={handleClickPage}
+            />
           </div>
         </>
       )}
@@ -82,4 +99,19 @@ export function ReviewItem({ user, rating, content, createdAt }: Review) {
       </Text>
     </div>
   );
+}
+
+export function getRatingText(
+  rating: number,
+  totalCount: number | undefined
+): string {
+  if (totalCount === 0) {
+    return '평가 없음';
+  }
+
+  if (rating <= 1) return '매우 불만족';
+  if (rating <= 2) return '불만족';
+  if (rating <= 3) return '보통';
+  if (rating <= 4) return '만족';
+  return '매우 만족';
 }

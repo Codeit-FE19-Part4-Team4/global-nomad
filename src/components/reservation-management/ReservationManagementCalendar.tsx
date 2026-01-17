@@ -1,6 +1,7 @@
 'use client';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './calendar.css';
+import { useQuery } from '@tanstack/react-query';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { Calendar, momentLocalizer, type SlotInfo } from 'react-big-calendar';
@@ -15,6 +16,7 @@ import {
 } from './CalendarComponents';
 import type { CalendarEventData } from './CalendarComponents';
 
+import { getMonthlyReservations } from '@/api/myActivities';
 import type { ReservationDashboardRes } from '@/types/reserved-schedule';
 moment.locale('ko');
 
@@ -24,105 +26,85 @@ moment.updateLocale('en', {
   weekdaysMin: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
 });
 
-//TODO: 이벤트(내 체험 월별 예약 조회) api 가져오기 프롭스 data 가공
-export const mockEvents: CalendarEventData[] = [
-  {
-    title: '완료 1',
-    start: new Date(2026, 0, 9),
-    end: new Date(2026, 0, 9),
-    allDay: true,
-    status: 'completed',
-    count: 1,
-  },
-  {
-    title: '대기 1',
-    start: new Date(2026, 0, 9),
-    end: new Date(2026, 0, 9),
-    allDay: true,
-    status: 'pending',
-    count: 1,
-  },
-  {
-    title: '완료 2',
-    start: new Date(2026, 0, 12),
-    end: new Date(2026, 0, 12),
-    allDay: true,
-    status: 'completed',
-    count: 2,
-  },
-  {
-    title: '확정 1',
-    start: new Date(2026, 0, 15),
-    end: new Date(2026, 0, 15),
-    allDay: true,
-    status: 'confirmed',
-    count: 1,
-  },
-  {
-    title: '대기 2',
-    start: new Date(2026, 0, 15),
-    end: new Date(2026, 0, 15),
-    allDay: true,
-    status: 'pending',
-    count: 2,
-  },
-  {
-    title: '대기 2',
-    start: new Date(2026, 0, 15),
-    end: new Date(2026, 0, 15),
-    allDay: true,
-    status: 'pending',
-    count: 2,
-  },
-  {
-    title: '대기 2',
-    start: new Date(2026, 0, 15),
-    end: new Date(2026, 0, 15),
-    allDay: true,
-    status: 'pending',
-    count: 2,
-  },
-  {
-    title: '대기 2',
-    start: new Date(2026, 0, 15),
-    end: new Date(2026, 0, 15),
-    allDay: true,
-    status: 'pending',
-    count: 2,
-  },
-  {
-    title: '대기 2',
-    start: new Date(2026, 0, 15),
-    end: new Date(2026, 0, 15),
-    allDay: true,
-    status: 'pending',
-    count: 2,
-  },
-];
 interface ReservationManagementCalendarProps {
-  data?: ReservationDashboardRes;
+  activityId: number;
   onSelectSlot: (slotInfo: SlotInfo) => void;
 }
 export default function ReservationManagementCalendar({
-  data,
+  activityId,
   onSelectSlot,
 }: ReservationManagementCalendarProps) {
   const [currentDate, setCurrentDate] = useState<Date | null>(null);
+
+  const currentYear = currentDate ? moment(currentDate).format('YYYY') : '2026';
+  const currentMonth = currentDate ? moment(currentDate).format('MM') : '01';
+
   useEffect(() => {
     setCurrentDate(new Date());
   }, []);
 
+  const { data: MonthlyReservationData } = useQuery({
+    queryKey: ['MonthlyReservationData', currentMonth, activityId],
+    queryFn: () =>
+      getMonthlyReservations(activityId, {
+        year: currentYear.toString(),
+        month: currentMonth.toString(),
+      }),
+    enabled: !!activityId,
+  });
+
   if (!currentDate) return null;
+
+  const convertApiToEvent = (apiData: ReservationDashboardRes[]) => {
+    return apiData.flatMap((item) => {
+      const event: CalendarEventData[] = [];
+      const date = new Date(item.date);
+      if (item.reservations.completed > 0) {
+        event.push({
+          title: '',
+          start: date,
+          end: date,
+          status: 'completed',
+          count: item.reservations.completed,
+        });
+      }
+      if (item.reservations.confirmed > 0) {
+        event.push({
+          title: '',
+          start: date,
+          end: date,
+          status: 'confirmed',
+          count: item.reservations.confirmed,
+        });
+      }
+      if (item.reservations.pending > 0) {
+        event.push({
+          title: '',
+          start: date,
+          end: date,
+          status: 'pending',
+          count: item.reservations.pending,
+        });
+      }
+      return event;
+    });
+  };
+
+  const event = MonthlyReservationData
+    ? convertApiToEvent(MonthlyReservationData)
+    : [];
+  if (!MonthlyReservationData) return null;
+
   return (
     <div className="md:shadow-calendar bg-background h-fit w-full rounded-3xl pt-5 pb-2.5">
-      <Calendar
+      <Calendar<CalendarEventData>
         date={currentDate}
         onNavigate={setCurrentDate}
         formats={{
           weekdayFormat: 'dd',
         }}
         localizer={localizer}
-        events={mockEvents}
+        events={event}
         startAccessor="start"
         endAccessor="end"
         onSelectSlot={onSelectSlot}
@@ -140,13 +122,19 @@ export default function ReservationManagementCalendar({
         }}
         style={{ height: 'fit-content' }}
         components={{
-          toolbar: Toolbar,
+          toolbar: (props) => (
+            <Toolbar
+              {...props}
+              onClickNextMonth={() => console.log(currentDate)}
+              onClickPrevMonth={() => console.log(currentDate)}
+            />
+          ),
           event: CalendarEvent,
           dateCellWrapper: MyDateCellWrapper,
           showMore: ShowMore,
           month: {
             header: MonthHeader,
-            dateHeader: MyDateHeader,
+            dateHeader: (props) => <MyDateHeader {...props} event={event} />,
           },
         }}
       />
