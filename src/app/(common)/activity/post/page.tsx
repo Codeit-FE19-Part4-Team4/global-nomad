@@ -223,7 +223,6 @@ export default function Page() {
         <div className="flex flex-col gap-[30px]">
           <PostCode
             initAddress=""
-            pageType="post"
             onChangeAddress={(address) => handleChangeField('address', address)}
           />
           <div className="flex flex-col gap-0">
