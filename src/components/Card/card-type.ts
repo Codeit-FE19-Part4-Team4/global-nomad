@@ -36,6 +36,7 @@ export interface ReservationCard {
 export type activityType = {
   title: string;
   bannerImageUrl: string;
+  id: number;
 };
 
 export interface ReservationCardProps {

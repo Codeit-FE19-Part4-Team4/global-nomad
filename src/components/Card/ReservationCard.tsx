@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import StatusBadge from '../Badge/StatusBadge';
 import Button from '../Button';
 
@@ -46,13 +48,13 @@ export default function ReservationCard({
     status,
     reviewSubmitted,
   } = item;
-  const { title, bannerImageUrl } = activity;
+  const { title, bannerImageUrl, id: activityId } = activity;
   const isCancelPossible = status === 'pending';
   const isReviewPossible = !reviewSubmitted && status === 'completed';
 
   return (
     <div className={cardListWrap}>
-      <div className={cardVariants({ type })}>
+      <Link href={`/activity/${activityId}`} className={cardVariants({ type })}>
         <CardThumb type={type} bannerImageUrl={bannerImageUrl} title={title} />
         <div className={cardDetailVariants({ type })}>
           <div>
@@ -64,7 +66,7 @@ export default function ReservationCard({
             <CardPrice price={totalPrice} headCount={headCount} />
           </div>
         </div>
-      </div>
+      </Link>
       {(isReviewPossible || isCancelPossible) && (
         <div className={btnPosition}>
           {isReviewPossible && (
