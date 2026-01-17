@@ -222,7 +222,7 @@ export default function Page({ params }: PageProps) {
 
   return (
     <div className="mx-auto flex max-w-[700px] flex-col gap-6 lg:mt-10 lg:mb-25">
-      <h2 className="bold text-[18px]">내 체험 등록</h2>
+      <h2 className="bold text-[18px]">내 체험 수정</h2>
       <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
         <TextInput
           label="제목"
