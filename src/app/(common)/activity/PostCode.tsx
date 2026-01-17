@@ -9,23 +9,14 @@ const url =
 
 interface PostCodeProps {
   onChangeAddress: (address: string) => void;
-  pageType: 'post' | 'edit';
   initAddress: string;
 }
 export default function PostCode({
   onChangeAddress,
-  pageType,
   initAddress,
 }: PostCodeProps) {
   const [baseAddress, setBaseAddress] = useState(initAddress);
-  const [subAddress, setSubAddress] = useState('');
   const open = useDaumPostcodePopup(url);
-
-  const handleChange = (value: string) => {
-    setSubAddress(value);
-    const full = value ? `${baseAddress} ${value}` : baseAddress;
-    onChangeAddress(full);
-  };
 
   const handleClickPopup = () => {
     open({
@@ -56,14 +47,6 @@ export default function PostCode({
           주소 검색
         </Button>
       </div>
-      {pageType === 'post' && (
-        <TextInput
-          value={subAddress}
-          placeholder="상세주소를 입력해 주세요"
-          autoComplete="address-line2"
-          onChange={handleChange}
-        />
-      )}
     </div>
   );
 }
