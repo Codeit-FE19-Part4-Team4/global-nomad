@@ -93,7 +93,6 @@ export default function ReservationManagementCalendar({
   const event = MonthlyReservationData
     ? convertApiToEvent(MonthlyReservationData)
     : [];
-  if (!MonthlyReservationData) return null;
 
   return (
     <div className="md:shadow-calendar bg-background h-fit w-full rounded-3xl pt-5 pb-2.5">

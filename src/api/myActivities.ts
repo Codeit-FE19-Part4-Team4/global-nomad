@@ -12,6 +12,7 @@ import type {
   ReservationListResponse,
   ReservationStatusType,
   ReservedScheduleList,
+  UpdateReservationApprovalReq,
 } from '@/types/reserved-schedule';
 
 //내 체험 수정
@@ -84,6 +85,21 @@ export const getReservationBySchedule = (
     `/my-activities/${activityId}/reservations`,
     {
       params,
+    }
+  );
+};
+
+//체험 예약 승인, 거절 업데이트
+export const updateReservationApproval = (
+  activityId: number,
+  reservationId: number,
+  req: UpdateReservationApprovalReq
+) => {
+  return apiFetch(
+    `/my-activities/${activityId}/reservations/${reservationId}`,
+    {
+      method: 'PATCH',
+      body: req,
     }
   );
 };
