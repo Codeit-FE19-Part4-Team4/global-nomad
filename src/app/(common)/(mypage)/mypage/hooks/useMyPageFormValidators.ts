@@ -1,4 +1,4 @@
-import { FormData, FormErrors } from './useMyPageFormTypes';
+import { MyPageFormData, MyPageFormErrors } from './useMyPageFormTypes';
 
 import {
   validateEmail,
@@ -12,12 +12,12 @@ import {
  * - 닉네임, 이메일은 필수 검증
  * - 비밀번호는 입력 시에만 검증 (선택적)
  */
-export function validateForm(formData: FormData): {
-  errors: FormErrors;
+export function validateForm(formData: MyPageFormData): {
+  errors: MyPageFormErrors;
   isValid: boolean;
 } {
   // 기본 필드 검증 (닉네임, 이메일)
-  const errors: FormErrors = {
+  const errors: MyPageFormErrors = {
     nickname: validateNickname(formData.nickname),
     email: validateEmail(formData.email),
     password: '',

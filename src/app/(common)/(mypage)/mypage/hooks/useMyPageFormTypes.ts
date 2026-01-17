@@ -1,5 +1,5 @@
 //마이페이지 폼 데이터 타입
-export interface FormData {
+export interface MyPageFormData {
   nickname: string;
   email: string;
   password: string;
@@ -7,7 +7,7 @@ export interface FormData {
 }
 
 //마이페이지 폼 에러 메시지 타입
-export interface FormErrors {
+export interface MyPageFormErrors {
   nickname: string;
   email: string;
   password: string;

@@ -1,133 +1,142 @@
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { useCallback, useEffect } from 'react';
 
-import { FormData, FormErrors } from './useMyPageFormTypes';
-import { createUpdatePayload, isUnauthorizedError } from './useMypageFormUtils';
-import { validateForm } from './useMyPageFormValidators';
+import { useProfileImageContext } from '../context/ProfileImageContext';
+
+import { useErrorHandler } from './useErrorHandler';
+import { useFormState } from './useFormState';
+import { createUpdatePayload } from './useMypageFormUtils';
 import { useGetMyInfo, useUpdateMyInfo } from './useUser';
 
-import { getApiErrorMessage } from '@/util/error';
+import { uploadProfileImage } from '@/api/users';
 
 /**
  * 마이페이지 폼 관리 Hook
  * - 사용자 정보 조회 및 수정
  * - 폼 유효성 검사
  * - 비밀번호 선택적 업데이트
+ * - 프로필 이미지 업로드
  */
 export function useMyPageForm() {
-  const router = useRouter();
+  const queryClient = useQueryClient();
+  const { handleError, handleImageUploadError, handleProfileUpdateError } =
+    useErrorHandler();
 
-  // React Query: 사용자 정보 조회
   const {
     data: userData,
     isLoading: isInitialLoading,
     error: fetchError,
   } = useGetMyInfo();
-
-  // React Query: 사용자 정보 수정
   const { mutateAsync: updateProfile, isPending: isLoading } =
     useUpdateMyInfo();
 
-  // 폼 상태 관리
-  const [formData, setFormData] = useState<FormData>({
-    nickname: '',
-    email: '',
-    password: '',
-    passwordConfirm: '',
-  });
+  const {
+    formData,
+    errors,
+    handleChange,
+    updateFormData,
+    resetPasswordFields,
+    validate,
+  } = useFormState();
 
-  const [errors, setErrors] = useState<FormErrors>({
-    nickname: '',
-    email: '',
-    password: '',
-    passwordConfirm: '',
-  });
+  // Context에서 프로필 이미지 상태 가져오기
+  const {
+    profileImage,
+    profileImagePreview,
+    handleImageChange,
+    resetImage,
+    updatePreview,
+  } = useProfileImageContext();
 
   // 사용자 정보 동기화
   useEffect(() => {
-    if (userData) {
-      setFormData((prev) => ({
-        ...prev,
-        nickname: userData.nickname,
-        email: userData.email,
-      }));
-    }
-  }, [userData]);
+    if (!userData) return;
 
-  // 에러 처리
+    updateFormData({
+      nickname: userData.nickname,
+      email: userData.email,
+    });
+  }, [userData, updateFormData]);
+
+  // 초기 로딩 에러 처리
   useEffect(() => {
-    if (fetchError) {
-      console.error('사용자 정보 로딩 실패:', fetchError);
-      if (isUnauthorizedError(fetchError)) {
-        alert('로그인이 필요합니다.');
-        router.push('/signin');
-      }
-    }
-  }, [fetchError, router]);
+    if (!fetchError) return;
 
-  /**
-   * 입력 필드 변경 핸들러
-   */
-  const handleChange = (field: keyof FormData) => {
-    return (value: string) => {
-      setFormData((prev) => ({
-        ...prev,
-        [field]: value,
-      }));
-      // 입력 시 해당 필드 에러 초기화
-      if (errors[field]) {
-        setErrors((prev) => ({
-          ...prev,
-          [field]: '',
-        }));
-      }
-    };
-  };
+    console.error('사용자 정보 로딩 실패:', fetchError);
+    handleError(fetchError);
+  }, [fetchError, handleError]);
 
-  /**
-   * 폼 유효성 검사
-   */
-  const validate = () => {
-    const { errors: newErrors, isValid } = validateForm(formData);
-    setErrors(newErrors);
-    return isValid;
-  };
+  const invalidateUserQueries = useCallback(async () => {
+    await Promise.all([
+      queryClient.invalidateQueries({ queryKey: ['user', 'me'] }),
+      queryClient.invalidateQueries({ queryKey: ['user'] }),
+    ]);
+  }, [queryClient]);
 
-  /**
-   * 폼 제출 핸들러
-   */
-  const handleSubmit = async () => {
+  const handleSubmit = useCallback(async () => {
     if (!validate()) return;
 
     try {
-      const payload = createUpdatePayload(formData);
-      await updateProfile(payload);
-      alert('저장되었습니다.');
+      let uploadedImageUrl: string | undefined;
 
-      // 비밀번호 필드 초기화
-      setFormData((prev) => ({
-        ...prev,
-        password: '',
-        passwordConfirm: '',
-      }));
-    } catch (error: unknown) {
-      console.error('저장 실패:', error);
-      if (isUnauthorizedError(error)) {
-        alert('로그인이 필요합니다.');
-        router.push('/signin');
-        return;
+      // 이미지 업로드 처리
+      if (profileImage) {
+        try {
+          const imageResult = await uploadProfileImage(profileImage);
+          uploadedImageUrl = imageResult.profileImageUrl;
+        } catch (error) {
+          handleImageUploadError(error);
+          return;
+        }
       }
-      const errorMessage = getApiErrorMessage(error, '저장에 실패했습니다.');
-      alert(errorMessage);
+
+      const payload = createUpdatePayload(formData);
+
+      if (uploadedImageUrl) {
+        payload.profileImageUrl = uploadedImageUrl;
+      }
+
+      // 프로필 업데이트 처리
+      try {
+        await updateProfile(payload);
+        await invalidateUserQueries();
+
+        if (uploadedImageUrl) {
+          updatePreview(uploadedImageUrl);
+        }
+
+        alert('저장되었습니다.');
+
+        resetPasswordFields();
+        resetImage();
+      } catch (error) {
+        handleProfileUpdateError(error);
+      }
+    } catch (error: unknown) {
+      handleError(error, '저장 중 오류가 발생했습니다.');
     }
-  };
+  }, [
+    validate,
+    profileImage,
+    formData,
+    updateProfile,
+    invalidateUserQueries,
+    updatePreview,
+    resetPasswordFields,
+    resetImage,
+    handleError,
+    handleImageUploadError,
+    handleProfileUpdateError,
+  ]);
 
   return {
     formData,
     errors,
     isLoading,
     isInitialLoading,
+    profileImagePreview,
     handleChange,
+    handleImageChange,
     handleSubmit,
   };
 }
