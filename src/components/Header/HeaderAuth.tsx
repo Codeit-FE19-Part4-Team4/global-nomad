@@ -19,6 +19,11 @@ export default function HeaderAuth() {
 
   const handleLogout = () => {
     logout();
+    if (typeof window !== 'undefined' && window.Kakao?.Auth) {
+      window.Kakao.Auth.logout(() => {
+        console.log('카카오 로그아웃 완료');
+      });
+    }
     router.push('/login');
   };
 

@@ -30,9 +30,9 @@ export default function RootLayout({
   return (
     <html lang="ko" className={notoSansKR.variable}>
       <head>
-        {/* Kakao Maps SDK를 전역으로 로드 */}
+        {/* kakao logout SDK */}
         <Script
-          src={`https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_KEY}&autoload=false&libraries=services`}
+          src="https://developers.kakao.com/sdk/js/kakao.min.js"
           strategy="beforeInteractive"
         />
       </head>

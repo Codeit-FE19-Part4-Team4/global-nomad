@@ -10,6 +10,7 @@ import ActivitiesImage from './components/ActivitiesImage';
 import ActivitiesInfo from './components/ActivitiesInfo';
 import ActivitiesMap from './components/ActivitiesMap';
 import ActivitiesReview from './components/ActivitiesReview';
+import KakaoScript from './components/KakaoScript';
 
 import {
   getActivityDetail,
@@ -175,7 +176,6 @@ export default function ActivityDetailPage() {
     rating,
     reviewCount,
   } = data;
-
   const { averageRating = 0, reviews = [], totalCount = 0 } = reviewData ?? {};
   const isUser = Boolean(user);
   const isOwner = isUser && userId === user?.id;
@@ -226,6 +226,7 @@ export default function ActivityDetailPage() {
           {/* 체험 설명 */}
           <ActivitiesDescription description={description} />
           {/* 오시는 길 */}
+          <KakaoScript />
           <ActivitiesMap address={address} />
           {/* 체험 후기 */}
           <ActivitiesReview

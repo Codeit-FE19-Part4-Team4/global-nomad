@@ -47,3 +47,7 @@ export interface ReservationListResponse {
   totalCount: number;
   cursorId: number | null;
 }
+
+export type UpdateReservationApprovalReq = {
+  status: ReservationStatusType;
+};

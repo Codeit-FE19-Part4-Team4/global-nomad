@@ -60,6 +60,7 @@ export default function Page() {
         </DropDown>
       )}
       <ReservationManagementCalendar
+        activityId={activityId}
         onSelectSlot={(slotInfo) => {
           setLocation(slotInfo.box || null);
           setSelectedDate(slotInfo.start);

@@ -86,7 +86,6 @@ export default function Page({ params }: PageProps) {
   const [bannerImage, setBannerImage] = useState<File[]>([]);
   const [subImages, setSubImages] = useState<File[]>([]);
   const [baseAddress, setBaseAddress] = useState('');
-  const [subAddress, setSubAddress] = useState('');
   const [isValidSchedule, setIsValidSchedule] = useState(true);
   const router = useRouter();
   const { openModal, closeModal } = useModal();
@@ -152,12 +151,6 @@ export default function Page({ params }: PageProps) {
       field,
       value,
     });
-  };
-
-  const handleChangeSubAddress = (value: string) => {
-    setSubAddress(value);
-    const full = value ? `${baseAddress} ${value}` : baseAddress;
-    handleChangeField('address', full);
   };
 
   const handleDeleteSchedule = (schedule: number | ScheduleBase) => {
@@ -229,7 +222,7 @@ export default function Page({ params }: PageProps) {
 
   return (
     <div className="mx-auto flex max-w-[700px] flex-col gap-6 lg:mt-10 lg:mb-25">
-      <h2 className="bold text-[18px]">내 체험 등록</h2>
+      <h2 className="bold text-[18px]">내 체험 수정</h2>
       <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
         <TextInput
           label="제목"
@@ -273,17 +266,10 @@ export default function Page({ params }: PageProps) {
           <div className="flex flex-col gap-2.5">
             <PostCode
               initAddress={activityDetailData.address}
-              pageType="edit"
               onChangeAddress={(address) => {
                 setBaseAddress(address);
                 handleChangeField('address', address);
               }}
-            />
-            <TextInput
-              value={subAddress}
-              placeholder="상세주소를 입력해 주세요"
-              autoComplete="address-line2"
-              onChange={handleChangeSubAddress}
             />
           </div>
           <div className="flex flex-col gap-0">

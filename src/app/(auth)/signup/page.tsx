@@ -9,7 +9,12 @@ import { signup } from '@/api/users';
 import kakaoLogo from '@/assets/icons/auth/ic-kakao.svg';
 import Button from '@/components/Button';
 import { TextInput, PasswordInput } from '@/components/Input';
+import BasicModal from '@/components/modal/BasicModal';
+import { useToast } from '@/components/toast/useToast';
+import { KAKAO_REST_API_KEY, KAKAO_REDIRECT_URI } from '@/config/oauth';
 import { useGuestOnly } from '@/hooks/useGuestOnly';
+import { useModal } from '@/hooks/useModal';
+import { getApiErrorMessage } from '@/util/error';
 import {
   validateEmail,
   validatePassword,
@@ -20,6 +25,7 @@ import {
 export default function SignupPage() {
   useGuestOnly();
 
+  const { openModal, closeModal } = useModal();
   const [form, setForm] = useState({
     email: '',
     nickname: '',
@@ -35,6 +41,19 @@ export default function SignupPage() {
   });
 
   const router = useRouter();
+  const toast = useToast();
+
+  const handleKakaoSignup = () => {
+    const url =
+      'https://kauth.kakao.com/oauth/authorize' +
+      `?client_id=${KAKAO_REST_API_KEY}` +
+      `&redirect_uri=${encodeURIComponent(KAKAO_REDIRECT_URI)}` +
+      '&response_type=code' +
+      '&state=signup' +
+      '&prompt=login';
+
+    window.location.href = url;
+  };
 
   const handleChange = (key: keyof typeof form) => (value: string) => {
     setForm((prev) => ({
@@ -71,36 +90,45 @@ export default function SignupPage() {
         password: form.password,
         nickname: form.nickname,
       });
-      //TODO toast 팝업으로 교체
-      alert('회원가입이 완료되었습니다!');
+      toast.success('회원가입이 완료되었습니다!');
       sessionStorage.setItem('signupEmail', form.email);
-
       router.push('/login');
     } catch (error) {
-      //TODO 에러처리
-      if (error instanceof Error) {
-        if (error.message.includes('이메일')) {
-          setErrors((prev) => ({
-            ...prev,
-            email: error.message,
-          }));
-        } else if (error.message.includes('닉네임')) {
-          setErrors((prev) => ({
-            ...prev,
-            nickname: error.message,
-          }));
-        } else {
-          setErrors((prev) => ({
-            ...prev,
-            password: error.message,
-          }));
-        }
-      } else {
-        // 예상치 못한 에러
-        setErrors((prev) => ({
-          ...prev,
-          password: '알 수 없는 오류가 발생했습니다.',
-        }));
+      const errorMessage = getApiErrorMessage(
+        error,
+        '회원가입 중 오류가 발생했습니다.'
+      );
+
+      //이미 사용중인 이메일 케이스만 모달로 표시
+      if (
+        errorMessage.includes('이미 사용중인 이메일') ||
+        errorMessage.includes('중복된 이메일')
+      ) {
+        openModal({
+          component: BasicModal,
+          props: {
+            message: '이미 사용중인 이메일입니다',
+            buttonText: '확인',
+            onClick: () => closeModal(BasicModal),
+          },
+        });
+        // 에러 상태 초기화 (모달로 표시하므로 input 에러는 제거)
+        setErrors({
+          email: '',
+          nickname: '',
+          password: '',
+          passwordConfirm: '',
+        });
+      } // 닉네임 중복 toast
+      else if (
+        errorMessage.includes('이미 사용중인 닉네임') ||
+        errorMessage.includes('중복된 닉네임')
+      ) {
+        toast.error('이미 사용중인 닉네임입니다');
+      }
+      // 그 외 에러
+      else {
+        toast.error('회원가입에 실패했습니다. 다시 시도해 주세요.');
       }
     }
   };
@@ -199,7 +227,12 @@ export default function SignupPage() {
         <div className="h-px flex-1 bg-gray-100" />
       </div>
 
-      <Button type="button" size="lg" variant="secondary" className="w-full">
+      <Button
+        type="button"
+        size="lg"
+        variant="secondary"
+        className="w-full"
+        onClick={handleKakaoSignup}>
         <Image src={kakaoLogo} alt="카카오로고" width={24} height={24} />
         카카오 회원가입
       </Button>

@@ -1,6 +1,5 @@
 'use client';
 
-import Script from 'next/script';
 import { useEffect, useState } from 'react';
 
 import Text from '@/components/Text';

@@ -1,14 +1,19 @@
-import { useQuery } from '@tanstack/react-query';
-
 import ReservationListCard from './ReservationListCard';
 
-import { getReservationBySchedule } from '@/api/myActivities';
-import type { ReservationStatusType } from '@/types/reserved-schedule';
+import type {
+  ReservationListResponse,
+  ReservationStatusType,
+} from '@/types/reserved-schedule';
 
 interface ReservationListByStatusProps {
   activityId: number;
   scheduleId: number;
   status: ReservationStatusType;
+  handleReservation: (
+    reservationId: number,
+    status: ReservationStatusType
+  ) => Promise<void>;
+  reservationListData: ReservationListResponse;
 }
 
 const STATUS_TO_KO = {
@@ -18,25 +23,15 @@ const STATUS_TO_KO = {
 };
 
 export default function ReservationListByStatus({
-  activityId,
-  scheduleId,
+  handleReservation,
   status,
+  reservationListData,
 }: ReservationListByStatusProps) {
-  const params = {
-    scheduleId,
-    status,
-  };
-  const { data: ReservationListData } = useQuery({
-    queryKey: ['ReservationListByStatus', scheduleId, status],
-    queryFn: () => getReservationBySchedule(activityId, params),
-    enabled: scheduleId !== undefined,
-  });
-
-  if (!ReservationListData) {
+  if (!reservationListData) {
     return null;
   }
 
-  const { reservations } = ReservationListData;
+  const { reservations } = reservationListData;
 
   if (reservations.length === 0) {
     return (
@@ -57,8 +52,12 @@ export default function ReservationListByStatus({
             status={status}
             key={reservation.id}
             data={reservation}
-            onConfirm={() => console.log('confirm')}
-            onDecline={() => console.log('decline')}
+            onConfirm={() => {
+              handleReservation(reservation.id, 'confirmed');
+            }}
+            onDecline={() => {
+              handleReservation(reservation.id, 'declined');
+            }}
           />
         ))}
       </div>

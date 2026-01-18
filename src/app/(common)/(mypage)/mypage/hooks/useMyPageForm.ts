@@ -9,6 +9,8 @@ import { createUpdatePayload } from './useMypageFormUtils';
 import { useGetMyInfo, useUpdateMyInfo } from './useUser';
 
 import { uploadProfileImage } from '@/api/users';
+import { useToast } from '@/components/toast/useToast';
+import { getApiErrorMessage } from '@/util/error';
 
 /**
  * 마이페이지 폼 관리 Hook
@@ -21,6 +23,8 @@ export function useMyPageForm() {
   const queryClient = useQueryClient();
   const { handleError, handleImageUploadError, handleProfileUpdateError } =
     useErrorHandler();
+  const router = useRouter();
+  const toast = useToast();
 
   const {
     data: userData,
@@ -61,6 +65,33 @@ export function useMyPageForm() {
   // 초기 로딩 에러 처리
   useEffect(() => {
     if (!fetchError) return;
+    if (fetchError) {
+      console.error('사용자 정보 로딩 실패:', fetchError);
+      if (isUnauthorizedError(fetchError)) {
+        toast.warning('로그인이 필요합니다.');
+        router.push('/login');
+      }
+    }
+  }, [fetchError, router]);
+
+  /**
+   * 입력 필드 변경 핸들러
+   */
+  const handleChange = (field: keyof FormData) => {
+    return (value: string) => {
+      setFormData((prev) => ({
+        ...prev,
+        [field]: value,
+      }));
+      // 입력 시 해당 필드 에러 초기화
+      if (errors[field]) {
+        setErrors((prev) => ({
+          ...prev,
+          [field]: '',
+        }));
+      }
+    };
+  };
 
     console.error('사용자 정보 로딩 실패:', fetchError);
     handleError(fetchError);
@@ -114,6 +145,24 @@ export function useMyPageForm() {
       }
     } catch (error: unknown) {
       handleError(error, '저장 중 오류가 발생했습니다.');
+      await updateProfile(payload);
+      toast.success('저장되었습니다!');
+
+      // 비밀번호 필드 초기화
+      setFormData((prev) => ({
+        ...prev,
+        password: '',
+        passwordConfirm: '',
+      }));
+    } catch (error: unknown) {
+      console.error('저장 실패:', error);
+      if (isUnauthorizedError(error)) {
+        toast.warning('로그인이 필요합니다.');
+        router.push('/login');
+        return;
+      }
+      const errorMessage = getApiErrorMessage(error, '저장에 실패했습니다.');
+      toast.error(errorMessage);
     }
   }, [
     validate,

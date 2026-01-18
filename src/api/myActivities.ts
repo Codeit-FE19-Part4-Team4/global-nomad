@@ -8,9 +8,11 @@ import {
   ResponseMyActivities,
 } from '@/types/myactivities';
 import type {
+  ReservationDashboardRes,
   ReservationListResponse,
   ReservationStatusType,
   ReservedScheduleList,
+  UpdateReservationApprovalReq,
 } from '@/types/reserved-schedule';
 
 //내 체험 수정
@@ -36,6 +38,23 @@ export const deleteMyActivities = async (activityId: number) => {
   return apiFetch(`/my-activities/${activityId}`, {
     method: 'DELETE',
   });
+};
+
+//체험 예약 현황 월별 예약 조회
+interface GetMonthlyReservationsParams {
+  year: string;
+  month: string;
+}
+export const getMonthlyReservations = (
+  activityId: number,
+  params: GetMonthlyReservationsParams
+) => {
+  return apiFetch<ReservationDashboardRes[]>(
+    `/my-activities/${activityId}/reservation-dashboard`,
+    {
+      params,
+    }
+  );
 };
 
 //날짜별 예약 정보 조회
@@ -66,6 +85,21 @@ export const getReservationBySchedule = (
     `/my-activities/${activityId}/reservations`,
     {
       params,
+    }
+  );
+};
+
+//체험 예약 승인, 거절 업데이트
+export const updateReservationApproval = (
+  activityId: number,
+  reservationId: number,
+  req: UpdateReservationApprovalReq
+) => {
+  return apiFetch(
+    `/my-activities/${activityId}/reservations/${reservationId}`,
+    {
+      method: 'PATCH',
+      body: req,
     }
   );
 };

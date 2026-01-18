@@ -9,6 +9,11 @@ export default function SideMenuNav({ onClose }: { onClose?: () => void }) {
   const router = useRouter();
   const handleLogout = () => {
     logout();
+    if (typeof window !== 'undefined' && window.Kakao?.Auth) {
+      window.Kakao.Auth.logout(() => {
+        console.log('카카오 세션 로그아웃 완료');
+      });
+    }
     router.push('/login');
   };
   return (
