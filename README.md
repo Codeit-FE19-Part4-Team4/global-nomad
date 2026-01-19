@@ -1,114 +1,126 @@
-# GlobalNomad
-사용자가 판매자와 체험자 역할을 모두 수행할 수 있는 플랫폼으로, 판매자는 예약 가능 일정을 설정 및 관리하고 사용자는 체험을 예약할 수 있는 기능을 제공합니다.
+# 🌍 GlobalNomad
 
-## 🚀 기술스택
+**GlobalNomad**는  
+판매자(호스트)와 체험자(게스트) 역할을 모두 수행할 수 있는 **체험 예약 플랫폼**입니다.  
+호스트는 체험과 예약 일정을 관리하고, 사용자는 체험 탐색·예약·리뷰를 할 수 있습니다.
+
+OAuth 인증과 외부 SDK 연동을 통해 실제 서비스 흐름을 고려한 기능을 구현했습니다.
+
+## 📌 프로젝트 개요
+
+- **프로젝트 기간**: 2025.12.18 ~ 2026.01.18 (약 1개월)
+- **프로젝트 유형**: 프론트엔드 팀 프로젝트
+- **참여 인원**: 4명
+  - [양은지](https://github.com/eunji0124)
+  - [이나래](https://github.com/jerryko570)
+  - [이선영](https://github.com/sylee86)
+  - [현유진](https://github.com/yujin-fe)
+
+## 🚀 기술 스택
+
 ### Frontend
-- Next.js (App Router / TypeScript)
-- npm
-- fetch API
-- TailwindCSS v4
-clsx / cva / tw-merge / cn 활용
-- react-query
-- react-hook-form
-### 배포
-Vercel
-### SDK
-- Kakao Calendar API
-- Kakao Maps SDK
+
+![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=nextdotjs)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-v4-06B6D4?logo=tailwindcss)
+![TanStack Query](https://img.shields.io/badge/TanStack%20Query-FF4154?logo=reactquery)
+
+> TailwindCSS 유틸 관리:  
+> `clsx`, `cva`, `tw-merge`, `cn` 활용
+
+---
+
+### Data & API
+
+![Fetch API](https://img.shields.io/badge/Fetch%20API-native-lightgrey)
+![Kakao Maps SDK](https://img.shields.io/badge/Kakao%20Maps%20SDK-FFCD00?logo=kakao)
+
+---
+
 ### Authentication
-- OAuth
-### Code Quality
-- ESLint
-- Prettier
-- Husky
 
-## Branch Strategy — GitHub Flow
+![OAuth](https://img.shields.io/badge/OAuth-2.0-green?logo=auth0)
 
-main: 배포 및 코드 기준 브랜치
-작업 브랜치
-- feature/
-- refactor/
-- fix/
+---
 
-### 브랜치 네이밍
+### Deployment
 
-{작업타입}/{이슈번호}/{작업내용}
-예: feature/46/gnb-redesign
+![Vercel](https://img.shields.io/badge/Vercel-Deploy-black?logo=vercel)
 
-## Issue / Milestone
-### 작업 플로우
-1. 이슈 생성 및 작업 정의
-2. main 브랜치 기준으로 작업 브랜치 생성
-3. 컨벤션 기반 커밋
-4. main으로 Pull Request 생성
-5. 리뷰 + 승인 최소 1명 필수
-6. Merge → 브랜치 삭제
+---
 
-### Milestone
+### Code Quality & Tooling
 
-- 프로젝트 기초 세팅
-- 공통 컴포넌트
-- 페이지 구현 (로그인, 회원가입, 메인, 체험 상세, 내 정보, 예약 목록, 리뷰, 체험 등록/수정, 예약 현황 등)
-- QA
+![ESLint](https://img.shields.io/badge/ESLint-4B32C3?logo=eslint)
+![Prettier](https://img.shields.io/badge/Prettier-F7B93E?logo=prettier)
+![Husky](https://img.shields.io/badge/Husky-Git%20Hooks-black)
+![GitHub Flow](https://img.shields.io/badge/GitHub-Flow-181717?logo=github)
 
-## Pull Request 규칙
+## 페이지별 기능
 
-- main에 직접 push ❌
-- PR 단위는 작게 (1 기능 = 1 PR)
-- 최소 1명 리뷰/승인 필수
-- Merge 방식: Squash 권장
+### 메인페이지
 
-### 코드 리뷰 기준
-
-- use client/server 여부
-- 비효율 개선 제안
-- 기능/UI 피드백
-- 컴포넌트 책임/분리
-- AI 코드리뷰 활용 (Gemini)
-
-## Commit Convention
-
-gitmoji 기반
 ```
-예시:
-🎉 Init
-✨ Feat
-🐛 Fix
-♻️ Refactor
-⚙️ Chore
-📄 Docs
+등록된 모든 체험의 조회가 가능하고, 검색, 필터링 기능을 제공합니다.
 ```
 
-## 🏷 Labels
+| Desktop                                    | Mobile                                     |
+| ------------------------------------------ | ------------------------------------------ |
+| <img src="docs/main-pc.png" width="400" /> | <img src="docs/main-mb.png" width="180" /> |
 
-- Feature
-- Bug
-- Refactor
-- Docs
-- Chore
-- Help
-- Etc
+### 체험 상세 페이지
 
+```
+체험의 상세 정보를 확인할 수 있으며, 체험 관리자는 체험을 수정·삭제할 수 있습니다.
 
-## Issue
+일반 사용자는 예약 가능한 날짜와 시간을 선택해 체험을 예약할 수 있습니다.
 
-- Feature
-- Bug
-- Refactor
-- Docs
-- Chore
+체험 주소는 Kakao Maps SDK를 연동하여 지도에서 확인할 수 있습니다.
+```
 
-## Naming & Rule
-### 함수
-동사 + 목적어
-> 예: handleClick, getUser, updateProfile
-### 상수 / ENV
-> SNAKE_CASE  
-PAGE_SIZE = 3
-### 디렉토리/파일
-kebab-case
-컴포넌트: PascalCase
+| Desktop                                      | Mobile                                       |
+| -------------------------------------------- | -------------------------------------------- |
+| <img src="docs/detail-pc.png" width="400" /> | <img src="docs/detail-mb.png" width="200" /> |
 
-## 🧾 문서 & 주석
-TODO: 미완성 작업 표시  
-TSDoc: 추가 설명
+### 내 정보
+
+```
+프로필 이미지, 닉네임, 비밀번호 수정이 가능합니다.
+```
+
+| Desktop                                      | Mobile                                       |
+| -------------------------------------------- | -------------------------------------------- |
+| <img src="docs/mypage-pc.png" width="400" /> | <img src="docs/mypage-mb.png" width="200" /> |
+
+### 내 예약 내역
+
+```
+유저가 예약한 예약 내역을 리스트로 조회 가능하고, 예약 상태별 필터링이 가능합니다.
+예약된 체험을 취소할 수 있습니다.
+예약이 완료된 체험에는 후기를 남길 수 있습니다.
+```
+
+| Desktop                                             | Mobile                                              |
+| --------------------------------------------------- | --------------------------------------------------- |
+| <img src="docs/myreservation-pc.png" width="400" /> | <img src="docs/myreservation-mb.png" width="200" /> |
+
+### 체험 관리
+
+```
+유저가 등록한 체험을 조회가능하며 체험 등록, 수정, 삭제가 가능합니다.
+```
+
+| Desktop                                            | Mobile                                             |
+| -------------------------------------------------- | -------------------------------------------------- |
+| <img src="docs/myactivities-pc.png" width="400" /> | <img src="docs/myactivities-mb.png" width="200" /> |
+
+### 체험 예약 현황
+
+```
+등록한 체험에 대한 예약 현황을 체험별로 확인할 수 있으며, 신청된 예약을 승인, 거절 할 수 있습니다.
+```
+
+| Desktop                                                         | Mobile                                                          |
+| --------------------------------------------------------------- | --------------------------------------------------------------- |
+| <img src="docs/myactivities-reservations-pc.png" width="400" /> | <img src="docs/myactivities-reservations-mb.png" width="200" /> |
